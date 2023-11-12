@@ -82,14 +82,15 @@
                                         <strong> {{ $email }} </strong>
                                     @endif
 
-                                    @if ($errors->any())
+                                    @if ($errors->any() || Session::has('error'))
                                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                             <strong>
                                                 <ul>
                                                     {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" ></button> --}}
                                                     @foreach ($errors->all() as $error)
                                                         <li>{{ $error }}</li>
-                                                    @endforeach
+                                                        @endforeach
+                                                        <li>{{Session::get('error')}}</li>
                                                 </ul>
                                             </strong>
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -99,9 +100,10 @@
 
 
                                     @endif
-                                    <form class="row g-3 needs-validation" action="{{route('users.store')}}" method="POST">
+                                    <form class="row g-3 needs-validation" action="{{ route('users.store') }}"
+                                        method="POST">
 
-@method('POST')
+                                        @method('POST')
                                         @csrf
                                         <div class="form-group  mb-3">
                                             <label for="name">Name:</label>
@@ -116,26 +118,29 @@
                                         <div class="form-group mb-3">
                                             <label for="password">Password:</label>
                                             <input type="password" class="form-control" id="password" name="password"
-                                                placeholder="Enter password">
-                                        </div>
-                                        <div class="form-group mb-3">
+                                                   placeholder="Enter password">
+                                          </div>
+
+                                          <div class="form-group mb-3">
                                             <label for="confirm">Confirm Password:</label>
                                             <input type="password" class="form-control" id="confirm" name="confirm"
-                                                placeholder="Confirm password">
-                                        </div>
+                                                   placeholder="Confirm password">
+                                          </div>
+
+
                                         <div class="form-group mb-3">
-                                            <label for="referral-code">Referral Code:</label>
-                                            <input type="text" class="form-control" id="referral-code"  name="referral"
-                                                placeholder="Enter referral code">
+                                            <label for="referral_code">Referral Code (optional):</label>
+                                            <input type="text" class="form-control" id="referral_code"
+                                                name="referral_code" placeholder="Enter referral code">
                                         </div>
 
 
                                         <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="terms" type="checkbox"
-                                                    value="" id="termsAndConditions">
-                                                <label class="form-check-label" for="termsAndConditions">I agree and accept
-                                                    the <a href="#">terms and conditions</a></label>
+                                                <input class="form-check-input" name="terms" type="checkbox" id="termsAndConditions">
+
+                                                <label class="form-check-label" for="termsAndConditions">I agree and accept the <a href="#">terms and conditions</a></label>
+
                                                 <div class="invalid-feedback">You must agree before submitting.</div>
                                             </div>
                                         </div>

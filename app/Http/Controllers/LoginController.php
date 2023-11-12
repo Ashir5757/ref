@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -26,16 +29,17 @@ class LoginController extends Controller
             'name' => 'required|string',
             'email' => 'required|string|email',
             'password' => 'required|string|min:8',
-            
         ]);
 
-        $user = User::where('email',$validatedData['email'])->first();
+        $user = User::where('email', $validatedData['email'])->first();
+$data = $validatedData;
+
 
         if ($user) {
-
             Auth::login($user);
+            Session::flash('success', 'You have logged in successfully');
+            return view('dashbord.index', compact('data'));
 
-            return redirect()->intended(route('home'));
         } else {
 
             return redirect()->back()->withErrors([
