@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Not Found 404 - NiceAdmin Bootstrap Template</title>
+  <title>Pages / Not Found 404 - Share&Care Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -33,7 +33,7 @@
   <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: NiceAdmin
+  * Template Name: Share&Care
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
@@ -49,7 +49,7 @@
       <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
         <h1>404</h1>
         <h2>The page you are looking for doesn't exist.</h2>
-        <a class="btn" href="index.html">Back to home</a>
+        <a class="btn" href="">Back to home</a>
         <img src="assets/img/not-found.svg" class="img-fluid py-5" alt="Page Not Found">
         <div class="credits">
           <!-- All the links in the footer should remain intact. -->

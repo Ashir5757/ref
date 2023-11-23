@@ -15,14 +15,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
+
+Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
+
+
+
 Route::get('/', function () {
     return view('dashbord.index');
-})->name('home');
-
-Route::get('register', function () {
-    return view('dashbord.pages-register');
-})->name('register');
-
+});
 
 
 Route::get('contact', function () {
@@ -45,15 +45,23 @@ Route::get('blank', function () {
     return view('dashbord.pages-blank');
 })->name('blank');
 
+// Route::get('email_varification', function () {
+//     return view('dashbord.email_varification');
+// })->name('email_varification');
 
 
-Route::get('login', [LoginController::class, 'index'])->name('login');
-Route::post('login', [LoginController::class, 'store'])->name('login.store');
 
-Route::get('users', [UserController::class, 'index'])->name('users.index');
-Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-Route::post('users', [UserController::class, 'store'])->name('users.store');
-Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
 
+// Route::group(['middleware' => ['is_login']], function () {
+//     Route::get('users', [UserController::class, 'loadRegister'])->name('users.index');
+//     Route::post('users', [UserController::class, 'registerd'])->name('users.store');
+//     Route::get('/referral_register', [UserController::class, 'loadReferralRegister'])->name('referral_register');
+//     Route::get('/email_varification/{token}', [UserController::class, 'emailVarification'])->name('email_varification');
+//     // Route::post('/login', [UserController::class, 'userLogin'])->name('login.store');
+//     Route::get('/yawalalogin', [UserController::class, 'loadLogin'])->name('login');
+
+// });
+
+// Route::group(['middleware' => ['is_logout']], function () {
+//     Route::get('/', [UserController::class, 'loadDashbord']);
+// });

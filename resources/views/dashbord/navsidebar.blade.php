@@ -35,7 +35,7 @@
   <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: NiceAdmin
+  * Template Name: Share&Care
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
@@ -46,7 +46,7 @@
 <body>
 
 
-
+@dd($data)
 
 
   <!-- ======= Header ======= -->
@@ -55,7 +55,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">NiceAdmin</span>
+        <span class="d-none d-lg-block">Share&Care</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -289,7 +289,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{route('home')}}">
+        <a class="nav-link " href="{{route('/')}}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -520,12 +520,14 @@
 
   </aside><!-- End Sidebar-->
 
+
 @yield('content')
+
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Share&Care</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->

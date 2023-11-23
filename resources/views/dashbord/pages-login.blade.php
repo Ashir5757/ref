@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Pages / Login - NiceAdmin Bootstrap Template</title>
+    <title>Pages / Login - Share&Care Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -37,7 +37,7 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
     <!-- =======================================================
-  * Template Name: NiceAdmin
+  * Template Name: Share&Care
   * Updated: Sep 18 2023 with Bootstrap v5.3.2
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
@@ -59,7 +59,7 @@
                             <div class="d-flex justify-content-center py-4">
                                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                                     <img src="assets/img/logo.png" alt="">
-                                    <span class="d-none d-lg-block">NiceAdmin</span>
+                                    <span class="d-none d-lg-block">Share&Care</span>
                                 </a>
                             </div><!-- End Logo -->
 
@@ -89,23 +89,47 @@
                                             <strong> {{ $email }} </strong>
                                         @endif
 
-                                        @if ($errors->any())
-                                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                                <strong>
-                                                    <ul>
-                                                        {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" ></button> --}}
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                </strong>
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                    aria-label="Close"></button>
-                                                </button>
-                                            </div>
+                                        @if ($errors->any() )
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>
+                                                <ul> @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }} </li>
+                                                    @endforeach</ul>
+                                            </strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                            </button>
+                                        </div>
+                                    @elseif (Session::has('success'))
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <strong>
+                                                <ul>
+                                                     <li>{{ Session::get('success') }}</li>
+                                                </ul>
+                                            </strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                            </button>
+                                        </div>
+                                    @elseif (Session::has('error'))
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>
+                                                <ul>
+                                                    <li>
+                                                    {{ Session::get('error') }}
+                                                    </li>
+                                                </ul>
+                                            </strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                            </button>
+                                        </div>
 
 
-                                        @endif
+
+                                    @endif
+
+
                                         <div class="col-12">
                                             <div class="col mb-3">
 

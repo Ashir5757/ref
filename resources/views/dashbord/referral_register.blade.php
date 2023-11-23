@@ -71,53 +71,22 @@
                                         <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                                         <p class="text-center small">Enter your personal details to create account</p>
                                     </div>
-                                    @if (isset($email))
-                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            <strong> {{ $email }} </strong>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                            </button>
-                                        </div>
 
-                                        <strong> {{ $email }} </strong>
-                                    @endif
-
-                                    @if ($errors->any() )
+                                    @if ($errors->any() || Session::has('error'))
                                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            <strong>
-                                                <ul> @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }} </li>
-                                                    @endforeach</ul>
-                                            </strong>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                            </button>
-                                        </div>
-                                    @elseif (Session::has('success'))
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
                                             <strong>
                                                 <ul>
-                                                     <li>{{ Session::get('success') }}</li>
+                                                    {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" ></button> --}}
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}
+                                                        @endforeach
+                                                         {{Session::get('error')}}</li>
                                                 </ul>
                                             </strong>
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                 aria-label="Close"></button>
                                             </button>
                                         </div>
-                                    @elseif (Session::has('error'))
-                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            <strong>
-                                                <ul>
-                                                    <li>
-                                                    {{ Session::get('error') }}
-                                                    </li>
-                                                </ul>
-                                            </strong>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                            </button>
-                                        </div>
-
 
 
                                     @endif
@@ -139,30 +108,28 @@
                                         <div class="form-group mb-3">
                                             <label for="password">Password:</label>
                                             <input type="password" class="form-control" id="password" name="password"
-                                                placeholder="Enter password">
-                                        </div>
+                                                   placeholder="Enter password">
+                                          </div>
 
-                                        <div class="form-group mb-3">
+                                          <div class="form-group mb-3">
                                             <label for="confirm">Confirm Password:</label>
-                                            <input type="password" class="form-control" id="confirm"
-                                                name="confirm" placeholder="Confirm password">
-                                        </div>
+                                            <input type="password" class="form-control" id="confirm" name="confirm"
+                                                   placeholder="Confirm password">
+                                          </div>
 
 
                                         <div class="form-group mb-3">
                                             <label for="referral_code">Referral Code (optional):</label>
-                                            <input type="text" class="form-control" id="referral_code"
+                                            <input type="text" class="form-control" id="referral_code" value="{{$referral}}" style="pointer-events:none;background-color:lightgray"
                                                 name="referral_code" placeholder="Enter referral code">
                                         </div>
 
 
                                         <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="terms" type="checkbox"
-                                                    id="termsAndConditions">
+                                                <input class="form-check-input" name="terms" type="checkbox" id="termsAndConditions">
 
-                                                <label class="form-check-label" for="termsAndConditions">I agree and
-                                                    accept the <a href="#">terms and conditions</a></label>
+                                                <label class="form-check-label" for="termsAndConditions">I agree and accept the <a href="#">terms and conditions</a></label>
 
                                                 <div class="invalid-feedback">You must agree before submitting.</div>
                                             </div>
