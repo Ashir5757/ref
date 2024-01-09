@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Mail;
+use Carbon\Carbon;
 use App\Models\User;
+
+use App\Models\Network;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use Mail;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
-use App\Models\Network;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -22,10 +25,43 @@ class UserController extends Controller
         return view('dashbord.pages-register');
     }
 
-
-    public function loadDashboard()
+    public function referralTrack()
     {
-        return view('dashbord.index');
+        $dataLabels = [];
+        $dataData = [];
+
+
+        for ($i = 30; $i >= 0; $i--) {
+
+            $dataLabels[]  = Carbon::now()->subDays($i)->format('d-m-Y');
+            $dataData[] = Network::whereDate('created_at',Carbon::now()->subDays($i)->format('Y-m-d') )
+            ->where('parent_user_id',Auth::user()->id)->count();
+
+        }
+
+        $dataLabels = json_encode($dataLabels);
+        $dataData = json_encode($dataData);
+
+
+        return view('dashbord.charts-chartjs', compact(['dataLabels', 'dataData']));
+    }
+
+
+
+public function userLogout(Request $request){
+    $request->session()->flush();
+    Auth::logout();
+
+    return redirect('login')->with('success','You have been logged out successfully.');
+}
+
+    public function loadDashbord()
+    {
+
+        $networkCount =    Network::where('parent_user_id',Auth::user()->id)->orWhere('user_id',Auth::user())->count();
+     $networkData =    Network::with('user')->where('parent_user_id',Auth::user()->id)->get();
+        return view('dashbord.index',compact(['networkCount','networkData']));
+
     }
     /**
      * Store a newly created resource in storage.
@@ -53,13 +89,15 @@ if(count($userData)  > 0){
         'email' => $validatedData['email'],
         'password' => Hash::make($validatedData['password']),
         'referral_code' => $referralCode,
-        'remember_token'=> $token
+        'remember_token'=> $token,
+        'created_at' => now(),
     ]);
 
     Network::insert([
 'referral_code' => $request->referral_code,
 'user_id' => $user_id,
 'parent_user_id' => $userData[0]['id'],
+'created_at' => now()
     ]);
 
 }else{
@@ -74,7 +112,8 @@ if(count($userData)  > 0){
         'email' => $validatedData['email'],
         'password' => Hash::make($validatedData['password']),
         'referral_code' => $referralCode,
-        'remember_token'=> $token
+        'remember_token'=> $token,
+        'created_at' => now()
     ]);
 }
 $domain = URL::to('/');
@@ -163,7 +202,7 @@ if(count($userData)  > 0 ){
      */
     public function loadLogin()
     {
-        dd(view('dashbord.pages-login')) ;
+       return view('dashbord.pages-login') ;
     }
 
     /**
@@ -195,4 +234,27 @@ if(Auth::attempt($userCredential)){
 return  back()->with('error','User name or password is incorrect!');
 }
     }
+
+
+
+    public function deleteAccount(Request $request)
+    {
+
+        try{
+    User::where('id',Auth::user()->id)->delete();
+
+    Auth::logout();
+    return redirect()->route('login')->with("success" , "Account Successfullly Deleted");
+            return response()->json(['success'=>true]);
 }
+            catch (Exception $error) {
+               return response()->json(['success' => false, 'msg' => $error->getMessage()]);
+           }
+        }
+  }
+
+
+
+
+
+

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Pages / Login - Share&Care Bootstrap Template</title>
+    <title>Login</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -171,7 +171,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <p class="small mb-0">Don't have account? <a
-                                                        href="{{ route('users.index') }}">Create an account</a></p>
+                                                        href="{{ route('register') }}">Create an account</a></p>
                                             </div>
                                     </form>
 

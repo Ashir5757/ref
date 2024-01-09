@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('networks', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string('referral_code')->unique()->length(50);
+            $table->string('referral_code')->length(50);
             $table->unsignedBigInteger('user_id')->length(11);
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('parent_user_id')->nullable()->length(11);
