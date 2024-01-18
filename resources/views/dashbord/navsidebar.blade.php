@@ -53,7 +53,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="" class="logo d-flex align-items-center">
+            <a href="{{ route('/') }}" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">Share&Care</span>
             </a>
@@ -224,7 +224,7 @@
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                        <img src="{{asset("storage/profile_images/".$profile->image)}}" alt="Profile" class="rounded-circle">
 
                         <span class="d-none d-md-block dropdown-toggle ps-2"> {{Auth::User()->name }} </span>
                     </a><!-- End Profile Iamge Icon -->
@@ -495,7 +495,7 @@
                 </a>
             </li><!-- End Contact Page Nav -->
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('register') }}">
                     <i class="bi bi-card-list"></i>
                     <span>Register</span>
@@ -507,7 +507,7 @@
                     <i class="bi bi-box-arrow-in-right"></i>
                     <span>Login</span>
                 </a>
-            </li><!-- End Login Page Nav -->
+            </li><!-- End Login Page Nav --> --}}
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('404') }}">

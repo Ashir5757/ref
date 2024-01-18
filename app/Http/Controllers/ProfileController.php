@@ -5,103 +5,115 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
 
-public function viewProfile(){
-    return view('dashbord.users-profile');
-}
+    public function viewProfile()
+    {
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+        // Retrieve the profile associated with the user
+        $profile = Profile::where('id', $user->id)->first();
+        return view('dashbord.users-profile', ['profile' => $profile]);
+    }
 
     public function addProfile(Request $request)
     {
+        $user_id = Auth::id();
+        $existingProfile = Profile::where('id', $user_id)->first();
 
-        $request->validate([
-            "image" => 'nullable|image|mimes:jpeg,png,jpg|max:1000',
-            "about" => 'nullable',
-            "cnic" => 'required|unique:profiles|min:13|max:13|numeric',
-            "country" => 'nullable',
-            "address" => 'nullable',
-            "phone" => 'required',
-            "twitter" => 'nullable',
-            "facebook" => 'nullable',
-            "instagram" => 'nullable',
-            "linkedin" => 'nullable',
-        ]);
+        if ($existingProfile) {
+            // Update the existing profile
+            $request->validate([
+                "image" => 'nullable|max:1000',
+                "about" => 'nullable',
+                "cnic" => 'required|numeric|unique:profiles,cnic,' . $existingProfile->id,
+                "country" => 'required',
+                "address" => 'required',
+                "phone" => 'required',
+                "twitter" => 'nullable',
+                "facebook" => 'nullable',
+                "instagram" => 'nullable',
+                "linkedin" => 'nullable',
+            ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('profile_images');
-        } else {
-            $imagePath = null;
-        }
-
-        // Create a new profile instance
-        $profile = new Profile;
-
-        // Set profile attributes
-        $profile->image = $imagePath;
-        $profile->about = $request->input('about');
-        $profile->cnic = $request->input('cnic');
-        $profile->country = $request->input('country');
-        $profile->address = $request->input('address');
-        $profile->phone = $request->input('phone');
-        $profile->twitter = $request->input('twitter');
-        $profile->facebook = $request->input('facebook');
-        $profile->instagram = $request->input('instagram');
-        $profile->linkedin = $request->input('linkedin');
-
-        // Save the profile
-        $profile->save();
-
-        return redirect()->response()->json(['success'=>'added successfully']);
-    }
-
-    public function editProfile(Request $request, $id)
-    {
-        $request->validate([
-            "image" => 'nullable|image|mimes:jpeg,png,jpg|max:1000',
-            "about" => 'nullable',
-            "cnic" => 'required|min:13|max:13|numeric|unique:profiles,cnic,' . $id,
-            "country" => 'nullable',
-            "address" => 'nullable',
-            "phone" => 'required',
-            "twitter" => 'nullable',
-            "facebook" => 'nullable',
-            "instagram" => 'nullable',
-            "linkedin" => 'nullable',
-        ]);
-
-        // Fetch the profile to be edited
-        $profile = Profile::findOrFail($id);
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            // Delete the previous image if it exists
-            if ($profile->image) {
-                Storage::delete($profile->image);
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/profile_images', $imageName);
+                $existingProfile->image = $imageName;
             }
 
-            // Upload the new image
-            $imagePath = $request->file('image')->store('profile_images');
-            $profile->image = $imagePath;
+            // Update other profile attributes
+            $existingProfile->about = $request->input('about');
+            $existingProfile->cnic = $request->input('cnic');
+            $existingProfile->country = $request->input('country');
+            $existingProfile->address = $request->input('address');
+            $existingProfile->phone = $request->input('phone');
+            $existingProfile->twitter = $request->input('twitter');
+            $existingProfile->facebook = $request->input('facebook');
+            $existingProfile->instagram = $request->input('instagram');
+            $existingProfile->linkedin = $request->input('linkedin');
+
+            // Save the updated profile
+            $existingProfile->save();
+
+            return response()->json(['success' => 'Profile updated successfully']);
+        } else {
+            // Create a new profile
+            $request->validate([
+                "image" => 'nullable|max:1000',
+                "about" => 'nullable',
+                "cnic" => 'required|numeric|unique:profiles',
+                "country" => 'required',
+                "address" => 'required',
+                "phone" => 'required',
+                "twitter" => 'nullable',
+                "facebook" => 'nullable',
+                "instagram" => 'nullable',
+                "linkedin" => 'nullable',
+            ]);
+
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/profile_images', $imageName);
+                $data['image'] = $imageName;
+            } else {
+                $data['image'] = null;
+            }
+
+            // Create a new profile instance
+            $profile = new Profile;
+
+            // Set profile attributes
+            $profile->image = $data['image'];
+            $profile->about = $request->input('about');
+            $profile->cnic = $request->input('cnic');
+            $profile->country = $request->input('country');
+            $profile->address = $request->input('address');
+            $profile->phone = $request->input('phone');
+            $profile->twitter = $request->input('twitter');
+            $profile->facebook = $request->input('facebook');
+            $profile->instagram = $request->input('instagram');
+            $profile->linkedin = $request->input('linkedin');
+
+            // Set the user_id to the ID of the authenticated user
+            $profile->id = $user_id;
+
+            // Save the profile
+            $profile->save();
+
+            return response()->json(['success' => 'Profile added successfully']);
         }
-
-        // Modify other fields as needed
-        $profile->about = $request->input('about');
-        $profile->cnic = $request->input('cnic');
-        $profile->country = $request->input('country');
-        $profile->address = $request->input('address');
-        $profile->phone = $request->input('phone');
-        $profile->twitter = $request->input('twitter');
-        $profile->facebook = $request->input('facebook');
-        $profile->instagram = $request->input('instagram');
-        $profile->linkedin = $request->input('linkedin');
-
-        // Save the changes
-        $profile->save();
-
-        return back()->with('success', 'Profile Successfully Updated');
     }
+
+
+
 }

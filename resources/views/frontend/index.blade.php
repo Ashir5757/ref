@@ -28,6 +28,7 @@
   <!-- CUSTOM CSS -->
   <link href="{{asset("assets/css/frontend/style.css")}}" rel="stylesheet">
 
+
 </head>
 
 <body class="body-wrapper" data-spy="scroll" data-target=".privacy-nav">
@@ -35,26 +36,30 @@
 
 <nav class="navbar main-nav navbar-expand-lg px-2 px-sm-0 py-2 py-lg-0">
   <div class="container">
-    <a class="navbar-brand" href="{{route("frontend.index")}}"><img src="{{asset("assets/img/logo.png")}}" alt="logo"> <span  class="m-2" style="font-weight: 550 ; font-size: 25px">Share&Care</span> </a>
+    <a class="navbar-brand" href="{{route("frontend.main")}}"><img src="{{asset("assets/img/logo.png")}}" alt="logo"> <span  class="m-2" style="font-weight: 550 ; font-size: 25px">Share&Care</span> </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="ti-menu"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown active">
-          <a class="nav-link dropdown-toggle" href="{{route("frontend.index")}}" data-toggle="dropdown">Home
+        <li class="nav-item dropdown ">
+          <a class="nav-link" href="{{route("frontend.main")}}">Home
           </a>
-          <!-- Dropdown list -->
+
 
         </li>
+
+        <li class="nav-item @@about">
+          <a class="nav-link" href="{{route("frontend.about")}}">About</a>
+        </li>`
         <li class="nav-item dropdown @@pages">
-          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Pages
+          <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">Programs
             <span><i class="ti-angle-down"></i></span>
           </a>
           <!-- Dropdown list -->
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item @@team" href="team.html">Team</a></li>
+            <li><a class="dropdown-item @@team" href="{{route("shop")}}">Team</a></li>
             <li><a class="dropdown-item @@career" href="career.html">Career</a></li>
             <li><a class="dropdown-item @@blog" href="blog.html">Blog</a></li>
             <li><a class="dropdown-item @@blogSingle" href="blog-single.html">Blog Single</a></li>
@@ -68,8 +73,8 @@
 
           </ul>
         </li>
-        <li class="nav-item @@about">
-          <a class="nav-link" href="{{route("frontend.about")}}">About</a>
+        <li class="nav-item @@pricing">
+          <a class="nav-link" href="{{route("pricing")}}">Digi_Interchange</a>
         </li>
         <li class="nav-item @@contact">
           <a class="nav-link" href="{{route("frontend.contact")}}">Contact</a>

@@ -15,12 +15,13 @@
             <h1>Profile</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('/') }}">Home</a></li>
                     <li class="breadcrumb-item">Users</li>
                     <li class="breadcrumb-item active">Profile</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
+
 
         <section class="section profile">
             <div class="row">
@@ -29,14 +30,16 @@
                     <div class="card">
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                            {{-- <img src="{{ $profile ? url("storage/app/public/profile_images/1705407639.png") : asset("profile-images") }}" alt="Profile" class="rounded-circle"> --}}
+                            <img src="{{asset("storage/profile_images/".$profile->image)}}" alt="Profile" class="rounded-circle">
+
                             <h2>{{ Auth::user()->name }}</h2>
                             <h3>{{ Auth::user()->email }}</h3>
                             <div class="social-links mt-2">
-                                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                                <a href="{{ $profile ? $profile->twitter : '#' }}" target="_blank" class="twitter"><i class="bi bi-twitter"></i></a>
+                                <a href="{{ $profile ? $profile->facebook : '#' }}" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="{{ $profile ? $profile->instagram : '#' }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+                                <a href="{{ $profile ? $profile->linkedin : '#' }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
                             </div>
 
 
@@ -86,52 +89,52 @@
 
 
 
-                                    @if (Auth::check() && Auth::user()->profile)
-                                        <h5 class="card-title">About</h5>
-                                        <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores
-                                            cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt
-                                            iure
-                                            rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at
-                                            unde.</p>
 
-                                        <h5 class="card-title">Profile Details</h5>
-
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                            <div class="col-lg-9 col-md-8">{{ Auth::user()->name }} </div>
-                                        </div>
+                                    {{-- @if (Auth::check() && Auth::user()->profile) --}}
+                                    {{-- @if (Profile::) --}}
+                                    <h5 class="card-title">About</h5>
+<p class="small fst-italic">{{ $profile ? $profile->about : '' }}</p>
 
 
+                                            <h5 class="card-title">Profile Details</h5>
 
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">Cnic</div>
-                                            <div class="col-lg-9 col-md-8">1234567891012</div>
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                                <div class="col-lg-9 col-md-8">{{ Auth::user()->name }} </div>
+                                            </div>
 
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">Country</div>
-                                            <div class="col-lg-9 col-md-8">USA</div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">Address</div>
-                                            <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Email</div>
+                                                <div class="col-lg-9 col-md-8">{{ Auth::user()->email }}</div>
+                                            </div>
 
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">Phone</div>
-                                            <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Cnic</div>
+                                                <div class="col-lg-9 col-md-8">{{ $profile ? $profile->cnic : '' }} </div>
+                                            </div>
 
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-4 label">Email</div>
-                                            <div class="col-lg-9 col-md-8">{{ Auth::user()->email }}</div>
-                                        </div>
-                                    @endif
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Country</div>
+                                                <div class="col-lg-9 col-md-8">  {{ $profile ? $profile->country : '' }} </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Address</div>
+                                                <div class="col-lg-9 col-md-8">  {{ $profile ? $profile->address : '' }}  </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 label">Phone</div>
+                                                <div class="col-lg-9 col-md-8">  {{ $profile ? $profile->phone : '' }}  </div>
+                                            </div>
+
+
+                                    {{-- @endif --}}
 
                                 </div>
 
-                                <h5 class="card-title">Profile Details</h5>
+                                {{-- <h5 class="card-title">Profile Details</h5>
 
                                 <div class="row mb-3">
                                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
@@ -141,30 +144,42 @@
                                 <div class="row md-3">
                                     <div class="col-lg-3 col-md-4 label">Email</div>
                                     <div class="col-lg-9 col-md-8">{{ Auth::user()->email }}</div>
-                                </div>
+                                </div> --}}
 
 
 
                                 {{-- Profile Edit --}}
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
+                                    {{-- @if (isset($errors)) --}}
+
+                                        <div id="erroralert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            {{-- <strong id="error" >{{ $error }}</strong> <br> --}}
+                                            <strong id="error" > </strong> <br>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+
+                                {{-- @endif --}}
+                                {{-- @if (Session::has('success')) --}}
+
+                                <div id="successalert" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong id="success"> </strong>
+                                    {{-- <strong id="success">{{ session('success') }}</strong> --}}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+
+                                    {{-- @endif --}}
                                     <!-- Profile Edit Form -->
-                                    <form  id="addprofileform">
+                                    {{-- <form  id="addprofileform"> --}}
+                                    <form id="addprofileform" action="{{route('add_profile')}}" method="POST" enctype="multipart/form-data" data-url="{{ route('add_profile') }}">
                                         @csrf
-                                        @if (isset($errors))
-    @foreach ($errors->all() as $error)
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>{{ $error }}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endforeach
-@endif
+
 
 <div class="row mb-3">
     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
     <div class="col-md-8 col-lg-9">
-        <img src="assets/img/profile-img.jpg" alt="Profile" class="mb-2 rounded">
-        <input type="file" name="image" id="image" class="form-control">
+        <img src="{{asset("assets/img/profile-img.jpg")}}" alt="Profile" class="mb-2 rounded"  id="file-preview">
+        <input type="file" name="image" accept="image/*" onchange="showFile(event)" id="image" class="form-control">
         <div class="pt-2">
             <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
             <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
@@ -177,7 +192,7 @@
                                         <div class="row mb-3">
                                             <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <textarea name="about" class="form-control" id="about" style="height: 100px">  </textarea>
+                                                <textarea name="about" class="form-control" id="about" value="{{ old('about') }}" style="height: 100px">  </textarea>
                                             </div>
                                         </div>
 
@@ -185,7 +200,7 @@
                                             <label for="company" class="col-md-4 col-lg-3 col-form-label">CNIC</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="cnic" type="text" class="form-control" id="CNIC"
-                                                    value="">
+                                                    value="{{ old('cnic') }}">
                                             </div>
                                         </div>
 
@@ -195,7 +210,7 @@
                                             <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="country" type="text" class="form-control" id="Country"
-                                                    value="">
+                                                    value="{{ old('country') }}">
                                             </div>
                                         </div>
 
@@ -203,7 +218,7 @@
                                             <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="address" type="text" class="form-control" id="Address"
-                                                    value="">
+                                                    value="{{ old('address') }}">
                                             </div>
                                         </div>
 
@@ -211,7 +226,7 @@
                                             <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="phone" type="text" class="form-control" id="Phone"
-                                                    value="">
+                                                    value="{{ old('phone') }}">
                                             </div>
                                         </div>
 
@@ -222,7 +237,7 @@
                                                 Profile</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="twitter" type="text" class="form-control" id="Twitter"
-                                                    value="">
+                                                    value="{{ old('twitter') }}">
                                             </div>
                                         </div>
 
@@ -231,7 +246,7 @@
                                                 Profile</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="facebook" type="text" class="form-control"
-                                                    id="Facebook" value="">
+                                                    id="Facebook" value="{{ old('facebook') }}">
                                             </div>
                                         </div>
 
@@ -240,7 +255,7 @@
                                                 Profile</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="instagram" type="text" class="form-control"
-                                                    id="Instagram" value="">
+                                                    id="Instagram" value="{{ old('instagram') }}">
                                             </div>
                                         </div>
 
@@ -249,7 +264,7 @@
                                                 Profile</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="linkedin" type="text" class="form-control"
-                                                    id="Linkedin" value="">
+                                                    id="Linkedin" value="{{ old('linkedin') }}">
                                             </div>
                                         </div>
                                         <div class="text-center">
@@ -343,22 +358,94 @@
                                         </div>
                                     </form><!-- End Change Password Form -->
 
-                                </div>
+                                    </div>
 
-                            </div><!-- End Bordered Tabs -->
+                                    </div><!-- End Bordered Tabs -->
 
-                        </div>
-                    </div>
+                                    </div>
+                                    </div>
 
-                </div>
-            </div>
-        </section>
+                                    </div>
+                                    </div>
+                                    </section>
 
-    </main><!-- End #main -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                                    </main><!-- End #main -->
+                                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
-   <script>
+    <script>
+
+
+    $(document).ready(function () {
+        $("#erroralert").hide();
+        $("#successalert").hide();
+
+        var formSubmitted = false;
+
+        $('#addprofileform').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            if (formSubmitted) {
+                return; // If the form has already been submitted, do nothing
+            }
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).data('url'),
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    // Handle success response
+
+                    // Set the formSubmitted variable to true to prevent further submissions
+                    formSubmitted = true;
+                    $("#successalert").show().text("Profile Added Successfully");
+                    $("#erroralert").hide(); // Hide error alert if it's visible
+
+                    // Scroll to the top of the page
+                    $('html, body').scrollTop(0);
+ // Adjust the duration as needed
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.error(xhr.responseText);
+                    var errors = xhr.responseJSON.errors;
+
+                    $("#successalert").hide(); // Hide success alert if it's visible
+                    $("#erroralert").show();
+                    $("#error").empty(); // Clear previous error messages
+
+                    $('html, body').scrollTop(0);
+                    // Display each error message
+                    if (errors.cnic) {
+                        $("#error").append(errors.cnic + "<br>");
+                    }
+                    if (errors.country) {
+                        $("#error").append(errors.country + "<br>");
+                    }
+                    if (errors.address) {
+                        $("#error").append(errors.address + "<br>");
+                    }
+                    if (errors.phone) {
+                        $("#error").append(errors.phone + "<br>");
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+
+
+
+   {{-- <script>
 $(document).ready(function() {
 
 $("#addprofileform").submit(function(e) {
@@ -366,7 +453,7 @@ $("#addprofileform").submit(function(e) {
 
 var form = $("#addprofileform")[0];
 var data = new FormData(form);
-
+console.log(data)
   $("#addprofile").prop("disabled",true);
 
 
@@ -388,7 +475,7 @@ var data = new FormData(form);
         $("#facebook").text(data.facebook);
         $("#instagram").text(data.instagram);
         $("#linkedin").text(data.linkedin);
-        
+
      },
 error:function(e){
 
@@ -405,8 +492,19 @@ error:function(e){
 
 
 
-   </script>
+   </script> --}}
 
 
-
+<script>
+   function showFile(event){
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var dataURL = reader.result;
+            var output = document.getElementById("file-preview");
+            output.src = dataURL;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
 @endsection

@@ -20,4 +20,9 @@ class Profile extends Model
         'instagram',
         'linkedin',
     ];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

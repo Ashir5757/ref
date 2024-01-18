@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable(); // Assuming image can be nul                                                                                                                                                                                                                                                                               lable
-            $table->text('about'); // Using text for longer descriptions
+            $table->text('about')->nullable(); // Using text for longer descriptions
             $table->string('cnic')->unique(); // Assuming CNIC is unique
             $table->string('country');
             $table->string('address'); // Corrected the typo in 'Address'

@@ -18,6 +18,14 @@ use App\Http\Controllers\ProfileController;
 
 
 
+Route::get('shop', function () {
+    return view('frontend.shop');
+})->name('shop');
+
+Route::get('Pricing', function () {
+    return view('frontend.pricing');
+})->name('pricing');
+
 Route::get('frontend.contact', function () {
     return view('frontend.contact');
 })->name('frontend.contact');
@@ -30,25 +38,16 @@ Route::get('frontend.main', function () {
     return view('frontend.main');
 })->name('frontend.main');
 
-Route::get('contact', function () {
-    return view('dashbord.pages-contact');
-})->name('contact');
 
 Route::get('profile', function () {
     return view('dashbord.users-profile');
 })->name('profile');
 
-Route::get('faq', function () {
-    return view('dashbord.pages-faq');
-})->name('faq');
 
 Route::get('404', function () {
     return view('dashbord.pages-error-404');
 })->name('404');
 
-Route::get('blank', function () {
-    return view('dashbord.pages-blank');
-})->name('blank');
 
 
     Route::group(['middleware' => 'Check_Login'], function () {
@@ -60,8 +59,7 @@ Route::get('/email_varification/{token}', [UserController::class, 'emailVarifica
 Route::post('/login', [UserController::class, 'userLogin'])->name('login.store');
 Route::get('/referral-track',[UserController::class, 'referralTrack'])->name('referralTrack');
 Route::get('/deleteAccount', [UserController::class, 'deleteAccount'])->name('deleteAccount');
-Route::get('profile', [ProfileController::class, 'viewProfile'])->name('profile');
-Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_profile');
+
 
 
 
@@ -70,6 +68,11 @@ Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_
 
 Route::group(['middleware' => 'Check_Logout'], function () {
 
+    Route::get('profile', [ProfileController::class, 'viewProfile'])->name('profile');
+    Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_profile');
+    Route::get('/faq', [UserController::class, 'loadfaq'])->name('faq');
+    Route::get('/blank', [UserController::class, 'loadblank'])->name('blank');
+    Route::get('/contact', [UserController::class, 'loadcontact'])->name('contact');
 Route::get('/', [UserController::class, 'loadDashbord'])->name('/');
 
 

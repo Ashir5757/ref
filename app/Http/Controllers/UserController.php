@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\User;
 
 use App\Models\Network;
+use App\Models\Profile;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -20,6 +21,18 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function loadDashbord()
+    {
+
+        $networkCount =    Network::where('parent_user_id',Auth::user()->id)->orWhere('user_id',Auth::user())->count();
+     $networkData =    Network::with('user')->where('parent_user_id',Auth::user()->id)->get();
+     $user = Auth::user();
+     $profile = Profile::where('id', $user->id)->first();
+        return view('dashbord.index',compact(['networkCount','networkData', 'profile']));
+
+    }
+
     public function loadRegister()
     {
         return view('dashbord.pages-register');
@@ -55,14 +68,7 @@ public function userLogout(Request $request){
     return redirect('login')->with('success','You have been logged out successfully.');
 }
 
-    public function loadDashbord()
-    {
 
-        $networkCount =    Network::where('parent_user_id',Auth::user()->id)->orWhere('user_id',Auth::user())->count();
-     $networkData =    Network::with('user')->where('parent_user_id',Auth::user()->id)->get();
-        return view('dashbord.index',compact(['networkCount','networkData']));
-
-    }
     /**
      * Store a newly created resource in storage.
      */
@@ -251,6 +257,23 @@ return  back()->with('error','User name or password is incorrect!');
                return response()->json(['success' => false, 'msg' => $error->getMessage()]);
            }
         }
+
+
+public function loadfaq(){
+    $user = Auth::user();
+    $profile = Profile::where('id', $user->id)->first();
+    return view("dashbord.pages-faq",compact(['profile']));
+}
+public function loadblank(){
+    $user = Auth::user();
+    $profile = Profile::where('id', $user->id)->first();
+    return view('dashbord.pages-blank',compact(['profile']));
+}
+public function loadcontact() {
+    $user = Auth::user();
+    $profile = Profile::where('id', $user->id)->first();
+    return view('dashbord.pages-contact',compact(['profile']));
+}
   }
 
 
