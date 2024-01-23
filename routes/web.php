@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PagesContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,31 @@ use App\Http\Controllers\ProfileController;
 */
 
 
+
+
+
+
+
+
+Route::get('backend.charts', function () {
+    return view('backend.charts');
+})->name('backend.charts');
+
+Route::get('backend.layout-sidenav-light', function () {
+    return view('backend.layout-sidenav-light');
+})->name('backend.layout-sidenav-light');
+
+Route::get('backend.layout-static', function () {
+    return view('backend.layout-static');
+})->name('backend.layout-static');
+
+Route::get('backend.tables', function () {
+    return view('backend.tables');
+})->name('backend.tables');
+
+Route::get('backend', function () {
+    return view('backend.index');
+})->name('backend');
 
 Route::get('shop', function () {
     return view('frontend.shop');
@@ -34,9 +60,7 @@ Route::get('frontend.about', function () {
     return view('frontend.about');
 })->name('frontend.about');
 
-Route::get('frontend.main', function () {
-    return view('frontend.main');
-})->name('frontend.main');
+Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
 
 
 Route::get('profile', function () {
@@ -48,6 +72,12 @@ Route::get('404', function () {
     return view('dashbord.pages-error-404');
 })->name('404');
 
+
+Route::get('backend/homepage',[PagesContentController::class,'loadehomepage'])->name("backend.homepage");
+Route::get('edit',[PagesContentController::class,'loadedithomepage'])->name("loade.edit.homepage");
+Route::patch('/update/{id}',[PagesContentController::class,'updatehomepage'])->name("update.homepage");
+Route::get('/add',[PagesContentController::class,'loadeaddhomepage'])->name("loade.add.homepage");
+Route::patch('/addhomepage',[PagesContentController::class,'addhomepage'])->name("add.homepage");
 
 
     Route::group(['middleware' => 'Check_Login'], function () {

@@ -30,7 +30,7 @@
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-md-6 order-2 order-md-1 text-center text-md-left">
-				<h1 class="text-white font-weight-bold mb-4">Showcase your app with Small Apps</h1>
+				<h1 class="text-white font-weight-bold mb-4">{{$data->h1}}</h1>
 				<p class="text-white mb-5">Besides its beautiful design. Laapp is an incredibly rich core framework for you to
 					showcase your App.</p>
 				<a href="{{route("register")}}" class="btn btn-primary p-3 m-2">Sign up</a>
@@ -113,42 +113,7 @@
 	</div>
 </section>
 
-<section class="feature section pt-0">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 ml-auto align-self-center">
-				<div class="feature-content">
-					<!-- Feature Title -->
-					<h2>Increase your productivity with <a
-							href="https://themefisher.com/products/small-apps-free-app-landing-page-template/">Small Apps</a></h2>
-					<!-- Feature Description -->
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-						dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-						ea commodo consequat.</p>
-				</div>
-				<!-- Testimonial Quote -->
-				<div class="testimonial">
-					<p>
-						"InVision is a window into everything that's being designed at Twitter. It gets all of our best work in one
-						place."
-					</p>
-					<ul class="list-inline meta">
-						<li class="list-inline-item">
-							<img src="{{asset("assets/images/testimonial/feature-testimonial-thumb.jpg")}}" alt="">
-						</li>
-						<li class="list-inline-item">Jonathon Andrew , Themefisher.com</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-lg-6 mr-auto justify-content-center">
-				<!-- Feature mockup -->
-				<div class="image-content" data-aos="fade-left">
-					<img class="img-fluid" src="{{asset("assets/images/feature/feature-new-02.jpg")}}" alt="ipad">
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+
 <!--====  End of Feature Grid  ====-->
 
 <!--==============================
