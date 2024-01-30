@@ -46,6 +46,12 @@ return new class extends Migration
             $table->string('h30')->nullable();
             $table->string('h31')->nullable();
             $table->string('h32')->nullable();
+            // images and video
+            $table->string('image1')->nullable();
+            $table->string('image2')->nullable();
+            $table->string('image3')->nullable();
+            $table->string('video')->required();
+
 
             $table->timestamps();
         });

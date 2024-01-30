@@ -56,9 +56,7 @@ Route::get('frontend.contact', function () {
     return view('frontend.contact');
 })->name('frontend.contact');
 
-Route::get('frontend.about', function () {
-    return view('frontend.about');
-})->name('frontend.about');
+Route::get('frontend.about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
 
 Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
 
@@ -74,10 +72,19 @@ Route::get('404', function () {
 
 
 Route::get('backend/homepage',[PagesContentController::class,'loadehomepage'])->name("backend.homepage");
+Route::get('backend/aboutpage',[PagesContentController::class,'loadeaboutpage'])->name("backend.aboutpage");
+
 Route::get('edit',[PagesContentController::class,'loadedithomepage'])->name("loade.edit.homepage");
-Route::patch('/update/{id}',[PagesContentController::class,'updatehomepage'])->name("update.homepage");
-Route::get('/add',[PagesContentController::class,'loadeaddhomepage'])->name("loade.add.homepage");
+Route::get('about',[PagesContentController::class,'loadeditaboutpage'])->name("loade.edit.aboutpage");
+
+Route::patch('/update.home/{id}',[PagesContentController::class,'updatehomepage'])->name("update.homepage");
+Route::patch('/update.about/{id}',[PagesContentController::class,'updateaboutpage'])->name("update.aboutpage");
+
+Route::get('/addhome',[PagesContentController::class,'loadeaddhomepage'])->name("loade.add.homepage");
+Route::get('/addabout',[PagesContentController::class,'loadeaddaboutpage'])->name("loade.add.aboutpage");
+
 Route::patch('/addhomepage',[PagesContentController::class,'addhomepage'])->name("add.homepage");
+Route::patch('/addaboutpage',[PagesContentController::class,'addaboutpage'])->name("add.aboutpage");
 
 
     Route::group(['middleware' => 'Check_Login'], function () {

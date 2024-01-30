@@ -36,7 +36,7 @@
 
 <nav class="navbar main-nav navbar-expand-lg px-2 px-sm-0 py-2 py-lg-0">
   <div class="container">
-    <a class="navbar-brand" href="{{route("frontend.main")}}"><img src="{{asset("assets/img/logo.png")}}" alt="logo"> <span  class="m-2" style="font-weight: 550 ; font-size: 25px">Share&Care</span> </a>
+    <a class="navbar-brand" href="{{route("frontend.main")}}"><img src="{{asset("assets/img/logo for Share.png")}}" width="70px" alt="logo" > <span  class="m-2" style="font-weight: 550 ; font-size: 35px ;font-family: Grape Nuts"><b>Share&Care</b></span> </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="ti-menu"></span>

@@ -3,10 +3,7 @@
     margin-bottom: 30px;
 }
 
-.container{
-    margin-top: 40px;
 
-}
 .pricing-content{position:relative;}
 .pricing_design{
     position: relative;
@@ -78,7 +75,7 @@ text-decoration:none;
 }
 
 .section-title {
-    margin-bottom: 60px;
+    margin: 60px;
 }
 .text-center {
     text-align: center!important;
