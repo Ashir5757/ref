@@ -12,6 +12,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.navhover {
+    position: relative;
+}
+
+.navhover::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px; /* You can adjust the thickness of the bar */
+    bottom: 10px;
+    left: 0;
+    background-color: rgb(255, 0, 0); /* You can adjust the color of the bar */
+    transition: 0.5s;
+}
+
+.navhover:hover::before {
+    width: 100%;
+}
+
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", sans-serif;
   color: #000;

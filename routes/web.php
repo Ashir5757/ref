@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesContentController;
+use App\Http\Controllers\BackendDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +41,7 @@ Route::get('backend.tables', function () {
     return view('backend.tables');
 })->name('backend.tables');
 
-Route::get('backend', function () {
-    return view('backend.index');
-})->name('backend');
+Route::get('backend', [BackendDashboardController::class,'backendDashboard'])->name('backend');
 
 Route::get('shop', function () {
     return view('frontend.shop');
@@ -52,13 +51,9 @@ Route::get('Pricing', function () {
     return view('frontend.pricing');
 })->name('pricing');
 
-Route::get('frontend.contact', function () {
-    return view('frontend.contact');
-})->name('frontend.contact');
-
-Route::get('frontend.about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
-
-Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
+// Route::get('frontend.contact', function () {
+//     return view('frontend.contact');
+// })->name('frontend.contact');
 
 
 Route::get('profile', function () {
@@ -70,21 +65,37 @@ Route::get('404', function () {
     return view('dashbord.pages-error-404');
 })->name('404');
 
+// receive mail
+Route::post('receive.Mail',[PagesContentController::class,'receiveMail'])->name('receive.Mail');
+// contact
 
+
+
+
+Route::get('frontend.contact',[PagesContentController::class,'frontendContact'])->name('frontend.contact');
+Route::get('frontend.about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
+
+Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
+
+Route::get('backend.contact',[PagesContentController::class,'loadecontactpage'])->name('backend.contactpage');
 Route::get('backend/homepage',[PagesContentController::class,'loadehomepage'])->name("backend.homepage");
 Route::get('backend/aboutpage',[PagesContentController::class,'loadeaboutpage'])->name("backend.aboutpage");
 
-Route::get('edit',[PagesContentController::class,'loadedithomepage'])->name("loade.edit.homepage");
-Route::get('about',[PagesContentController::class,'loadeditaboutpage'])->name("loade.edit.aboutpage");
+Route::get('backend.edit.home',[PagesContentController::class,'loadedithomepage'])->name("loade.edit.homepage");
+Route::get('backend.edit.contact',[PagesContentController::class,'loadeditcontactpage'])->name("loade.edit.contactpage");
+Route::get('backend.edit.about',[PagesContentController::class,'loadeditaboutpage'])->name("loade.edit.aboutpage");
 
 Route::patch('/update.home/{id}',[PagesContentController::class,'updatehomepage'])->name("update.homepage");
 Route::patch('/update.about/{id}',[PagesContentController::class,'updateaboutpage'])->name("update.aboutpage");
+Route::patch('/update.contact/{id}',[PagesContentController::class,'updatecontactpage'])->name("update.contactpage");
 
 Route::get('/addhome',[PagesContentController::class,'loadeaddhomepage'])->name("loade.add.homepage");
 Route::get('/addabout',[PagesContentController::class,'loadeaddaboutpage'])->name("loade.add.aboutpage");
+Route::get('/addcontact',[PagesContentController::class,'loadeaddcontactpage'])->name("loade.add.contactpage");
 
 Route::patch('/addhomepage',[PagesContentController::class,'addhomepage'])->name("add.homepage");
 Route::patch('/addaboutpage',[PagesContentController::class,'addaboutpage'])->name("add.aboutpage");
+Route::patch('/addcontactpage',[PagesContentController::class,'addcontactpage'])->name("add.contactpage");
 
 
     Route::group(['middleware' => 'Check_Login'], function () {

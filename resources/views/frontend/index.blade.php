@@ -28,7 +28,6 @@
   <!-- CUSTOM CSS -->
   <link href="{{asset("assets/css/frontend/style.css")}}" rel="stylesheet">
 
-
 </head>
 
 <body class="body-wrapper" data-spy="scroll" data-target=".privacy-nav">
@@ -44,22 +43,22 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown ">
-          <a class="nav-link" href="{{route("frontend.main")}}">Home
+          <a class="nav-link navhover" href="{{route("frontend.main")}}">Home
           </a>
 
 
         </li>
 
-        <li class="nav-item @@about">
-          <a class="nav-link" href="{{route("frontend.about")}}">About</a>
+        <li class="nav-item @@about ">
+          <a class="nav-link navhover" href="{{route("frontend.about")}}">About</a>
         </li>`
         <li class="nav-item dropdown @@pages">
-          <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">Programs
+          <a class="nav-link dropdown-toggle navhover" href="" data-toggle="dropdown">Programs
             <span><i class="ti-angle-down"></i></span>
           </a>
           <!-- Dropdown list -->
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item @@team" href="{{route("shop")}}">Team</a></li>
+            <li><a class="dropdown-item @@team " href="{{route("shop")}}">Team</a></li>
             <li><a class="dropdown-item @@career" href="career.html">Career</a></li>
             <li><a class="dropdown-item @@blog" href="blog.html">Blog</a></li>
             <li><a class="dropdown-item @@blogSingle" href="blog-single.html">Blog Single</a></li>
@@ -74,10 +73,10 @@
           </ul>
         </li>
         <li class="nav-item @@pricing">
-          <a class="nav-link" href="{{route("pricing")}}">Digi_Interchange</a>
+          <a class="nav-link navhover" href="{{route("pricing")}}">Digi_Interchange</a>
         </li>
         <li class="nav-item @@contact">
-          <a class="nav-link" href="{{route("frontend.contact")}}">Contact</a>
+          <a class="nav-link navhover" href="{{route("frontend.contact")}}">Contact</a>
         </li>
       </ul>
     </div>

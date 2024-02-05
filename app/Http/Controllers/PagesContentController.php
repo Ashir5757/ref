@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactPage;
 use App\Models\PagesContent;
 use Illuminate\Http\Request;
 use App\Models\AboutPageContent;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class PagesContentController extends Controller
@@ -34,9 +36,8 @@ class PagesContentController extends Controller
 public function frontendmain() {
 
     $home = PagesContent::first();
-    $about = AboutPageContent::first();
 
-    return view('frontend.main',compact('home','about'));
+    return view('frontend.main',compact('home'));
 }
 
 public function frontendabout() {
@@ -47,6 +48,13 @@ public function frontendabout() {
     return view('frontend.about',compact('about'));
 }
 
+public function frontendContact() {
+
+
+    $contact = ContactPage::first();
+
+    return view('frontend.contact',compact('contact'));
+}
 
     public function loadedithomepage()
     {
@@ -388,6 +396,132 @@ return redirect()->back()->with('success', $message);
 
 
     }
+
+
+// contact
+
+public function loadecontactpage()
+{
+    // Query the database to get the existing homepage data
+    $newContactpage = ContactPage::first();
+
+    if ($newContactpage) {
+        // If data exists, pass it to the view
+        return view('backend.contactpage', compact('newContactpage'));
+    } else {
+        // If no data exists, you can handle it accordingly
+        return view('backend.contactpage');
+    }
+}
+
+public function loadeditcontactpage()
+{
+    $ContactPage = ContactPage::first();
+
+    return view("backend.editcontact",compact('ContactPage'));
+}
+
+public function updatecontactpage(Request $request, $id)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'h1' => 'required|string|max:255',
+            'h2' => 'required|string|max:255',
+            'h3' => 'required|string|max:255',
+            'h4' => 'required|string|max:255',
+
+
+
+            'image1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
+
+
+    // Find the homepage record
+    $contactpage = ContactPage::findOrFail($id);
+
+    // Handle image1 update
+    $this->handleFileUpload($request, 'image1', 'images', $contactpage);
+
+
+    // If the record exists, update it
+    $contactpage->update($validatedData);
+    $message = 'Aboutpage content updated successfully';
+
+    return redirect()->back()->with('success', $message);
+}
+
+
+
+public function loadeaddcontactpage()
+{
+    return view("backend.addcontactpage");
+}
+
+
+public function addcontactpage(Request $request)
+{
+// Validate the request data
+$validatedData = $request->validate([
+        'h1' => 'required|string|max:255',
+        'h2' => 'required|string|max:255',
+        'h3' => 'required|string|max:255',
+        'h4' => 'required|string|max:255',
+
+        'image1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+
+]);
+
+
+
+// Check if the homepage content already exists
+$existingContactpage = ContactPage::first();
+
+if ($existingContactpage) {
+// If the record already exists, you may choose to update it or handle it as needed
+return redirect()->back()->with('error', 'Contactpage content already exists. Use the update method.');
+}
+
+$contactpage = new ContactPage();
+// Handle image1 update
+$this->handleFileUpload($request, 'image1', 'images', $contactpage);
+
+
+// If the record doesn't exist, create a new one
+ContactPage::create($validatedData);
+
+$message = 'Contactpage content created successfully';
+
+return redirect()->back()->with('success', $message);
+
+
+}
+
+
+public function receiveMail(Request $request){
+
+    $validatedData = $request->validate(
+[
+    'name' => 'required|string',
+'email' => 'required|string',
+'subject' => 'required|string',
+'textarea' => 'required|string',
+
+]);
+
+$data['name'] = $request->name;
+$data['email'] = $request->email;
+$data['subject'] = $request->subject;
+$data['textarea'] = $request->textarea ;
+
+Mail::send("emails.receiveMail", ['data' => $data], function($message) use($data){
+    $message->to('ashirabbasi5757@gmail.com')->subject($data['subject']);
+});
+
+return redirect()->route('frontend.contact')->with('success', 'Your Mail has been received');
+}
+
 
 }
 
