@@ -77,7 +77,7 @@
                 <img src="{{asset("assets/img/profile-img.jpg")}}" alt="Profile" class="mb-2 rounded" width="150px" id="file-preview">
                 <div class="form-group">
                     <label for="image1">Image 1</label>
-                    <input type="file" class="form-control mb-3" accept="image/*" onchange="showFile(event)" id="image1" name="image1" value="{{ old('image1', $homepage['image1']) }}">
+                    <input type="file" class="form-control mb-3" accept="image/*" onchange="showFile(event)" id="image1" name="image1" value="">
                 </div>
 
 

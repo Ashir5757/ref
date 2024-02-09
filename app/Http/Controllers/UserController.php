@@ -22,11 +22,18 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
 
+    //  public function __construct()
+    //  {
+    //      $this->middleware('guest')->except('logout');
+    //      $this->middleware('guest:admin')->except('logout');
+    //      $this->middleware('guest:user')->except('logout');
+    //  }
+
      public function loadDashbord()
     {
 
-        $networkCount =    Network::where('parent_user_id',Auth::user()->id)->orWhere('user_id',Auth::user())->count();
-     $networkData =    Network::with('user')->where('parent_user_id',Auth::user()->id)->get();
+        $networkCount = Network::where('parent_user_id',Auth::user()->id)->orWhere('user_id',Auth::user())->count();
+     $networkData =  Network::with('user')->where('parent_user_id',Auth::user()->id)->get();
      $user = Auth::user();
      $profile = Profile::where('id', $user->id)->first();
         return view('dashbord.index',compact(['networkCount','networkData', 'profile']));
@@ -63,7 +70,7 @@ class UserController extends Controller
 
 public function userLogout(Request $request){
     $request->session()->flush();
-    Auth::logout();
+    auth()->guard('web')->logout();
 
     return redirect('login')->with('success','You have been logged out successfully.');
 }
@@ -232,8 +239,34 @@ if($userData->is_verified == 0){
 $userCredential = $request->only('email','password');
 if(Auth::attempt($userCredential)){
 
+    if(isset($userCredential)){
 
-    return redirect('/');
+        if(isset($userCredential['email']) && isset($userCredential['password'])) {
+
+            if($userData->usertype == 1) {
+
+                return redirect('backend');
+            } else {
+
+                return redirect('/');
+            }
+        }
+    }
+
+
+
+
+
+    // if (auth()->guard('web')->attempt(['email' => $email, 'password' => $password ,  $request->get('remember')])) {
+
+        // return redirect('/user-dashboard'); // Redirect to user dashboard
+
+    // }
+    // if (auth()->guard('admin')->attempt(['email' => $email, 'password' => $password, $request->get('remember')])) {
+
+        // return redirect('/admin-dashboard'); // Redirect to admin dashboard
+
+    // }
 
 }else{
 
@@ -249,7 +282,7 @@ return  back()->with('error','User name or password is incorrect!');
         try{
     User::where('id',Auth::user()->id)->delete();
 
-    Auth::logout();
+    auth()->guard('web')->logout();
     return redirect()->route('login')->with("success" , "Account Successfullly Deleted");
             return response()->json(['success'=>true]);
 }
@@ -273,6 +306,29 @@ public function loadcontact() {
     $user = Auth::user();
     $profile = Profile::where('id', $user->id)->first();
     return view('dashbord.pages-contact',compact(['profile']));
+}
+
+public function userReceiveMail(Request $request){
+
+    $validatedData = $request->validate(
+[
+    'name' => 'required|string',
+'email' => 'required|string',
+'subject' => 'required|string',
+'textarea' => 'required|string',
+
+]);
+
+$data['name'] = $request->name;
+$data['email'] = $request->email;
+$data['subject'] = $request->subject;
+$data['textarea'] = $request->textarea ;
+
+Mail::send("emails.receiveMail", ['data' => $data], function($message) use($data){
+    $message->to('ashirabbasi5757@gmail.com')->subject($data['subject']);
+});
+
+return redirect()->back()->with('success', 'Your Mail has been received');
 }
   }
 

@@ -23,7 +23,7 @@ body {
     height: 3px; /* You can adjust the thickness of the bar */
     bottom: 10px;
     left: 0;
-    background-color: rgb(255, 0, 0); /* You can adjust the color of the bar */
+    background-color: red ; /* You can adjust the color of the bar */
     transition: 0.5s;
 }
 

@@ -105,19 +105,19 @@
 					<div class="row">
 						<!-- Name -->
 						<div class="col-md-6 mb-2">
-							<input class="form-control main" type="text" placeholder="Name" name="name" id="name" >
+							<input class="form-control main" type="text" placeholder="Name" name="name" id="name" required>
 						</div>
 						<!-- Email -->
 						<div class="col-md-6 mb-2">
-							<input class="form-control main" type="email" placeholder="Your Email Address" name="email" id="email" >
+							<input class="form-control main" type="email" placeholder="Your Email Address" name="email" id="email" required>
 						</div>
 						<!-- subject -->
 						<div class="col-md-12 mb-2">
-							<input class="form-control main" type="text" placeholder="Subject" name="subject" id="subject">
+							<input class="form-control main" type="text" placeholder="Subject" name="subject" id="subject" required>
 						</div>
 						<!-- Message -->
 						<div class="col-md-12 mb-2">
-                            <textarea class="form-control main" placeholder="Your Message" name="textarea" id="textarea" rows="5"></textarea>
+                            <textarea class="form-control main" placeholder="Your Message" name="textarea" id="textarea" rows="5" required></textarea>
                         </div>
 						<!-- Submit Button -->
 						<div class="col-12 text-right">

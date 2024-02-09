@@ -519,7 +519,7 @@
 					<!-- Promotional Speech -->
 					<p>{{ isset($home->h23) ? $home->h23 : "Default testimonial text if h23 is not set" }}</p>
 					<!-- Popup Video -->
-					<a data-fancybox href="{{$home->video}}">
+					<a data-fancybox href="{{ isset($home->video) ? $home->video : '#'}}">
 						<i class="ti-control-play video"></i>
 					</a>
 				</div>

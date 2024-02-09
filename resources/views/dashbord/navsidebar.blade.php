@@ -493,7 +493,8 @@
                     <i class="bi bi-envelope"></i>
                     <span>Contact</span>
                 </a>
-            </li><!-- End Contact Page Nav -->
+            </li>
+            <!-- End Contact Page Nav -->
 
             {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('register') }}">
@@ -509,12 +510,13 @@
                 </a>
             </li><!-- End Login Page Nav --> --}}
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('404') }}">
                     <i class="bi bi-dash-circle"></i>
                     <span>Error 404</span>
                 </a>
-            </li><!-- End Error 404 Page Nav -->
+            </li> --}}
+            <!-- End Error 404 Page Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('blank') }}">

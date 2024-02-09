@@ -32,10 +32,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item text-success" href="{{route('/')}}"><i class="fas fa-home"></i> Refferral System</a></li>
+                        <li><a class="dropdown-item" href="#!"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="#!"><i class="fas fa-history"></i> Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="#!"><i class="fas fa-sign-out-alt"></i>
+                            Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -53,12 +55,12 @@
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
+                                Editor
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route("backend.layout-static")}}">Static Navigation</a>
+                                    <a class="nav-link" href="{{route("backend.admin")}}">Admins</a>
                                     <a class="nav-link" href="{{route("backend.layout-sidenav-light")}}">Light Sidenav</a>
                                 </nav>
                             </div>
