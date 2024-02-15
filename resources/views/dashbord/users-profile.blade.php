@@ -31,7 +31,7 @@
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                             {{-- <img src="{{ $profile ? url("storage/app/public/profile_images/1705407639.png") : asset("profile-images") }}" alt="Profile" class="rounded-circle"> --}}
-                            <img src="{{asset("storage/profile_images/".$profile->image)}}" alt="Profile" class="rounded-circle">
+                            <img src="{{asset(isset($profile->image) ? "storage/profile_images/".$profile->image : "assets/img/profile-img.jpg")}}" alt="Profile" class="rounded-circle">
 
                             <h2>{{ Auth::user()->name }}</h2>
                             <h3>{{ Auth::user()->email }}</h3>

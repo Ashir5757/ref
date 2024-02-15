@@ -297,11 +297,13 @@ public function loadfaq(){
     $profile = Profile::where('id', $user->id)->first();
     return view("dashbord.pages-faq",compact(['profile']));
 }
-public function loadblank(){
-    $user = Auth::user();
-    $profile = Profile::where('id', $user->id)->first();
-    return view('dashbord.pages-blank',compact(['profile']));
-}
+
+
+
+
+
+
+
 public function loadcontact() {
     $user = Auth::user();
     $profile = Profile::where('id', $user->id)->first();

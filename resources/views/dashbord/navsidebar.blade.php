@@ -389,21 +389,7 @@
                             <i class="bi bi-circle"></i><span>Form Elements</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="forms-layouts.html">
-                            <i class="bi bi-circle"></i><span>Form Layouts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="forms-editors.html">
-                            <i class="bi bi-circle"></i><span>Form Editors</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="forms-validation.html">
-                            <i class="bi bi-circle"></i><span>Form Validation</span>
-                        </a>
-                    </li>
+
                 </ul>
             </li><!-- End Forms Nav -->
 
@@ -441,11 +427,7 @@
                             <i class="bi bi-circle"></i><span>ApexCharts</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="charts-echarts.html">
-                            <i class="bi bi-circle"></i><span>ECharts</span>
-                        </a>
-                    </li>
+
                 </ul>
             </li><!-- End Charts Nav -->
 
@@ -519,9 +501,9 @@
             <!-- End Error 404 Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('blank') }}">
-                    <i class="bi bi-file-earmark"></i>
-                    <span>Blank</span>
+                <a class="nav-link collapsed" href="{{ route('shop') }}">
+                    <i class="bi bi-shop"></i>
+                    <span>Make a Shop</span>
                 </a>
             </li><!-- End Blank Page Nav -->
 

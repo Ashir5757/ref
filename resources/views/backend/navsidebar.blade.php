@@ -60,7 +60,7 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route("backend.admin")}}">Admins</a>
+                                    <a class="nav-link" href="{{route("backend.admins")}}">Admins</a>
                                     <a class="nav-link" href="{{route("backend.layout-sidenav-light")}}">Light Sidenav</a>
                                 </nav>
                             </div>

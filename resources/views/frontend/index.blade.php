@@ -58,7 +58,7 @@
           </a>
           <!-- Dropdown list -->
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item @@team " href="{{route("shop")}}">Team</a></li>
+            <li><a class="dropdown-item @@team " href="{{route("bazaar")}}">Bazaar</a></li>
             <li><a class="dropdown-item @@career" href="career.html">Career</a></li>
             <li><a class="dropdown-item @@blog" href="blog.html">Blog</a></li>
             <li><a class="dropdown-item @@blogSingle" href="blog-single.html">Blog Single</a></li>

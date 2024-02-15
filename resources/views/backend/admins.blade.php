@@ -8,6 +8,19 @@
 
 
 <div class="container borderd p-3">
+    @if (Session::has('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ Session::get('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if (Session::has('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ Session::get('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 
     <div class="shadow rounded p-4">
         <div class="m-3">
@@ -16,7 +29,7 @@
         <h1 class="text-secondary row justify-content-center">Admin Page</h1>
 <hr>
 
-<h3 class="text-primary m-4">Totla Number of Admins</h3>
+<h3 class="text-primary m-4">Total Number of Admins :</h3>
 <table class="table table-hover mb-3">
     <thead>
         <tr>
@@ -40,8 +53,8 @@
             <td>{{ $admin->name }}</td>
             <td>{{ $admin->email }}</td>
             <td>{{ $admin->usertype == 1 ? "Admin" : "Not" }}</td>
-            <td><button class="btn btn-outline-primary">Edit</button></td>
-            <td><button class="btn btn-outline-danger">Delete</button></td>
+            <td><a class="btn btn-outline-primary" href="{{ route('backend.editadmins', ['id' => $admin->id]) }}"">Edit</a></td>
+            <td><a class="btn btn-outline-danger" href="">Delete</a></td>
         </tr>
         @endforeach
     </tbody>
@@ -50,8 +63,8 @@
 {{ $admins->links() }} <!-- Pagination Links -->
 
 
-
 <div class="card-body mt-5">
+    <h3 class="text-primary m-4">Totla Number of Users :</h3>
     <table id="datatablesSimple">
         <thead>
             <tr>
@@ -76,23 +89,21 @@
         <tbody>
 
             @foreach ($users as $user)
-           <tr>
+            <tr>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->is_verified}}</td>
-                {{-- <td>{{$user->id == $network->parent_user_id ? $networkcount : " "}}</td> --}}
-
-                 {{-- Retrieve the referral count for the current user --}}
-<?php
+                <?php
 $networkcount = \App\Models\Network::where('parent_user_id', $user->id)->count();
 ?>
 
 <td>{{ $networkcount }}</td>
 <td>{{$user->created_at }}</td>
-                <td>$320,800</td>
-            </tr>
+<td><a class="btn btn-outline-primary" href="{{ route('backend.editadmins', ['id' => $user->id]) }}">Edit</a></td>
 
-            @endforeach
+</tr>
+
+@endforeach
 
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
@@ -39,9 +40,9 @@ Route::get('backend.tables', function () {
 })->name('backend.tables');
 
 
-Route::get('shop', function () {
-    return view('frontend.shop');
-})->name('shop');
+Route::get('bazaar', function () {
+    return view('frontend.bazaar');
+})->name('bazaar');
 
 Route::get('Pricing', function () {
     return view('frontend.pricing');
@@ -77,11 +78,32 @@ Route::get('Pricing', function () {
         // });
 
 
-        Route::get('backend.admins',[AdminController::class,'loadeadmin'])->name('backend.admin');
+
+                    Route::group(['middleware' => 'Check_Login'], function () {
 
 
 
-        // Admin routes are all hear
+                Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
+                Route::get('register', [UserController::class, 'loadRegister'])->name('register');
+                Route::post('users', [UserController::class, 'registerd'])->name('users.store');
+                Route::get('/referral_register', [UserController::class, 'loadReferralRegister'])->name('referral_register');
+                Route::get('/email_varification/{token}', [UserController::class, 'emailVarification'])->name('email_varification');
+                Route::post('/login', [UserController::class, 'userLogin'])->name('login.store');
+                Route::get('/referral-track',[UserController::class, 'referralTrack'])->name('referralTrack');
+                Route::get('/deleteAccount', [UserController::class, 'deleteAccount'])->name('deleteAccount');
+
+            });
+            // });
+
+            Route::group(['middleware' => 'Check_Logout'], function () {
+
+  // Admin routes are all hear
+        Route::get('backend.admins',[AdminController::class,'loadeadmin'])->name('backend.admins');
+        Route::get('backend.editadmins/{id}',[AdminController::class,'editadmins'])->name('backend.editadmins');
+        Route::put('update.usertype/{id}', [AdminController::class, 'updateUsertype'])->name('update.usertype');
+        // Route::put('user/{id}/update-role', [UserController::class, 'updateUserRole'])->name('updateUserRole');
+
+
         Route::get('backend', [BackendDashboardController::class,'backendDashboard'])->name('backend');
 
                 Route::get('backend.contact',[PagesContentController::class,'loadecontactpage'])->name('backend.contactpage');
@@ -108,37 +130,20 @@ Route::get('Pricing', function () {
                 // Route::middleware(['auth:web'])->group(function () {
 
 
-                    Route::group(['middleware' => 'Check_Login'], function () {
-
-
-
-                Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
-                Route::get('register', [UserController::class, 'loadRegister'])->name('register');
-                Route::post('users', [UserController::class, 'registerd'])->name('users.store');
-                Route::get('/referral_register', [UserController::class, 'loadReferralRegister'])->name('referral_register');
-                Route::get('/email_varification/{token}', [UserController::class, 'emailVarification'])->name('email_varification');
-                Route::post('/login', [UserController::class, 'userLogin'])->name('login.store');
-                Route::get('/referral-track',[UserController::class, 'referralTrack'])->name('referralTrack');
-                Route::get('/deleteAccount', [UserController::class, 'deleteAccount'])->name('deleteAccount');
-
-            });
-            // });
-
-            Route::group(['middleware' => 'Check_Logout'], function () {
-
-
 
 
                 Route::get('profile', [ProfileController::class, 'viewProfile'])->name('profile');
                 Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_profile');
                 Route::get('/faq', [UserController::class, 'loadfaq'])->name('faq');
-                Route::get('/blank', [UserController::class, 'loadblank'])->name('blank');
                 Route::get('/contact', [UserController::class, 'loadcontact'])->name('contact');
                 Route::get('/', [UserController::class, 'loadDashbord'])->name('/');
 
 
                 Route::get('/logout', [UserController::class, 'userLogout'])->name('logout');
 
+// Shop routes are hear
+                Route::get('/shop', [ShopController::class, 'loadshop'])->name('shop');
+                Route::post('/store', [ShopController::class, 'shop'])->name('store.create');
             });
 
 
