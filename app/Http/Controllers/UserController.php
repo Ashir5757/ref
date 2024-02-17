@@ -224,7 +224,6 @@ if(count($userData)  > 0 ){
     public function userLogin(Request $request)
     {
       $data = $request->validate([
-            'name' => 'required|string',
             'email' => 'required|string|email',
             'password' => 'required|string|min:8',
         ]);

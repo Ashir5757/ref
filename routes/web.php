@@ -97,7 +97,11 @@ Route::get('Pricing', function () {
 
             Route::group(['middleware' => 'Check_Logout'], function () {
 
-  // Admin routes are all hear
+                // Product Routes are all hear
+            Route::get('backend.product',[BackendDashboardController::class,'loadeproduct'])->name('backend.product');
+
+
+            // Admin routes are all hear
         Route::get('backend.admins',[AdminController::class,'loadeadmin'])->name('backend.admins');
         Route::get('backend.editadmins/{id}',[AdminController::class,'editadmins'])->name('backend.editadmins');
         Route::put('update.usertype/{id}', [AdminController::class, 'updateUsertype'])->name('update.usertype');
@@ -141,9 +145,17 @@ Route::get('Pricing', function () {
 
                 Route::get('/logout', [UserController::class, 'userLogout'])->name('logout');
 
-// Shop routes are hear
+               // Shop routes are hear
                 Route::get('/shop', [ShopController::class, 'loadshop'])->name('shop');
                 Route::post('/store', [ShopController::class, 'shop'])->name('store.create');
+                Route::get('/category', [ShopController::class, 'loadcategory'])->name('category');
+                Route::post('/add.category', [ShopController::class, 'addcategory'])->name('add.category');
+                Route::get('/delete.category/{id}', [ShopController::class, 'deletecategory'])->name('delete.category');
+                Route::get('/view.category/{id}', [ShopController::class, 'viewcategory'])->name('view.category');
+
+                Route::get('/product', [ShopController::class, 'loadproduct'])->name('product');
+                Route::post('/add.product', [ShopController::class, 'addproduct'])->name('add.product');
+
             });
 
 

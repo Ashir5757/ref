@@ -71,78 +71,71 @@
                                         <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                                         <p class="text-center small">Enter your personal details to create account</p>
                                     </div>
-
                                     @if ($errors->any() || Session::has('error'))
-                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            <strong>
-                                                <ul>
-                                                    {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" ></button> --}}
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}
-                                                        @endforeach
-                                                         {{Session::get('error')}}</li>
-                                                </ul>
-                                            </strong>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                            </button>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong>
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                                @if (Session::has('error'))
+                                                    <li>{{ Session::get('error') }}</li>
+                                                @endif
+                                            </ul>
+                                        </strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                @endif
+
+                                <form class="row g-3 needs-validation" action="{{ route('users.store') }}" method="POST">
+                                    @csrf
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label">Name:</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Enter name" value="{{ old('name') }}">
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email address:</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter email" value="{{ old('email') }}">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="password" class="form-label">Password:</label>
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Enter password">
+                                        @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="confirm" class="form-label">Confirm Password:</label>
+                                        <input type="password" class="form-control @error('confirm') is-invalid @enderror" id="confirm" name="confirm" placeholder="Confirm password">
+                                        @error('confirm')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="terms" type="checkbox" id="termsAndConditions" required>
+                                            <label class="form-check-label" for="termsAndConditions">I agree and accept the <a href="#">terms and conditions</a></label>
+                                            <div class="invalid-feedback">You must agree before submitting.</div>
                                         </div>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="referral_code" class="form-label">Referral Code (optional):</label>
+                                        <input type="text" class="form-control" id="referral_code" value="{{$referral}}" style="pointer-events:none;background-color:lightgray" name="referral_code" placeholder="Enter referral code">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="small mb-0">Already have an account? <a href="{{ route('login') }}">Log in</a></p>
+                                    </div>
+                                </form>
 
-
-                                    @endif
-                                    <form class="row g-3 needs-validation" action="{{ route('users.store') }}"
-                                        method="POST">
-
-                                        @method('POST')
-                                        @csrf
-                                        <div class="form-group  mb-3">
-                                            <label for="name">Name:</label>
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Enter name">
-                                        </div>
-                                        <div class="form-group  mb-3">
-                                            <label for="email">Email address:</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Enter email">
-                                        </div>
-                                        <div class="form-group mb-3">
-                                            <label for="password">Password:</label>
-                                            <input type="password" class="form-control" id="password" name="password"
-                                                   placeholder="Enter password">
-                                          </div>
-
-                                          <div class="form-group mb-3">
-                                            <label for="confirm">Confirm Password:</label>
-                                            <input type="password" class="form-control" id="confirm" name="confirm"
-                                                   placeholder="Confirm password">
-                                          </div>
-
-
-                                        <div class="form-group mb-3">
-                                            <label for="referral_code">Referral Code (optional):</label>
-                                            <input type="text" class="form-control" id="referral_code" value="{{$referral}}" style="pointer-events:none;background-color:lightgray"
-                                                name="referral_code" placeholder="Enter referral code">
-                                        </div>
-
-
-                                        <div class="col-12">
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="terms" type="checkbox" id="termsAndConditions">
-
-                                                <label class="form-check-label" for="termsAndConditions">I agree and accept the <a href="#">terms and conditions</a></label>
-
-                                                <div class="invalid-feedback">You must agree before submitting.</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Create
-                                                Account</button>
-                                        </div>
-                                        <div class="col-12">
-                                            <p class="small mb-0">Already have an account? <a
-                                                    href="{{ route('login') }}">Log in</a></p>
-                                        </div>
-                                    </form>
 
                                 </div>
                             </div>

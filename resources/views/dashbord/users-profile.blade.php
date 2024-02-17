@@ -67,9 +67,8 @@
                                         data-bs-target="#profile-overview">Overview</button>
                                 </li>
 
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
-                                        Profile</button>
+                             <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">{{isset($profile) ? "Edit Profile" : "Add Profile"}}</button>
                                 </li>
 
                                 <li class="nav-item">
@@ -192,7 +191,7 @@
                                         <div class="row mb-3">
                                             <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <textarea name="about" class="form-control" id="about" value="{{ old('about') }}" style="height: 100px">  </textarea>
+                                                <textarea name="about" class="form-control" id="about" value="{{ old('about') }}"  style="height: 100px">  </textarea>
                                             </div>
                                         </div>
 

@@ -1,7 +1,7 @@
 
 @extends('dashbord.navsidebar')
 
-@section('title','Blank')
+@section('title','Shop')
 
 @section('content')
 
@@ -13,8 +13,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ route('/') }}">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Blank</li>
+          <li class="breadcrumb-item active">Shop</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -36,6 +35,7 @@
         @endif
             <div class="card">
               <div class="card-body p-5">
+                <h1>Let's Get Your Store Up and Running!</h1>
                 <form method="POST" action="{{route("store.create")}}" enctype="multipart/form-data">
                     @csrf
 

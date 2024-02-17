@@ -15,4 +15,10 @@ class BackendDashboardController extends Controller
    $users = User::all();
         return view('backend.index',compact('users'));
     }
+
+    public function loadeproduct(){
+
+
+        return view("backend.product");
+    }
 }

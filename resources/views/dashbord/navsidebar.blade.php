@@ -506,6 +506,14 @@
                     <span>Make a Shop</span>
                 </a>
             </li><!-- End Blank Page Nav -->
+            @if(isset($categories))
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('product') }}">
+                    <i class="bi bi-plus-square"></i> <span>Add Product</span>
+                </a>
+            </li>
+            @endif
+            <!-- End product Page Nav -->
 
         </ul>
 

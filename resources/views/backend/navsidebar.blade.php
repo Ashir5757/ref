@@ -61,7 +61,7 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="{{route("backend.admins")}}">Admins</a>
-                                    <a class="nav-link" href="{{route("backend.layout-sidenav-light")}}">Light Sidenav</a>
+                                    <a class="nav-link" href="{{route("backend.product")}}">Categories & Product</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">

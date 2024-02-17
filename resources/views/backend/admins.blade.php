@@ -53,7 +53,7 @@
             <td>{{ $admin->name }}</td>
             <td>{{ $admin->email }}</td>
             <td>{{ $admin->usertype == 1 ? "Admin" : "Not" }}</td>
-            <td><a class="btn btn-outline-primary" href="{{ route('backend.editadmins', ['id' => $admin->id]) }}"">Edit</a></td>
+            <td><a class="btn btn-outline-primary" href="{{ route('backend.editadmins', ['id' => $admin->id]) }}">Edit</a></td>
             <td><a class="btn btn-outline-danger" href="">Delete</a></td>
         </tr>
         @endforeach
@@ -64,7 +64,7 @@
 
 
 <div class="card-body mt-5">
-    <h3 class="text-primary m-4">Totla Number of Users :</h3>
+    <h3 class="text-primary m-4">Total Number of Users :</h3>
     <table id="datatablesSimple">
         <thead>
             <tr>
