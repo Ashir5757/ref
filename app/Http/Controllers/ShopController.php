@@ -69,14 +69,15 @@ if ($shop) {
         $shop->address = $request->address;
 
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('shop_logos');
-            $shop->logo = $logoPath;
+            $logoPath = $request->file('logo')->store('public/shop_logos');
+            $shop->logo = str_replace('public/', '', $logoPath);
         }
 
         if ($request->hasFile('banner_image')) {
-            $bannerImagePath = $request->file('banner_image')->store('shop_banners');
-            $shop->banner_image = $bannerImagePath;
+            $bannerImagePath = $request->file('banner_image')->store('public/shop_banners');
+            $shop->banner_image = str_replace('public/', '', $bannerImagePath);
         }
+
 
         $shop->save();
 
@@ -96,35 +97,40 @@ return view("dashbord.category",compact('categories'));
 
     public function addcategory(Request $request)
     {
-        // User authorization (if applicable)
+        // User authorization with detailed error message
         if (Auth::guest()) {
-            return redirect()->route('login')->with('error', 'You must be logged in to add categories.');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You must be logged in to add categories.',
+            ]);
         }
 
-        // Input validation with detailed error messages
+        // Input validation with clear and informative error messages
         $validatedData = $request->validate([
             'name' => 'required|string|unique:categories,name|max:255',
             'description' => 'required|string|max:255',
         ], [
-            'name.required' => __('A category name is required.'),
-            'name.string' => __('The category name must be a string.'),
-            'name.unique' => __('The category name must be unique.'),
-            'name.max' => __('The category name must be no more than 255 characters.'),
-            'description.required' => __('A category description is required.'),
-            'description.string' => __('The category description must be a string.'),
-            'description.max' => __('The category description must be no more than 255 characters.'),
+            'name.required' => 'A category name is required.',
+            'name.string' => 'The category name must be alphabetic.',
+            'name.unique' => 'This category name already exists.',
+            'name.max' => 'The category name must be no more than 255 characters.',
+            'description.required' => 'A category description is required.',
+            'description.string' => 'The category description must be alphabetic.',
+            'description.max' => 'The category description must be no more than 255 characters.',
         ]);
 
-        // Sanitize user input (basic XSS prevention)
-        $validatedData['name'] = htmlspecialchars($validatedData['name']);
-        $validatedData['description'] = htmlspecialchars($validatedData['description']);
+        // Sanitize user input (advanced XSS prevention)
+        $validatedData['name'] = strip_tags($validatedData['name']);
+        $validatedData['description'] = strip_tags($validatedData['description']);
 
-        // Model saving
-        $validatedData['user_id'] = Auth::user()->id; // Add user ID
-        $category = Category::create($validatedData);
+        // Additional security measures (as needed)
+        // ... (e.g., input filtering, whitelisting, escaping)
 
-        // Successful creation handling
-        if ($category) {
+        // Model saving with error handling and logging
+        try {
+            $validatedData['user_id'] = Auth::user()->id;
+            $category = Category::create($validatedData);
+
             Log::info("Category '{$category->name}' created by user " . Auth::user()->id);
 
             return response()->json([
@@ -132,23 +138,16 @@ return view("dashbord.category",compact('categories'));
                 'message' => 'Category added successfully!',
                 'data' => $category, // Optionally return created category data
             ]);
-        } else {
-            Log::error("Failed to create category with data: " . json_encode($validatedData));
-
-            // Prepare validation error responses
-            $errors = $category->errors()->toArray();
-            $errorMessages = [];
-            foreach ($errors as $field => $messages) {
-                $errorMessages[$field] = implode(', ', $messages);
-            }
+        } catch (\Exception $e) {
+            Log::error("Failed to create category: " . $e->getMessage());
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add category. Please check the errors below.',
-                'errors' => $errorMessages,
+                'message' => 'An unexpected error occurred. Please try again later.',
             ]);
         }
     }
+
 
 
     public function loadproduct()
@@ -190,49 +189,74 @@ public function deletecategory(Request $request, $id)
         return redirect()->back()->with('success', 'Category soft-deleted successfully.');
     } catch (Exception $e) {
         log::error('Error soft-deleting category: ' . $e->getMessage());
-        return back()->withErrors(['error' => 'An error occurred while soft-deleting the category.']);
+        return back()->with('error','An error occurred while soft-deleting the category.');
     }
 }
 
 
-public function viewcategory(){
+public function viewcategory(Request $request, $id)
+{
+    $user_id = Auth::user()->id;
 
-    return view("dashbord.viewcategory");
+    // Check if the category ID is provided
+    if (!$id) {
+        return back()->with('error', 'No category ID provided.');
+    }
+
+    // Retrieve products only if the category ID and user ID are provided
+    $products = Product::where('category_id', $id)
+                        ->where('user_id', $user_id)
+                        ->get();
+    $shops = Shop::where('id',$user_id)->get();
+
+    // Check if there are any products found
+    if ($products->isEmpty()) {
+        return view("dashbord.viewcategory")->with('error', 'No products found for this category.');
+    }
+
+    // If products are found, return the view with the products
+    return view("dashbord.viewcategory", compact('products','shops'));
 }
 
 
-public function addproduct(Request $request){
+
+
+
+
+public function addproduct(Request $request)
+{
     $user_id = Auth::user()->id;
+
     $request->validate([
         'name' => 'required|string|max:255|unique:products',
         'price' => 'required|numeric|min:0.01',
         'description' => 'required|string',
         'image' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048', // Optional image validation
+        'category' => 'required|integer|exists:categories,id', // Validate category existence
     ]);
 
-    // Handle image upload, if applicable (see additional notes)
+    // Securely handle image upload (replace with your implementation)
     $imageName = null;
     if ($request->hasFile('image')) {
-        $imageName = time().'.'.$request->image->getClientOriginalExtension();
-        $request->image->storePubliclyAs('products', $imageName);
+        $imageName = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+
+        // Store the uploaded file in the public/images directory
+        $request->file('image')->storeAs('public/product', $imageName);
     }
+
 
     $product = new Product;
     $product->user_id = $user_id;
     $product->name = $request->name;
     $product->price = $request->price;
     $product->description = $request->description;
+    $product->category_id = $request->category; // Use validated category ID
     $product->image = $imageName; // Store image name, if uploaded
 
-    try {
         $product->save();
-
-        return redirect()->route('dashbord.viewcategory')->with('success', 'Product added successfully!');
-    } catch (\Exception $e) {
-        // Handle database errors gracefully
-        return back()->withErrors(['error' => 'An error occurred while adding the product: ' . $e->getMessage()]);
-    }
+        return redirect()->back()->with('success', 'Product added successfully!');
 
 }
+
 
 }

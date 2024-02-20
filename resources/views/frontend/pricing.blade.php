@@ -28,7 +28,7 @@
 						<div class="pricing-price">
 
 						</div>
-						<a href="#" class="price_btn">Order Now</a>
+						<a href="{{route("payment")}}" class="price_btn">Order Now</a>
 					</div>
 				</div>
 			</div><!--- END COL -->

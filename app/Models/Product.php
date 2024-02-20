@@ -9,10 +9,10 @@ class Product extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
         'name',
         'price',
         'description',
-        'image',
+        'category_id',
+        'image_url', // Store only the URL or filename
     ];
 }

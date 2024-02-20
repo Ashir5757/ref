@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Payment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
@@ -74,6 +75,7 @@ Route::get('Pricing', function () {
         Route::get('frontend.about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
 
         Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
+        Route::get('frontend.payment',[Payment::class,'payment'] )->name('payment');
 
         // });
 

@@ -34,6 +34,10 @@
             </div>
         @endif
 
+
+
+        {{-- Category Management --}}
+
         <div class="container mt-5">
             <h3>Category Management</h3>
 
@@ -68,31 +72,40 @@
 
             </table>
           </div>
-
           <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="addCategoryForm" action="{{ route('add.category') }}" method="POST">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="categoryName" class="form-label">Category Name:</label>
-                                <input type="text" class="form-control" id="categoryName" name="name" >
-                                <div class="invalid-feedback"></div> </div>
-                            <div class="mb-3">
-                                <label for="categoryDescription" class="form-label">Description:</label>
-                                <textarea class="form-control" id="categoryDescription" name="description" ></textarea>
-                                <div class="invalid-feedback"></div> </div>
-                            <button type="submit" class="btn btn-primary">Add Category</button>
-                        </form>
-                        <div class="alert alert-danger my-4 d-none" role="alert" id="errorAlert"></div> </div>
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                  <form id="addCategoryForm" action="{{ route('add.category') }}" method="POST">
+                    @csrf
+
+                    <div class="mb-3">
+                      <label for="categoryName" class="form-label">Category Name:</label>
+                      <input type="text" class="form-control @error('name') is-invalid @enderror" id="categoryName" name="name" >
+                      <div class="invalid-feedback">@error('name') {{ $message }} @enderror</div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="categoryDescription" class="form-label">Description:</label>
+                      <textarea class="form-control @error('description') is-invalid @enderror" id="categoryDescription" name="description" ></textarea>
+                      <div class="invalid-feedback">@error('description') {{ $message }} @enderror</div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between">
+                      <button type="submit" class="btn btn-primary">Add Category</button>
+                      <div class="alert alert-danger d-none my-0" role="alert" id="errorAlert"></div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
+
 
 
           <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
@@ -122,45 +135,62 @@
   </main><!-- End #main -->
 
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
     $('#addCategoryForm').submit(function(event) {
         event.preventDefault(); // Prevent default form submission
 
-        $('.invalid-feedback').text(''); // Clear any existing error messages
-        $('#errorAlert').text(''); // Clear global error message
-        $('.form-control').removeClass('is-invalid'); // Remove error styling
+        // Clear existing error messages and styling
+        $('.invalid-feedback').text('');
+        $('#errorAlert').text('');
+        $('.form-control').removeClass('is-invalid');
 
-        var serializedData = $(this).serialize();
+        // Client-side validation
+        var isValid = true;
 
-        $.ajax({
-            url: "{{ route('add.category') }}",
-            type: 'POST',
-            data: serializedData,
-            success: function(response) {
-                // Handle successful submission
-                // ... (add category to UI, close modal, show success message)
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Handle errors
-                var response = jqXHR.responseJSON; // Parse JSON response if available
-
-                if (response.errors) {
-                    // Display individual field errors
-                    for (var field in response.errors) {
-                        $('#' + field).addClass('is-invalid');
-                        $('#' + field + ' + .invalid-feedback').text(response.errors[field][0]);
-                    }
-                } else if (response.message) {
-                    // Display a global error message
-                    $('#errorAlert').text(response.message);
-                    $('#errorAlert').removeClass('d-none');
-                } else {
-                    // Handle unexpected error
-                    $('#errorAlert').text('An unexpected error occurred. Please try again later.');
-                    $('#errorAlert').removeClass('d-none');
-                }
+        // Check for empty required fields
+        $('.required').each(function() {
+            if ($(this).val().trim() === '') {
+                $(this).addClass('is-invalid');
+                $(this).siblings('.invalid-feedback').text('This field is required.');
+                isValid = false;
             }
         });
+
+        // ... (Add other client-side validation rules as needed)
+
+        if (isValid) {
+            // Proceed with AJAX submission if client-side validation passes
+            var serializedData = $(this).serialize();
+
+            $.ajax({
+                url: "{{ route('add.category') }}",
+                type: 'POST',
+                data: serializedData,
+                success: function(response) {
+                    // Handle successful submission
+                    // ... (add category to UI, close modal, show success message)
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    var response = jqXHR.responseJSON; // Parse JSON response if available
+
+                    if (response.errors) {
+                        // Display individual field errors
+                        for (var field in response.errors) {
+                            $('#' + field).addClass('is-invalid');
+                            $('#' + field + ' + .invalid-feedback').text(response.errors[field][0]);
+                        }
+                    } else if (response.message) {
+                        // Display a global error message
+                        $('#errorAlert').text(response.message);
+                        $('#errorAlert').removeClass('d-none');
+                    } else {
+                        // Handle unexpected error
+                        $('#errorAlert').text('An unexpected error occurred. Please try again later.');
+                        $('#errorAlert').removeClass('d-none');
+                    }
+                }
+            });
+        }
     });
 });
 
