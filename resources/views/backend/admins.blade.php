@@ -38,7 +38,7 @@
             <th scope="col">Email</th>
             <th scope="col">Admin</th>
             <th scope="col">Edit Role</th>
-            <th scope="col">Delete Admin</th>
+            <th scope="col">Permission</th>
         </tr>
     </thead>
 
@@ -54,7 +54,7 @@
             <td>{{ $admin->email }}</td>
             <td>{{ $admin->usertype == 1 ? "Admin" : "Not" }}</td>
             <td><a class="btn btn-outline-primary" href="{{ route('backend.editadmins', ['id' => $admin->id]) }}">Edit</a></td>
-            <td><a class="btn btn-outline-danger" href="">Delete</a></td>
+            <td><a class="btn btn-outline-success" href="{{route('backend.permission', ['id' => $admin->id])}}">Permission</a></td>
         </tr>
         @endforeach
     </tbody>

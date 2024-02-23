@@ -110,11 +110,11 @@ return view("dashbord.category",compact('categories'));
             'name' => 'required|string|unique:categories,name|max:255',
             'description' => 'required|string|max:255',
         ], [
-            'name.required' => 'A category name is required.',
+            'name.required' => 'category name is required.',
             'name.string' => 'The category name must be alphabetic.',
             'name.unique' => 'This category name already exists.',
             'name.max' => 'The category name must be no more than 255 characters.',
-            'description.required' => 'A category description is required.',
+            'description.required' => 'category description is required.',
             'description.string' => 'The category description must be alphabetic.',
             'description.max' => 'The category description must be no more than 255 characters.',
         ]);
@@ -239,8 +239,6 @@ public function addproduct(Request $request)
     $imageName = null;
     if ($request->hasFile('image')) {
         $imageName = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-
-        // Store the uploaded file in the public/images directory
         $request->file('image')->storeAs('public/product', $imageName);
     }
 
@@ -258,5 +256,12 @@ public function addproduct(Request $request)
 
 }
 
+public function deleteproduct($id){
+
+$deleteproduct = Product::where('id', $id)->find($id);
+$deleteproduct->delete();
+return redirect()->back()->with("Success","Product Deleted Secessfully");
+
+}
 
 }

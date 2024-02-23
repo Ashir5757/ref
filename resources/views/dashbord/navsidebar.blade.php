@@ -242,7 +242,26 @@
                             <hr class="dropdown-divider">
                         </li>
 
+
+
+                        @php
+                        $user = Auth::user();
+                    @endphp
+
+                    @if($user->usertype == 1)
                         <li>
+                            <a class="dropdown-item d-flex align-items-center text-success" href="{{ route('backend') }}">
+                                <i class="bi bi-speedometer2 me-2"></i> <!-- Bootstrap icon for dashboard -->
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li>
+                            <hr class="dropdown-divider">
+
+                    </li>
+
+                    <li>
                             <a class="dropdown-item d-flex align-items-center" href=" {{ route('profile') }}">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
@@ -258,16 +277,10 @@
                                 <span>Account Settings</span>
                             </a>
                         </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
 
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
-                        </li>
+
+
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>

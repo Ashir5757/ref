@@ -5,54 +5,6 @@
 
 @section('content')
 
-<style>
-    .shop-banner {
-    background-image: url("banner-image.jpg");
-    background-size: cover;
-    background-position: center;
-    min-height: 60vh; /* Adjust as needed */
-    color: #0061b1;
-}
-
-.display-4 {
-    font-size: 4rem;
-}
-
-.lead {
-    font-size: 1.5rem;
-}
-
-.btn-primary {
-    background-color: #28a745;
-    border-color: #28a745;
-}
-
-.btn-outline-light {
-    color: #0295f7;
-    border-color: #fc0404;
-}
-.shop-banner-image {
-    border-radius: 20px;
-    box-shadow: 0 0 10px 3px rgb(0, 85, 196);
-    display: block;
-    transition: transform 0.3s ease; /* Adding transition effect */
-}
-
-.shop-logo-image {
-    border-radius: 20px;
-    box-shadow: 0 0 10px 3px rgb(163, 0, 0);
-    display: block;
-    transition: transform 0.3s ease; /* Adding transition effect */
-}
-
-/* Adding hover effects */
-.shop-banner-image:hover,
-.shop-logo-image:hover {
-    transform: scale(1.1); /* Scale up the image on hover */
-}
-
-</style>
-
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -60,22 +12,14 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ route('/') }}">Home</a></li>
+          <li class="breadcrumb-item "><a href="{{ route('shop') }}">Shop</a></li>
           <li class="breadcrumb-item active">category</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
-    <section>
 
-
-        {{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <!------ Include the above in your HEAD tag ---------->
-
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-
+@if(!empty($shops))
                 {{-- product --}}
                 @foreach ($shops as $shop)
                 <div class="container shop-container">
@@ -115,9 +59,11 @@
 <hr>
 
             @endforeach
+            @endif
 
                     <div class="row">
-                        @if ($products->isEmpty())
+
+                        @if (empty($products))
       <div class="alert alert-danger" role="alert">
           No products Found!
       </div>
@@ -131,10 +77,14 @@
               <p class="card-text">{{ $product->description }}</p>
               <div class="row">
                 <div class="col">
-                  <p class="btn btn-danger btn-block">{{ $product->price }}</p>
+                  <p class="btn btn-info btn-block">{{ $product->price }}</p>
                 </div>
+
                 <div class="col">
                     <a href="#" class="btn btn-primary">Button </a>
+                </div>
+                <div class="col">
+                    <a class="btn btn-outline-danger" href="{{route('delete.product',['id' => $product->id])}}">Delete</a>
                 </div>
               </div>
             </div>
@@ -146,11 +96,6 @@
 </div>
 
 
-
-
-
-
-    </section>
-
 </main>
+
 @endsection

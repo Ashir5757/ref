@@ -9,6 +9,51 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.shop-banner {
+    background-image: url("banner-image.jpg");
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh; /* Adjust as needed */
+    color: #0061b1;
+}
+
+.display-4 {
+    font-size: 4rem;
+}
+
+.lead {
+    font-size: 1.5rem;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-light {
+    color: #0295f7;
+    border-color: #fc0404;
+}
+.shop-banner-image {
+    border-radius: 20px;
+    box-shadow: 0 0 10px 3px rgb(0, 85, 196);
+    display: block;
+    transition: transform 0.3s ease; /* Adding transition effect */
+}
+
+.shop-logo-image {
+    border-radius: 20px;
+    box-shadow: 0 0 10px 3px rgb(163, 0, 0);
+    display: block;
+    transition: transform 0.3s ease; /* Adding transition effect */
+}
+
+/* Adding hover effects */
+.shop-banner-image:hover,
+.shop-logo-image:hover {
+    transform: scale(1.1); /* Scale up the image on hover */
+}
+
 :root {
   scroll-behavior: smooth;
 }

@@ -36,7 +36,7 @@
                         <li><a class="dropdown-item" href="#!"><i class="fas fa-cog"></i> Settings</a></li>
                         <li><a class="dropdown-item" href="#!"><i class="fas fa-history"></i> Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!"><i class="fas fa-sign-out-alt"></i>
+                        <li><a class="dropdown-item" href="{{route("logout")}}"><i class="fas fa-sign-out-alt"></i>
                             Logout</a></li>
                     </ul>
                 </li>
@@ -52,6 +52,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
+                            <a class="nav-link" href="{{route("backend.payment")}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
+                                Payment
+                            </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -60,7 +64,13 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
+                                    @php
+                                    $user = Auth::user();
+                                @endphp
+
+                                @if($user->usertype == 1)
                                     <a class="nav-link" href="{{route("backend.admins")}}">Admins</a>
+                                @endif
                                     <a class="nav-link" href="{{route("backend.product")}}">Categories & Product</a>
                                 </nav>
                             </div>

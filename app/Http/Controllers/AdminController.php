@@ -37,4 +37,12 @@ $admins = User::Where("id",$id)->paginate(10);
         // Return a response, if needed
         return redirect('backend.admins')->with('success', 'User role updated successfully');
     }
+
+public function loadepermission($id){
+
+    $admins = User::Where("id",$id)->paginate(10);
+return view("backend.permission",compact('admins'));
+
+}
+
 }

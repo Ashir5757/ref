@@ -99,8 +99,15 @@ Route::get('Pricing', function () {
 
             Route::group(['middleware' => 'Check_Logout'], function () {
 
+                Route::get('backend.payment',[Payment::class,'loadepayment'])->name('backend.payment');
+                Route::put('update.paymentstatus/{id}',[Payment::class,'paymentstatus'])->name('update.paymentstatus');
+                Route::get('backend.editpayment/{id}',[Payment::class,'editpayment'])->name('backend.editpayment');
+                Route::post('receive.payment',[Payment::class,'receivepayment'])->name('receive.payment');
                 // Product Routes are all hear
             Route::get('backend.product',[BackendDashboardController::class,'loadeproduct'])->name('backend.product');
+
+
+            Route::get('backend.permission/{id}',[AdminController::class,'loadepermission'])->name('backend.permission');
 
 
             // Admin routes are all hear
@@ -157,6 +164,7 @@ Route::get('Pricing', function () {
 
                 Route::get('/product', [ShopController::class, 'loadproduct'])->name('product');
                 Route::post('/add.product', [ShopController::class, 'addproduct'])->name('add.product');
+                Route::get('/delete.product/{id}', [ShopController::class, 'deleteproduct'])->name('delete.product');
 
             });
 

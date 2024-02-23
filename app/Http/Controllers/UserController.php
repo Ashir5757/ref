@@ -29,6 +29,7 @@ class UserController extends Controller
     //      $this->middleware('guest:user')->except('logout');
     //  }
 
+
      public function loadDashbord()
     {
 
@@ -178,6 +179,7 @@ return view('dashbord.referral_register', compact('referral'));
 
 
 }else{
+
     return redirect('/');
 }
     }
@@ -215,7 +217,8 @@ if(count($userData)  > 0 ){
      */
     public function loadLogin()
     {
-       return view('dashbord.pages-login') ;
+
+        return view('dashbord.pages-login') ;
     }
 
     /**

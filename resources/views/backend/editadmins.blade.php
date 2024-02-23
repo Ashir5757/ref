@@ -7,14 +7,22 @@
 
 
 
-<div class="container borderd p-3">
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Permission</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{{route("backend")}}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Permission</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-body">
+                 <div class="container m-2">
 
-    <div class="shadow rounded p-4">
-        <div class="m-3">
-            <a href="{{ route("backend.admins") }}" class="btn btn-outline-secondary float-end m-3">Go Back</a>
-        </div>
-        <h1 class="text-secondary row justify-content-center">Admin Page</h1>
-<hr>
+                    <div class="m-3">
+                        <a href="{{ route("backend.admins") }}" class="btn btn-outline-secondary float-end m-3">Go Back</a>
+                    </div>
+                    <h1 class="text-secondary row justify-content-center">Admin Permission</h1>
+            <hr>
 @if (Session::has('success'))
 <div class="alert alert-success alert-dismissible fade show" role="alert">
     {{ Session::get('success') }}
@@ -98,5 +106,6 @@
 </div>
 </div>
 
+</main>
 
 @endsection

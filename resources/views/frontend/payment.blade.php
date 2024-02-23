@@ -1,6 +1,7 @@
 @extends('frontend.index')
 @section('title','payment')
 @section("content")
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 <style>
         body {
@@ -53,7 +54,6 @@
     </style>
 
 
-
 <div class="container-fluid ">
     <div class="row">
         <div class="col-md-6">
@@ -74,46 +74,65 @@
                     <div class="payment-details mb-3">
                         <p> <strong> [WARNING] Submitting Fake Payment Screenshot won't get you access (payments are verified manually)!</strong></p>
                         <h2>Payment Details</h2>
-                        <p>Bank Name: [Bank Name]</p>
-                        <p>Account Name: [Account Name]</p>
-                        <p>Account Number: [Account Number]</p>
-                        <form>
-                            <div class="form-group mb-3">
-                                <label for="amount">Amount to Pay:</label>
-                                <input type="number" class="form-control" id="amount" name="amount" >
+                        <p> <b> Email: [shareandcare65@gmail.com]</b></p>
+                        <p> <b> Bank Name: [Jazz Cash]</b></p>
+                        <p><b>Account Name: [Share&Care]</b> </p>
+                        <p> <b> IBAN Number: [PK71JCMA2302923338235265]</b></p>
+
+
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="payment-method">Payment Method:</label>
-                                <select class="form-control" id="payment-method" name="payment-method" required>
-                                    <option value="">Select a payment method</option>
-                                    <option value="bank_transfer">Bank Transfer</option>
-                                    <option value="other">Other</option>
-                                </select>
+                            @endif
+                            @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
                             </div>
-                            <div class="container mt-5">
+                            @endif
+  <form method="POST" action="{{route("receive.payment")}}" enctype="multipart/form-data">
+                                @csrf
+
+                            <div class="form-group mb-3">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Enter your name" value="{{ old('name') }}">
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+
+
+
+                            <div class="form-group mb-3">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter your email" value="{{ old('email') }}">
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+
+                            <div class="container mb-3">
                                 <h1>Secure File Upload</h1>
+        <div class="form-group">
+            <label for="image">Image (required):</label>
+            <input type="file" id="image" name="image" class="form-control"  >
+            @error('image')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+        </div>
 
-                                <button id="file-selector-button" class="btn btn-primary mb-3">Select Files</button>
 
-                                <div id="drop-zone" class="mb-5">
-                                    <h4>Drag and drop your files here (optional)</h4>
-                                    <p>Only secure upload methods will be used.</p>
-                                </div>
-
-                                <div id="selected-files"></div>
-                            </div>
-                            {{-- <div class="row">
-                                <div class="col-md-6">
-                                    <h2>Draggable Items</h2>
-                                    <div class="draggable">Item 1</div>
-                                    <div class="draggable">Item 2</div>
-                                    <div class="draggable">Item 3</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <h2>Drop Zone</h2>
-                                    <div class="droppable"></div>
-                                </div>
-                            </div> --}}
                             <button type="submit" class="btn btn-primary">Pay Now</button>
                         </form>
                     </div>
@@ -128,50 +147,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/recmY5Czb6ZWsDwBFg1h1CStRGZn3lVRnN9AW7jMuonwXCuqU5vRUcsgbLLiz4" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4hNqVsJelAZqVZqlLft9T0LPhphbC+GZnQGzdMbgBK1N5ylYVgfBgGZqxHNA+WYU" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // Placeholder for server-side upload script URL
-        const uploadUrl = 'https://your-server/upload';
 
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.multiple = true; // Allow multiple file selection
-        fileInput.style.display = 'none'; // Hide the input visually
-
-        document.getElementById('file-selector-button').addEventListener('click', () => {
-            fileInput.click(); // Trigger file selection dialog
-        });
-
-        fileInput.addEventListener('change', () => {
-            const files = fileInput.files;
-
-            // Handle multiple file selection here, e.g., display file names or preview images
-
-            // Use secure upload method, for example:
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                fetch(uploadUrl, {
-                    method: 'POST',
-                    body: new FormData().append('file', file)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Handle successful upload response (e.g., display status)
-                    const listItem = $('<li>').text(file.name + ' uploaded');
-                    $('#selected-files').append(listItem);
-                })
-                .catch(error => {
-                    // Handle upload error (e.g., display error message)
-                    console.error('Upload failed:', error);
-                });
-            }
-        });
-
-        $('#drop-zone').on('dragleave dragover dragenter drop', function(e) {
-            // Handle drag-and-drop functionality as before, using secure methods
-        });
-    </script>
-
-
-</script>
 
 @endsection

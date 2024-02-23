@@ -38,7 +38,16 @@
                 <h1>Let's Get Your Store Up and Running!</h1>
                 <form method="POST" action="{{route("store.create")}}" enctype="multipart/form-data">
                     @csrf
-
+                    @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                     <div class="mb-3">
                         <label for="name" class="form-label">Shop Name:</label>
                         <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
