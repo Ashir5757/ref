@@ -54,7 +54,7 @@
                 class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                        <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
                             <div class="d-flex justify-content-center py-4">
                                 <a href="#" class="logo d-flex align-items-center w-auto">
@@ -73,23 +73,33 @@
                                     </div>
 
 
+
                                     @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@elseif (Session::has('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong><li>{{ Session::get('success') }}</li></strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                                    </div>
+                                @endif
+
+                                @if (Session::has('success'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        {{ Session::get('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                @endif
+
+                                @if (session()->has('error'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{ session('error') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                                    </div>
+                                @endif
 
 <form class="row g-3 needs-validation" action="{{ route('users.store') }}" method="POST">
     @csrf

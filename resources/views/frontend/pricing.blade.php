@@ -5,6 +5,34 @@
 <section id="pricing" class="pricing-content section-padding vh-100">
 	<div class="container">
 		<div class="section-title text-center">
+            @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button></div>
+        @endif
+
+        @if (Session::has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ Session::get('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button></div>
+        @endif
+
+        @if (session()->has('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button></div>
+        @endif
+
 			<h2>Investment Plans</h2>
 			<p>Expand your team boost your income!</p>
 		</div>

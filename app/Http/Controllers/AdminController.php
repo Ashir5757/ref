@@ -39,9 +39,8 @@ $admins = User::Where("id",$id)->paginate(10);
     }
 
 public function loadepermission($id){
-
-    $admins = User::Where("id",$id)->paginate(10);
-return view("backend.permission",compact('admins'));
+    $users = User::Where("id",$id)->paginate(10);
+return view("backend.permission",compact('users'));
 
 }
 

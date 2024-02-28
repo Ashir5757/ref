@@ -97,12 +97,14 @@ Route::get('Pricing', function () {
             });
             // });
 
+            Route::post('receive.payment',[Payment::class,'receivepayment'])->name('receive.payment');
+
+
             Route::group(['middleware' => 'Check_Logout'], function () {
 
                 Route::get('backend.payment',[Payment::class,'loadepayment'])->name('backend.payment');
                 Route::put('update.paymentstatus/{id}',[Payment::class,'paymentstatus'])->name('update.paymentstatus');
                 Route::get('backend.editpayment/{id}',[Payment::class,'editpayment'])->name('backend.editpayment');
-                Route::post('receive.payment',[Payment::class,'receivepayment'])->name('receive.payment');
                 // Product Routes are all hear
             Route::get('backend.product',[BackendDashboardController::class,'loadeproduct'])->name('backend.product');
 
@@ -158,12 +160,18 @@ Route::get('Pricing', function () {
                 Route::get('/shop', [ShopController::class, 'loadshop'])->name('shop');
                 Route::post('/store', [ShopController::class, 'shop'])->name('store.create');
                 Route::get('/category', [ShopController::class, 'loadcategory'])->name('category');
+
                 Route::post('/add.category', [ShopController::class, 'addcategory'])->name('add.category');
                 Route::get('/delete.category/{id}', [ShopController::class, 'deletecategory'])->name('delete.category');
                 Route::get('/view.category/{id}', [ShopController::class, 'viewcategory'])->name('view.category');
 
                 Route::get('/product', [ShopController::class, 'loadproduct'])->name('product');
+                // add product
                 Route::post('/add.product', [ShopController::class, 'addproduct'])->name('add.product');
+                // add product images uplaod
+                Route::post('/upload', [ShopController::class, 'upload'])->name('upload.files');
+
+
                 Route::get('/delete.product/{id}', [ShopController::class, 'deleteproduct'])->name('delete.product');
 
             });

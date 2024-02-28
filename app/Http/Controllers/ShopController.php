@@ -95,58 +95,22 @@ return view("dashbord.category",compact('categories'));
     }
 
 
-    public function addcategory(Request $request)
-    {
-        // User authorization with detailed error message
-        if (Auth::guest()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'You must be logged in to add categories.',
-            ]);
-        }
 
-        // Input validation with clear and informative error messages
-        $validatedData = $request->validate([
-            'name' => 'required|string|unique:categories,name|max:255',
-            'description' => 'required|string|max:255',
-        ], [
-            'name.required' => 'category name is required.',
-            'name.string' => 'The category name must be alphabetic.',
-            'name.unique' => 'This category name already exists.',
-            'name.max' => 'The category name must be no more than 255 characters.',
-            'description.required' => 'category description is required.',
-            'description.string' => 'The category description must be alphabetic.',
-            'description.max' => 'The category description must be no more than 255 characters.',
-        ]);
+public function addcategory(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+    ]);
 
-        // Sanitize user input (advanced XSS prevention)
-        $validatedData['name'] = strip_tags($validatedData['name']);
-        $validatedData['description'] = strip_tags($validatedData['description']);
+    $category = new Category();
+    $category->name = $request->name;
+    $category->description = $request->description;
+    $category->save();
 
-        // Additional security measures (as needed)
-        // ... (e.g., input filtering, whitelisting, escaping)
+    return response()->json(['message' => 'Category added successfully'], 200);
+}
 
-        // Model saving with error handling and logging
-        try {
-            $validatedData['user_id'] = Auth::user()->id;
-            $category = Category::create($validatedData);
-
-            Log::info("Category '{$category->name}' created by user " . Auth::user()->id);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Category added successfully!',
-                'data' => $category, // Optionally return created category data
-            ]);
-        } catch (\Exception $e) {
-            Log::error("Failed to create category: " . $e->getMessage());
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'An unexpected error occurred. Please try again later.',
-            ]);
-        }
-    }
 
 
 
@@ -227,34 +191,51 @@ public function addproduct(Request $request)
 {
     $user_id = Auth::user()->id;
 
-    $request->validate([
-        'name' => 'required|string|max:255|unique:products',
-        'price' => 'required|numeric|min:0.01',
+     $request->validate([
+        'name' => 'required|string',
         'description' => 'required|string',
-        'image' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048', // Optional image validation
-        'category' => 'required|integer|exists:categories,id', // Validate category existence
+        'category' => 'required|exists:categories,id',
+        'price' => 'required|numeric',
+        // 'file' => 'required|file|mimes:jpg,jpeg,png,|max:2048',
     ]);
 
-    // Securely handle image upload (replace with your implementation)
-    $imageName = null;
-    if ($request->hasFile('image')) {
-        $imageName = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-        $request->file('image')->storeAs('public/product', $imageName);
-    }
 
-
+    // Store product information
     $product = new Product;
+    // $product->id = $id;
     $product->user_id = $user_id;
     $product->name = $request->name;
-    $product->price = $request->price;
     $product->description = $request->description;
-    $product->category_id = $request->category; // Use validated category ID
-    $product->image = $imageName; // Store image name, if uploaded
+    $product->category_id = $request->category;
+    $product->price = $request->price;
+    $product->image = $imageName;
+    $product->save();
 
-        $product->save();
-        return redirect()->back()->with('success', 'Product added successfully!');
+    return redirect()->back()->with('success', 'Product added successfully');
 
 }
+
+
+public function upload(Request $request)
+{
+    
+    $request->validate([
+        'file' => 'required|file|mimes:jpg,jpeg,png,gif|max:2048',
+    ]);
+
+    $file = $request->file('file');
+    $imageName = $file->getClientOriginalName();
+    $file->move(public_path('products'), $imageName);
+
+    $product = new Product;
+    $product->image = $imageName;
+
+    $product->save();
+
+    return response()->json(['success' => true, 'message' => 'File uploaded successfully']);
+
+}
+
 
 public function deleteproduct($id){
 

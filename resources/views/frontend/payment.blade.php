@@ -77,7 +77,7 @@
                         <p> <b> Email: [shareandcare65@gmail.com]</b></p>
                         <p> <b> Bank Name: [Jazz Cash]</b></p>
                         <p><b>Account Name: [Share&Care]</b> </p>
-                        <p> <b> IBAN Number: [PK71JCMA2302923338235265]</b></p>
+                        <p> <b> IBAN Number: [PK54JCMA1110923123750765]</b></p>
 
 
                         @if ($errors->any())
@@ -94,7 +94,7 @@
                                 {{ session('success') }}
                             </div>
                             @endif
-  <form method="POST" action="{{route("receive.payment")}}" enctype="multipart/form-data">
+         <form method="POST" action="{{route("receive.payment")}}" enctype="multipart/form-data">
                                 @csrf
 
                             <div class="form-group mb-3">
@@ -134,7 +134,7 @@
 
 
                             <button type="submit" class="btn btn-primary">Pay Now</button>
-                        </form>
+ </form>
                     </div>
                 </div>
             </div>

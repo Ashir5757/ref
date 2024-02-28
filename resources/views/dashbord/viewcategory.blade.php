@@ -22,7 +22,7 @@
 @if(!empty($shops))
                 {{-- product --}}
                 @foreach ($shops as $shop)
-                <div class="container shop-container">
+                <div class="container shop-container  ">
                     <div class="row align-items-center">
                         <div class="col-md-6 shop-image">
                             @if (!empty($shop->banner_image))
@@ -75,18 +75,16 @@
             <div class="card-body">
               <h5 class="card-title">{{ $product->name }}</h5>
               <p class="card-text">{{ $product->description }}</p>
-              <div class="row">
-                <div class="col">
-                  <p class="btn btn-info btn-block">{{ $product->price }}</p>
+              <div class="col">
+                  <p class="fs-4 text-warning">{{ $product->price }}</p>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a href="#" class="btn btn-primary mr-1">Button</a>
+                        <a class="btn btn-outline-danger" href="{{ route('delete.product',['id' => $product->id]) }}">Delete</a>
+                    </div>
                 </div>
 
-                <div class="col">
-                    <a href="#" class="btn btn-primary">Button </a>
-                </div>
-                <div class="col">
-                    <a class="btn btn-outline-danger" href="{{route('delete.product',['id' => $product->id])}}">Delete</a>
-                </div>
-              </div>
             </div>
           </div>
         </div>

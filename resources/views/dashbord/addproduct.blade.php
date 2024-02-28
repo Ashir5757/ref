@@ -19,7 +19,7 @@
 
 
 
-        <div class="container mt-4 p-4 ">
+        <div class="container mt-4 p-4 bg-white shadow rounded">
             <h1>Add Product</h1>
 
 
@@ -30,7 +30,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('add.product') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('add.product') }}" method="POST" enctype="multipart/form-data" class="dropzone-form">
                 @csrf
 
                 @if ($errors->any())
@@ -64,19 +64,17 @@
                 <div class="form-group mb-3">
                     <label for="category">Category:</label>
                     <select class="form-select" id="category" name="category">
-                        <option value="" selected></option>
-                        @if(isset($userCategories)){
+                        <option value=" " ></option>
+                        @if(isset($userCategories))
                             @foreach ($userCategories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option value="{{ $category->id }}" @if(old('category') == $category->id) selected @endif>{{ $category->name }}</option>
                             @endforeach
-                        }
                         @endif
                     </select>
-                    <div class="invalid-feedback">
-                        @error('category') {{ $message }} @enderror
-                    </div>
+                    @error('category')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
-
 
                 <div class="form-group mb-3">
                     <label for="price">Price:</label>
@@ -85,20 +83,16 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
                 <div class="form-group mb-3">
-                    <label for="image">Product Image:</label>
-                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" onchange="previewImage(this)">
-                    @error('image')
+                    <label for="images">Upload Multiple Pictures:</label>
+                    <div id="dropzone" class="dropzone"></div>
+                    @error('images')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                    <div id="imagePreview"></div>
                 </div>
-
-
-
-                <button type="submit" class="btn btn-primary">Add Product</button>
+                <button type="submit" class="btn btn-primary mb-3">Add Product</button>
             </form>
+
 
         </div>
 
@@ -122,5 +116,24 @@
 }
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+
+
+<script>
+Dropzone.autoDiscover = false;
+
+$(document).ready(function () {
+    var myDropzone = new Dropzone("#dropzone", {
+        url: "/upload-files", // Specify the URL where files will be uploaded
+        paramName: "file", // Name of the file parameter
+        maxFilesize: 5, // Maximum file size in MB
+        acceptedFiles: 'image/*', // Specify accepted file types
+        addRemoveLinks: true, // Add remove links for uploaded files
+        // Other Dropzone options and callbacks as needed
+    });
+});
+
+</script>
+
 
 @endsection

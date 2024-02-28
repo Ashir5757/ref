@@ -17,7 +17,7 @@ class BackendDashboardController extends Controller
     }
 
     public function loadeproduct(){
-
+$categories = Category::all();
 
         return view("backend.product");
     }

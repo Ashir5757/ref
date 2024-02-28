@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Network;
 use App\Models\Profile;
 use Illuminate\Support\Str;
+use App\Models\PaymentModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
@@ -217,7 +218,6 @@ if(count($userData)  > 0 ){
      */
     public function loadLogin()
     {
-
         return view('dashbord.pages-login') ;
     }
 
@@ -226,55 +226,54 @@ if(count($userData)  > 0 ){
      */
     public function userLogin(Request $request)
     {
-      $data = $request->validate([
+        $data = $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string|min:8',
         ]);
+
         $userData = User::where('email', $data['email'])->first();
-        if(!empty($userData)){
 
-if($userData->is_verified == 0){
-
-    return redirect()->back()->with('error','Please varify your email');
-}
+        if($userData == null) {
+            return redirect()->back()->with('error', 'User not found. Please register.');
         }
-$userCredential = $request->only('email','password');
-if(Auth::attempt($userCredential)){
 
-    if(isset($userCredential)){
+        if($userData->is_verified == 0){
+            return redirect()->back()->with('error','Please verify your email');
+        }
 
-        if(isset($userCredential['email']) && isset($userCredential['password'])) {
+        $userCredential = $request->only('email', 'password');
 
-            if($userData->usertype == 1) {
+        if(Auth::attempt($userCredential)){
+            if(isset($userCredential['email']) && isset($userCredential['password'])) {
 
-                return redirect('backend');
-            } else {
+                // Check if the user's email exists in the PaymentModel and status is 1
+                $payment = PaymentModel::where('email', $userCredential['email'])->first();
 
-                return redirect('/');
+                if ($payment) { // If payment exists
+                    if ($payment->status == 1 && $userData->usertype == 1) {
+                        return redirect('backend');
+                    } else {
+
+                        if ($payment->status == 1) {
+                            return redirect('/');
+                        } elseif($payment->status == 0) {
+                            Auth::logout();
+                            return redirect()->route('pricing')->with('error', 'Your Request is still Being processed.');
+                        } else {
+                            Auth::logout();
+                            return redirect()->route('pricing')->with('error', 'Your account is not active. Please contact support.');
+                        }
+                    }
+                } else {
+                    Auth::logout();
+                    return redirect()->route('pricing')->with('error', 'Your account is not active. Please Select a Plan.');
+                }
             }
+        } else {
+            return redirect()->back()->with('error', 'Invalid email or password.');
         }
     }
 
-
-
-
-
-    // if (auth()->guard('web')->attempt(['email' => $email, 'password' => $password ,  $request->get('remember')])) {
-
-        // return redirect('/user-dashboard'); // Redirect to user dashboard
-
-    // }
-    // if (auth()->guard('admin')->attempt(['email' => $email, 'password' => $password, $request->get('remember')])) {
-
-        // return redirect('/admin-dashboard'); // Redirect to admin dashboard
-
-    // }
-
-}else{
-
-return  back()->with('error','User name or password is incorrect!');
-}
-    }
 
 
 

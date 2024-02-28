@@ -21,7 +21,7 @@
                     <div class="m-3">
                         <a href="{{ route("backend.admins") }}" class="btn btn-outline-secondary float-end m-3">Go Back</a>
                     </div>
-                    <h1 class="text-secondary row justify-content-center">Admin Permission</h1>
+                    <h1 class="text-secondary row justify-content-center">Admin Roles</h1>
             <hr>
 @if (Session::has('success'))
 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -83,7 +83,7 @@
 @endforeach
 
 <script>
-    // Filtering functionality using JavaScript
+
     document.getElementById('filter').addEventListener('input', function () {
         var keyword = this.value.toLowerCase();
         var rows = document.querySelectorAll('#table-body tr');

@@ -38,12 +38,12 @@
 
         {{-- Category Management --}}
 
-        <div class="container mt-5">
+        <div class="container mt-5 ">
             <h3>Category Management</h3>
 
             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
 
-            <table class="table table-hover mb-3">
+            <table class="table table-hover mb-3 borderd p-5">
               <thead>
                 <tr>
                   <th>#</th>
@@ -80,27 +80,25 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="addCategoryForm" action="{{ route('add.category') }}" method="POST">
-                    @csrf
+                    <form id="addCategoryForm" action="{{ route("add.category") }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Category Name:</label>
+                            <input type="text" class="form-control" id="categoryName" name="name">
+                            <div class="invalid-feedback" id="nameError"></div>
+                        </div>
 
-                    <div class="mb-3">
-                      <label for="categoryName" class="form-label">Category Name:</label>
-                      <input type="text" class="form-control @error('name') is-invalid @enderror" id="categoryName" name="name" >
-                      <div class="invalid-feedback">@error('name') {{ $message }} @enderror</div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="categoryDescription" class="form-label">Description:</label>
+                            <textarea class="form-control" id="categoryDescription" name="description"></textarea>
+                            <div class="invalid-feedback" id="descriptionError"></div>
+                        </div>
 
-                    <div class="mb-3">
-                      <label for="categoryDescription" class="form-label">Description:</label>
-                      <textarea class="form-control @error('description') is-invalid @enderror" id="categoryDescription" name="description" ></textarea>
-                      <div class="invalid-feedback">@error('description') {{ $message }} @enderror</div>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-between">
-                      <button type="submit" class="btn btn-primary">Add Category</button>
-                      <div class="alert alert-danger d-none my-0" role="alert" id="errorAlert"></div>
-                    </div>
-
-                  </form>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <button type="submit" class="btn btn-primary">Add Category</button>
+                        </div>
+                        <div class="alert alert-danger d-none my-0" role="alert" id="errorAlert"></div>
+                    </form>
                 </div>
               </div>
             </div>
@@ -133,66 +131,47 @@
     </section>
 
   </main><!-- End #main -->
+  <script>
+    $(document).ready(function() {
+        $('#addCategoryForm').submit(function(e) {
+            e.preventDefault();
 
-<script>
-$(document).ready(function() {
-    $('#addCategoryForm').submit(function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Clear existing error messages and styling
-        $('.invalid-feedback').text('');
-        $('#errorAlert').text('');
-        $('.form-control').removeClass('is-invalid');
-
-        // Client-side validation
-        var isValid = true;
-
-        // Check for empty required fields
-        $('.required').each(function() {
-            if ($(this).val().trim() === '') {
-                $(this).addClass('is-invalid');
-                $(this).siblings('.invalid-feedback').text('This field is required.');
-                isValid = false;
-            }
-        });
-
-        // ... (Add other client-side validation rules as needed)
-
-        if (isValid) {
-            // Proceed with AJAX submission if client-side validation passes
-            var serializedData = $(this).serialize();
+            var formData = $(this).serialize();
 
             $.ajax({
-                url: "{{ route('add.category') }}",
                 type: 'POST',
-                data: serializedData,
-                success: function(response) {
-                    // Handle successful submission
-                    // ... (add category to UI, close modal, show success message)
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    var response = jqXHR.responseJSON; // Parse JSON response if available
+                url: "{{ route('add.category') }}",
+                data: formData,
+                headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+                dataType: 'json',
+                success: function(data) {
+                    // Clear previous errors
+                    $('.invalid-feedback').empty();
+                    $('.alert').addClass('d-none').empty();
 
-                    if (response.errors) {
-                        // Display individual field errors
-                        for (var field in response.errors) {
-                            $('#' + field).addClass('is-invalid');
-                            $('#' + field + ' + .invalid-feedback').text(response.errors[field][0]);
-                        }
-                    } else if (response.message) {
-                        // Display a global error message
-                        $('#errorAlert').text(response.message);
-                        $('#errorAlert').removeClass('d-none');
+                    // Display success message
+                    $('.alert-success').removeClass('d-none').text(data.message);
+
+                    // Optionally, you can reset the form
+                    $('#addCategoryForm')[0].reset();
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON.errors;
+                    if(errors) {
+                        $.each(errors, function(key, value) {
+                            $('#' + key + 'Error').text(value[0]);
+                        });
                     } else {
-                        // Handle unexpected error
-                        $('#errorAlert').text('An unexpected error occurred. Please try again later.');
-                        $('#errorAlert').removeClass('d-none');
+                        $('#errorAlert').removeClass('d-none').text('An error occurred. Please try again.');
                     }
                 }
             });
-        }
+        });
     });
-});
-
 </script>
+
+
+
   @endsection
