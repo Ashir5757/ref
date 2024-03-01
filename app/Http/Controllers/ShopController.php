@@ -98,12 +98,14 @@ return view("dashbord.category",compact('categories'));
 
 public function addcategory(Request $request)
 {
+    $user_id = Auth::user()->id;
     $request->validate([
         'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
+        'description' => 'required|string',
     ]);
 
     $category = new Category();
+    $category->user_id = $user_id;
     $category->name = $request->name;
     $category->description = $request->description;
     $category->save();
@@ -116,7 +118,7 @@ public function addcategory(Request $request)
 
     public function loadproduct()
     {
-        $user_id = Auth::user()->id; // Retrieve the user ID
+        $user_id = Auth::user()->id;
 
         try {
             $userCategories = Category::where('user_id', $user_id)->get();
@@ -124,14 +126,13 @@ public function addcategory(Request $request)
             if ($userCategories->isNotEmpty()) {
                 return view("dashbord.addproduct", compact('userCategories'));
             } else {
-                // Handle the case where no categories exist for the user
-                return view("dashbord.addproduct"); // Or provide an alternate view/message
+
+                return view("dashbord.addproduct");
             }
         } catch (\Exception $e) {
-            // Log the error for debugging
+
             Log::error('Error retrieving categories: ' . $e->getMessage());
 
-            // Display a user-friendly error message
             return back()->with('error', 'An error occurred while retrieving categories. Please try again.');
         }
     }
@@ -147,13 +148,13 @@ public function deletecategory(Request $request, $id)
     }
 
     try {
-        $category->deleted_at = Carbon::now(); // Use Carbon for accurate timestamps
-        $category->save();
 
-        return redirect()->back()->with('success', 'Category soft-deleted successfully.');
+        $category->delete();
+
+        return redirect()->back()->with('success', 'Category deleted successfully.');
     } catch (Exception $e) {
         log::error('Error soft-deleting category: ' . $e->getMessage());
-        return back()->with('error','An error occurred while soft-deleting the category.');
+        return back()->with('error','An error occurred while deleting the category.');
     }
 }
 
@@ -185,56 +186,38 @@ public function viewcategory(Request $request, $id)
 
 
 
-
-
 public function addproduct(Request $request)
 {
     $user_id = Auth::user()->id;
 
-     $request->validate([
-        'name' => 'required|string',
-        'description' => 'required|string',
-        'category' => 'required|exists:categories,id',
-        'price' => 'required|numeric',
-        // 'file' => 'required|file|mimes:jpg,jpeg,png,|max:2048',
-    ]);
-
-
-    // Store product information
-    $product = new Product;
-    // $product->id = $id;
-    $product->user_id = $user_id;
-    $product->name = $request->name;
-    $product->description = $request->description;
-    $product->category_id = $request->category;
-    $product->price = $request->price;
-    $product->image = $imageName;
-    $product->save();
-
-    return redirect()->back()->with('success', 'Product added successfully');
-
-}
-
-
-public function upload(Request $request)
-{
-    
     $request->validate([
-        'file' => 'required|file|mimes:jpg,jpeg,png,gif|max:2048',
-    ]);
+       'name' => 'required|string',
+       'description' => 'required|string',
+       'category' => 'required|exists:categories,id',
+       'price' => 'required|numeric',
+       'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+   ]);
 
-    $file = $request->file('file');
-    $imageName = $file->getClientOriginalName();
-    $file->move(public_path('products'), $imageName);
+   if($request->hasFile('image')) {
+       $image = $request->file('image');
+       $imageName = time() . '.' . $image->getClientOriginalExtension();
+       $image->move(public_path('product'), $imageName);
+       // Now $imageName holds the name of the uploaded image file.
+   }
 
-    $product = new Product;
-    $product->image = $imageName;
+   $product = new Product();
+   $product->category_id = $request->category;
+   $product->user_id = $user_id;
+   $product->name = $request->name;
+   $product->description = $request->description;
+   $product->price = $request->price;
+   $product->image = $imageName ?? null; // If no image uploaded, set to null
 
-    $product->save();
+   $product->save();
 
-    return response()->json(['success' => true, 'message' => 'File uploaded successfully']);
-
+   return redirect()->back()->with('success', 'Product Added Successfully');
 }
+
 
 
 public function deleteproduct($id){
@@ -244,5 +227,4 @@ $deleteproduct->delete();
 return redirect()->back()->with("Success","Product Deleted Secessfully");
 
 }
-
 }

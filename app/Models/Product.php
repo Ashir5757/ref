@@ -13,6 +13,6 @@ class Product extends Model
         'price',
         'description',
         'category_id',
-        'image_url', // Store only the URL or filename
+        'image', // Store only the URL or filename
     ];
 }

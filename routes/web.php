@@ -72,10 +72,10 @@ Route::get('Pricing', function () {
 
 
         Route::get('frontend.contact',[PagesContentController::class,'frontendContact'])->name('frontend.contact');
-        Route::get('frontend.about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
+        Route::get('about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
 
         Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
-        Route::get('frontend.payment',[Payment::class,'payment'] )->name('payment');
+        Route::get('payment/{id}',[Payment::class,'payment'] )->name('payment');
 
         // });
 
@@ -165,8 +165,8 @@ Route::get('Pricing', function () {
                 Route::get('/delete.category/{id}', [ShopController::class, 'deletecategory'])->name('delete.category');
                 Route::get('/view.category/{id}', [ShopController::class, 'viewcategory'])->name('view.category');
 
-                Route::get('/product', [ShopController::class, 'loadproduct'])->name('product');
-                // add product
+                Route::get('/products', [ShopController::class, 'loadproduct'])->name('products');
+
                 Route::post('/add.product', [ShopController::class, 'addproduct'])->name('add.product');
                 // add product images uplaod
                 Route::post('/upload', [ShopController::class, 'upload'])->name('upload.files');

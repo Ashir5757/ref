@@ -30,20 +30,20 @@
                 </div>
             @endif
 
+            @if ($errors->any())
+                <div class="alert alert-danger mb-3">
+                    <strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </strong>
+                </div>
+            @endif
             <form action="{{ route('add.product') }}" method="POST" enctype="multipart/form-data" class="dropzone-form">
                 @csrf
 
-                @if ($errors->any())
-                    <div class="alert alert-danger mb-3">
-                        <strong>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </strong>
-                    </div>
-                @endif
 
                 <div class="form-group mb-3">
                     <label for="name">Product Name:</label>
@@ -84,9 +84,10 @@
                     @enderror
                 </div>
                 <div class="form-group mb-3">
-                    <label for="images">Upload Multiple Pictures:</label>
-                    <div id="dropzone" class="dropzone"></div>
-                    @error('images')
+                    <label for="images">Upload image:</label>
+                    <input type="file" id="imageInput" name="image" class="form-control @error('price') is-invalid @enderror">
+                    <div id="imagePreview" class="mt-2"  ></div>
+                    @error('image')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -101,39 +102,23 @@
 
 
     </main><!-- End #main -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function previewImage(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
 
-        reader.onload = function(e) {
-            $('#imagePreview').html('<img src="' + e.target.result + '" alt="Product Image Preview" style="max-width: 100%; max-height: 200px; object-fit: cover;">');
-        };
+    <script>
+        // Function to preview image
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('imagePreview');
+                output.innerHTML = '<img src="' + reader.result + '" class="img-fluid rounded" width="200px" />';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
 
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+        // Adding event listener to the file input
+        var imageInput = document.getElementById('imageInput');
+        imageInput.addEventListener('change', previewImage);
+    </script>
 
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
-
-
-<script>
-Dropzone.autoDiscover = false;
-
-$(document).ready(function () {
-    var myDropzone = new Dropzone("#dropzone", {
-        url: "/upload-files", // Specify the URL where files will be uploaded
-        paramName: "file", // Name of the file parameter
-        maxFilesize: 5, // Maximum file size in MB
-        acceptedFiles: 'image/*', // Specify accepted file types
-        addRemoveLinks: true, // Add remove links for uploaded files
-        // Other Dropzone options and callbacks as needed
-    });
-});
-
-</script>
 
 
 @endsection

@@ -19,7 +19,7 @@
     </div><!-- End Page Title -->
 
     <section class="section">
-        <div class="container mt-5 mb-5">
+        <div class="container mt-3 mb-3 bg-white rounded shadow">
             @if (Session::has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ Session::get('success') }}
@@ -38,39 +38,39 @@
 
         {{-- Category Management --}}
 
-        <div class="container mt-5 ">
+        <div class="container mt-4   p-5">
             <h3>Category Management</h3>
 
             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
 
             <table class="table table-hover mb-3 borderd p-5">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th colspan="2">Actions</th>
-                </tr>
-              </thead>
-              @php
-                  $count = 1;
-              @endphp
-
-              @if(isset($categories)){
- @foreach ($categories as $category)
-
-              <tbody>
-                  <td>{{$count++}}</td>
-                  <td>{{ $category->name }}</td>
-                  <td>{{ $category->description}}</td>
-                  <td><a class="btn btn-outline-primary" href="{{route('view.category',['id' => $category->id])}}">View</a></td>
-                  <td><a class="btn btn-outline-danger" href="{{route('delete.category',['id' => $category->id])}}">Delete</a></td>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $count = 1;
+                    @endphp
+                    @if(isset($categories))
+                        @foreach ($categories as $category)
+                            <tr>
+                                <td>{{$count++}}</td>
+                                <td>{{ $category->name }}</td>
+                                <td>{{ $category->description}}</td>
+                                <td><a class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#editCategoryModal" href="">Edit</a></td>
+                                <td><a class="btn btn-outline-primary" href="{{route('view.category',['id' => $category->id])}}">View</a></td>
+                                <td><a class="btn btn-outline-danger" href="{{route('delete.category',['id' => $category->id])}}">Delete</a></td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
-                @endforeach
-              }
-              @endif
-
             </table>
+
           </div>
           <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -147,26 +147,44 @@
         },
                 dataType: 'json',
                 success: function(data) {
-                    // Clear previous errors
-                    $('.invalid-feedback').empty();
-                    $('.alert').addClass('d-none').empty();
+    // Clear previous errors
+    $('.invalid-feedback').empty();
+    $('.alert').addClass('d-none').empty();
 
-                    // Display success message
-                    $('.alert-success').removeClass('d-none').text(data.message);
+    // Display success message
+    $('.alert-success').removeClass('d-none').text(data.message);
 
-                    // Optionally, you can reset the form
-                    $('#addCategoryForm')[0].reset();
-                },
-                error: function(xhr) {
-                    var errors = xhr.responseJSON.errors;
-                    if(errors) {
-                        $.each(errors, function(key, value) {
-                            $('#' + key + 'Error').text(value[0]);
-                        });
-                    } else {
-                        $('#errorAlert').removeClass('d-none').text('An error occurred. Please try again.');
-                    }
-                }
+    // Append new row to the table with the received data
+    var newRow = "<tr>" +
+        "<td>" + data.category.id + "</td>" +
+        "<td>" + data.category.name + "</td>" +
+        "<td>" + data.category.description + "</td>" +
+        "<td><a class='btn btn-outline-primary' href='/view/category/" + data.category.id + "'>View</a></td>" +
+        "<td><a class='btn btn-outline-danger' href='/delete/category/" + data.category.id + "'>Delete</a></td>" +
+        "</tr>";
+
+    $('table.table tbody').append(newRow);
+
+    // Optionally, you can reset the form
+    $('#addCategoryForm')[0].reset();
+},
+
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+    if(errors) {
+        // Clear previous errors
+        $('#errorAlert').empty().removeClass('d-none');
+
+        // Display each validation error
+        $.each(errors, function(key, value) {
+            $('#errorAlert').append('<p>' + value[0] + '</p>');
+        });
+    } else {
+        // Show a generic error message if no specific validation errors are received
+        $('#errorAlert').removeClass('d-none').text('An error occurred. Please try again.');
+    }
+}
+
             });
         });
     });

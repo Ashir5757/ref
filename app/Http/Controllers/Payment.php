@@ -8,8 +8,9 @@ use App\Http\Controllers\Controller;
 
 class Payment extends Controller
 {
-   public function payment(){
-    return view("frontend.payment");
+   public function payment($id){
+    $investment_plan = $id;
+    return view("frontend.payment",compact('investment_plan'));
    }
 
    public function loadepayment() {
@@ -35,6 +36,7 @@ public function receivepayment(Request $request)
     ]);
 
 
+
     if ($request->hasFile('image')) {
         $imageName = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
         $request->file('image')->storeAs('public/payment', $imageName);
@@ -44,6 +46,7 @@ public function receivepayment(Request $request)
     $payment->name = $request->name;
     $payment->email = $request->email;
     $payment->image =  $imageName;
+    $payment->plan =  $request->investment_plan;
 
     $payment->save();
 

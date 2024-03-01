@@ -13,6 +13,7 @@ class PaymentModel extends Model
         'name',
         'email',
         'image',
+        'plan',
 
     ];
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Network;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,8 @@ class BackendDashboardController extends Controller
     }
 
     public function loadeproduct(){
-$categories = Category::all();
-
-        return view("backend.product");
+    $categories = Category::all();
+        // Pass the products to the view or use them further
+        return view('backend.product', compact('categories'));
     }
 }

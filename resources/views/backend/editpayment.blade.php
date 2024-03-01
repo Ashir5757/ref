@@ -69,15 +69,18 @@
                 </tbody>
         </table>
         <span style="font-size: 30px "> <b>Change Status :</b></span>
-        <form method="PUT" action="{{ route('update.paymentstatus', ['id' => $payment->id]) }}">
+        <form method="POST" action="{{ route('update.paymentstatus', ['id' => $payment->id]) }}" >
             @csrf
             @method('PUT')
+            <input type="hidden" name="_method" value="PUT">
+
             <select class="form-select" name="paymentstatus" aria-label="Default select example">
                 <option value="1" {{ $payment->status == 1 ? 'selected' : '' }}>Approved</option>
                 <option value="0" {{ $payment->status == 0 ? 'selected' : '' }}>Pending</option>
             </select>
             <button type="submit" class="btn btn-outline-primary mt-4">Save</button>
         </form>
+
         @endforeach
 </div>
     </main>

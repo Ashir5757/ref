@@ -2,7 +2,7 @@
 @section('title','Pricing')
 @section("content")
 <link rel="stylesheet" href="{{asset("assets/css/pricing.css")}}">
-<section id="pricing" class="pricing-content section-padding vh-100">
+<section id="pricing" class="pricing-content section-padding vh-100 m-3">
 	<div class="container">
 		<div class="section-title text-center">
             @if ($errors->any())
@@ -42,21 +42,19 @@
 					<div class="single-pricing">
 						<div class="price-head">
 							<h2>IP_I</h2>
-							<h1>$20</h1>
+							<h1>5 Points</h1>
 							<span> <img src="{{asset("assets/images/istockphoto-496515029-612x612.jpg")}}" alt="" width="140px" style="border-radius: 10px"> </span>
 						</div>
 						<ul>
-							<li><b>$5</b> Investment bonus</li>
-							<li><b>$5</b> Referral bonus</li>
-							<li><b>$5</b> Reward on 10 Points</li>
-							<li><b>$10</b> Renewal in 6 month</li>
-							<li><b>10</b> Subdomains</li>
-							<li><b>Unlimited</b> Support</li>
+							<li><b>(1.5 P)</b> Investment bonus</li>
+							<li><b>(1 P)</b> Referral Points</li>
+							<li><b>(.5 P)</b> Renewal Points</li>
+							<li><b>(3 P)</b> Renewal in 6 month</li>
 						</ul>
 						<div class="pricing-price">
 
 						</div>
-						<a href="{{route("payment")}}" class="price_btn">Order Now</a>
+						<a href="{{route('payment',['id' => 1])}}" class="price_btn">Order Now</a>
 					</div>
 				</div>
 			</div><!--- END COL -->
@@ -65,21 +63,19 @@
 					<div class="single-pricing">
 						<div class="price-head">
 							<h2>IP_II</h2>
-							<h1 class="price">$40</h1>
+							<h1 class="price">30 Points</h1>
 							<span><img src="{{asset("assets/images/hardik-sharma-CrPAvN29Nhs-unsplash.jpg")}}" alt="" width="150px" style="border-radius: 10px"></span>
 						</div>
-						<ul>
-                            <li><b>$10</b> Investment bonus</li>
-							<li><b>$10</b> Referral bonus</li>
-							<li><b>$10</b> Reward on 10 Points</li>
-							<li><b>$10</b> Renewal in 6 month</li>
-							<li><b>10</b> Subdomains</li>
-							<li><b>Unlimited</b> Support</li>
+                        <ul>
+							<li><b>(4.5 P)</b> Investment bonus</li>
+							<li><b>(4 P)</b> Referral Points</li>
+							<li><b>(1.5 P)</b> Renewal Points</li>
+							<li><b>(9 P)</b> Renewal in 6 month</li>
 						</ul>
 						<div class="pricing-price">
 
                         </div>
-						<a href="#" class="price_btn">Order Now</a>
+						<a href="{{route('payment',['id' => 2])}}" class="price_btn">Order Now</a>
 					</div>
 				</div>
 			</div><!--- END COL -->
@@ -88,21 +84,19 @@
                     <div class="single-pricing">
                         <div class="price-head">
                             <h2>IP_III</h2>
-							<h1 class="price">$100</h1>
+							<h1 class="price">100 Points</h1>
                             <span><img src="{{asset("assets/images/istockphoto-146955571-612x612.jpg")}}" alt="" width="150px" style="border-radius: 10px"></span>
 						</div>
 						<ul>
-                            <li><b>$20</b> Investment bonus</li>
-							<li><b>$20</b> Referral bonus</li>
-							<li><b>$20</b> Reward on 10 Points</li>
-							<li><b>$20</b> Renewal in 6 month</li>
-							<li><b>10</b> Subdomains</li>
-							<li><b>Unlimited</b> Support</li>
+							<li><b>(15 P)</b> Investment bonus</li>
+							<li><b>(10 P)</b> Referral Points</li>
+							<li><b>(5 P)</b> Renewal Points</li>
+							<li><b>(30 P)</b> Renewal in 6 month</li>
 						</ul>
 						<div class="pricing-price">
 
 						</div>
-						<a href="#" class="price_btn">Order Now</a>
+						<a href="{{route('payment',['id' => 3])}}" class="price_btn">Order Now</a>
 					</div>
 				</div>
 			</div><!--- END COL -->

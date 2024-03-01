@@ -45,7 +45,7 @@
     @endif
 
 {{-- NON approved payment --}}
-{{-- 
+{{--
 
 <table class="table table-hover">
 
@@ -109,6 +109,7 @@
                             <th>Email</th>
                             <th>Image</th>
                             <th>Status</th>
+                            <th>Plan</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -130,6 +131,9 @@
                                     <span class="badge {{ $payment->status == 1 ? 'bg-success' : 'bg-warning' }}">
                                         {{ $payment->status == 1 ? "Approved" : "Pending" }}
                                     </span>
+                                </td>
+                                <td>
+                                    {{$payment->plan}}
                                 </td>
                                 <td>
                                     <a href="{{ route('backend.editpayment', ['id' => $payment->id]) }}" class="btn btn-outline-success">Edit</a>

@@ -71,7 +71,7 @@
       @foreach ($products as $product)
         <div class="col-12 col-md-4">
           <div class="card mb-3">
-            <img src="{{asset(isset($product->image) ? "storage/product/".$product->image : "storage/product/default.png")}}" class="card-img-top" alt="Product Image">
+            <img src="{{asset(isset($product->image) ?  'product/'.$product->image : 'assets/img/profile-img.jpg' ) }}" class="card-img-top" alt="Product Image">
             <div class="card-body">
               <h5 class="card-title">{{ $product->name }}</h5>
               <p class="card-text">{{ $product->description }}</p>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <a href="#" class="btn btn-primary mr-1">Button</a>
+                        <a href="#" class="btn btn-primary mr-1">Edit</a>
                         <a class="btn btn-outline-danger" href="{{ route('delete.product',['id' => $product->id]) }}">Delete</a>
                     </div>
                 </div>

@@ -94,8 +94,11 @@
                                 {{ session('success') }}
                             </div>
                             @endif
+
          <form method="POST" action="{{route("receive.payment")}}" enctype="multipart/form-data">
                                 @csrf
+
+<input type="hidden" value="{{$investment_plan}}" name="investment_plan">
 
                             <div class="form-group mb-3">
                                 <label for="name">Name:</label>
