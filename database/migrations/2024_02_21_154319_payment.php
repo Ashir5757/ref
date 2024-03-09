@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('payment', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->required();
+            $table->string('name');
+            $table->string('user_id')->required();
             $table->string('email')->required();
             $table->string('image')->nullable();
             $table->integer('status')->default(0);

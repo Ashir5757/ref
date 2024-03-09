@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class BackendDashboardController extends Controller
 {
-   public function backendDashboard() {
+   public function backendDashbord() {
 
    $users = User::all();
         return view('backend.index',compact('users'));

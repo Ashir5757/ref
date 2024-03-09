@@ -8,17 +8,14 @@
     <title>@yield('title')</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
 
     <!-- Include Dropzone.js CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 
-    {{-- ajax --}}
-    <script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     {{-- bootstrap  --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Favicons -->
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
@@ -227,47 +224,40 @@
                 </li><!-- End Messages Nav -->
                 <li class="nav-item dropdown pe-3">
 
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
-                        data-bs-toggle="dropdown">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="{{asset(isset($profile->image) ? "storage/profile_images/".$profile->image : "assets/img/profile-img.jpg")}}" alt="Profile" class="rounded-circle">
-
-                        <span class="d-none d-md-block dropdown-toggle ps-2"> {{Auth::User()->name }} </span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{Auth::User()->name }}</span>
                     </a><!-- End Profile Iamge Icon -->
 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile" >
                         <li class="dropdown-header">
                             <h6>{{Auth::User()->name }}</h6>
-                            <i class="bi bi-copy mr-l copy" data-code="{{ Auth::user()->referral_code }}"
-                                style="cursor: pointer;">
+                            <span>{{Auth::User()->email }}</span><br>
+                            <i class="bi bi-copy mr-l copy" data-code="{{ Auth::user()->referral_code }}" style="cursor: pointer;">
                                 <span> Copy Refferal Link </span><br>
                             </i>
-
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
-
 
                         @php
                         $user = Auth::user();
-                    @endphp
+                        @endphp
 
-                    @if($user->usertype == 1)
+                        @if($user->usertype !== 0)
                         <li>
                             <a class="dropdown-item d-flex align-items-center text-success" href="{{ route('backend') }}">
-                                <i class="bi bi-speedometer2 me-2"></i> <!-- Bootstrap icon for dashboard -->
+                                <i class="bi bi-speedometer2 me-2"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                    @endif
-                    <li>
+                        @endif
+                        <li>
                             <hr class="dropdown-divider">
-
-                    </li>
-
-                    <li>
-                            <a class="dropdown-item d-flex align-items-center" href=" {{ route('profile') }}">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ route('profile') }}">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
                             </a>
@@ -275,30 +265,24 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
                                 <i class="bi bi-gear"></i>
                                 <span>Account Settings</span>
                             </a>
                         </li>
-
-
-
-
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>
                         </li>
-
                     </ul><!-- End Profile Dropdown Items -->
                 </li><!-- End Profile Nav -->
+
 
             </ul>
         </nav><!-- End Icons Navigation -->
@@ -525,20 +509,22 @@
                 </a>
             </li><!-- End Blank Page Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="">
-                    <i class="bi bi-cash-stack"></i> <span>Withdrawal</span>
-                </a>
-            </li>
-
-
-            @if(isset($categories))
+  @if(isset($categories))
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('products') }}">
                     <i class="bi bi-plus-square"></i> <span>Add Product</span>
                 </a>
             </li>
             @endif
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route("withdrawl")}}">
+                    <i class="bi bi-cash-stack"></i> <span>Withdrawal</span>
+                </a>
+            </li>
+
+
+
             <!-- End product Page Nav -->
 
         </ul>
@@ -570,6 +556,8 @@
 <!-- Include Dropzone.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
+    {{-- ajax --}}
+    <script async src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -583,6 +571,10 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {{-- botstrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -606,13 +598,27 @@
         $('.copied_text').remove();
     }, 2000);
 });
-
-
-
         });
     </script>
 
+{{-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
 
+        var profileLink = document.querySelector('.nav-profile');
+
+        // Add a click event listener to the profile link
+        profileLink.addEventListener('click', function(event) {
+            // Prevent the default action of the link
+            event.preventDefault();
+
+            // Find the dropdown menu associated with the profile link
+            var dropdownMenu = profileLink.nextElementSibling;
+
+            // Toggle the 'show' class on the dropdown menu to open/close it
+            dropdownMenu.classList.toggle('show');
+        });
+    });
+</script> --}}
 
 </body>
 

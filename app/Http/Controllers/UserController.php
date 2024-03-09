@@ -6,6 +6,7 @@ use Mail;
 use Carbon\Carbon;
 use App\Models\User;
 
+use App\Models\Points;
 use App\Models\Network;
 use App\Models\Profile;
 use Illuminate\Support\Str;
@@ -33,12 +34,13 @@ class UserController extends Controller
 
      public function loadDashbord()
     {
+        $user = Auth::user()->id;
 
-        $networkCount = Network::where('parent_user_id',Auth::user()->id)->orWhere('user_id',Auth::user())->count();
-     $networkData =  Network::with('user')->where('parent_user_id',Auth::user()->id)->get();
-     $user = Auth::user();
-     $profile = Profile::where('id', $user->id)->first();
-        return view('dashbord.index',compact(['networkCount','networkData', 'profile']));
+        $points = Points::where('user_id',$user)->first();
+       
+        $networkData =  Network::with('user')->where('parent_user_id',$user)->get();
+     $profile = Profile::where('id',$user)->first();
+        return view('dashbord.index',compact(['networkData', 'profile','points']));
 
     }
 
@@ -108,9 +110,14 @@ if(count($userData)  > 0){
         'created_at' => now(),
     ]);
 
+    $upliner = User::where('referral_code', $request->referral_code)->first();
+   $parent = Network::where('user_id', $upliner->id)->first();
+//    dd($parent->parent_user_id);
+
     Network::insert([
 'referral_code' => $request->referral_code,
 'user_id' => $user_id,
+'up_liner' => $parent->parent_user_id,
 'parent_user_id' => $userData[0]['id'],
 'created_at' => now()
     ]);
@@ -122,7 +129,20 @@ if(count($userData)  > 0){
 
 }else{
 
-    User::insert([
+    if($user= PaymentModel::where('email',$request->email)->first()){
+
+        User::insert([
+            'id' => $user->user_id,
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'referral_code' => $referralCode,
+            'remember_token'=> $token,
+            'created_at' => now()
+        ]);
+
+    }else{
+           User::insert([
         'name' => $validatedData['name'],
         'email' => $validatedData['email'],
         'password' => Hash::make($validatedData['password']),
@@ -130,6 +150,8 @@ if(count($userData)  > 0){
         'remember_token'=> $token,
         'created_at' => now()
     ]);
+    }
+
 }
 $domain = URL::to('/');
 $url = $domain.'/referral_register?ref='.$referralCode;

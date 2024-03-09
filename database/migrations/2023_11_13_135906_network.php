@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('referral_code')->length(50);
             $table->unsignedBigInteger('user_id')->length(11);
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('up_liner')->nullable()->length(11);
+            $table->foreign('up_liner')->references('id')->on('users');
             $table->unsignedBigInteger('parent_user_id')->nullable()->length(11);
             $table->foreign('parent_user_id')->references('id')->on('users');
             $table->timestamps();

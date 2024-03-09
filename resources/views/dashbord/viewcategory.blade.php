@@ -22,7 +22,7 @@
 @if(!empty($shops))
                 {{-- product --}}
                 @foreach ($shops as $shop)
-                <div class="container shop-container  ">
+                <div class="container shop-container p-4 bg-white rounded ">
                     <div class="row align-items-center">
                         <div class="col-md-6 shop-image">
                             @if (!empty($shop->banner_image))
@@ -50,7 +50,7 @@
                             </ul>
                             <div class="d-flex justify-content-between mt-3">
                                 <a href="#" class="btn btn-primary me-3">Visit Shop</a>
-                                <a href="#" class="btn btn-outline-light">Learn More</a>
+                                <a href="#" class="btn btn-outline-success">Learn More</a>
                             </div>
                         </div>
                     </div>
@@ -80,18 +80,40 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <a href="#" class="btn btn-primary mr-1">Edit</a>
-                        <a class="btn btn-outline-danger" href="{{ route('delete.product',['id' => $product->id]) }}">Delete</a>
+                        <a href="#" class="btn btn-primary mr-1">Edit </a>
+                        <button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
                     </div>
                 </div>
 
             </div>
           </div>
         </div>
+  <!-- Modal -->
+  <div class="modal fade"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-danger" role="alert">
+                A simple danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+              </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-danger" href="{{ route('delete.product', ['id' => $product->id]) }}">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
       @endforeach
     @endif
   </div>
 </div>
+
 
 
 </main>

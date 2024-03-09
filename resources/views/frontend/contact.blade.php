@@ -18,7 +18,7 @@
 				<h1>{{ isset($contact->h1) ? $contact->h1 : 'Contact Us'  }}</h1>
 
 				<!-- Page Description -->
-				<p>{{ isset($contact->h2) ? $contact->h2 : 'Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Cras ultricies ligula sed magna dictum porta.'  }}</p>
+				<p>{{ isset($contact->h2) ? $contact->h2 : 'shareandcare65@gmail.com'  }}</p>
 			</div>
 		</div>
 	</div>
@@ -37,11 +37,11 @@
           <div class="block">
             <div class="address-block text-center mb-5">
               <div class="details">
-                <h3> {{ isset($contact->h3) ? $contact->h3 : '"Share&Care" is a brand, organization, project, or initiative, I recommend checking official websites, news articles, or any relevant sources for the most up-to-date and accurate information. Additionally, you might want to specify the context or industry in which Share&Care is mentioned for a more tailored response.'  }}</h3>  </div>
+                <h3> {{ isset($contact->h3) ? $contact->h3 : ''  }}</h3>  </div>
             </div>
             <div class="address-block text-center">
               <div class="details">
-                <h3>{{ isset($contact->h4) ? $contact->h4 : 'project, or initiative, I recommend checking official websites, news articles, or any relevant sources for the most up-to-date and accurate information. Additionally, you might want to specify the context or industry in which Share&Car'  }}</h3>  </div>
+                <h3>{{ isset($contact->h4) ? $contact->h4 : ' '  }}</h3>  </div>
             </div>
           </div>
         </div>

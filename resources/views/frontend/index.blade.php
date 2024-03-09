@@ -58,19 +58,9 @@
           </a>
           <!-- Dropdown list -->
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item @@team " href="{{route("bazaar")}}">Bazaar</a></li>
-            <li><a class="dropdown-item @@career" href="career.html">Career</a></li>
-            <li><a class="dropdown-item @@blog" href="blog.html">Blog</a></li>
-            <li><a class="dropdown-item @@blogSingle" href="blog-single.html">Blog Single</a></li>
-            <li><a class="dropdown-item @@privacy" href="privacy-policy.html">Privacy</a></li>
-            <li><a class="dropdown-item @@faq" href="FAQ.html">FAQ</a></li>
-            <li><a class="dropdown-item" href="sign-in.html">Sign In</a></li>
-            <li><a class="dropdown-item" href="sign-up.html">Sign Up</a></li>
-            <li><a class="dropdown-item" href="404.html">404</a></li>
-            <li><a class="dropdown-item" href="comming-soon.html">Coming Soon</a></li>
-
-
-          </ul>
+            <li><a class="dropdown-item @@team " href="{{route("bazaar")}}">Market Place</a></li>
+            <li><a class="dropdown-item @@blog" href="{{route("frontend.blog")}}">Blog</a></li>
+       </ul>
         </li>
         <li class="nav-item @@pricing">
           <a class="nav-link navhover" href="{{route("pricing")}}">Digi_Interchange</a>
@@ -116,7 +106,7 @@
             <!-- links -->
             <ul>
               <li><a href="team.html">Teams</a></li>
-              <li><a href="blog.html">Blogs</a></li>
+              <li><a href="{{route('frontend.blog')}}">Blogs</a></li>
               <li><a href="FAQ.html">FAQs</a></li>
             </ul>
           </div>
@@ -129,7 +119,7 @@
             <ul>
               <li><a href="sign-up.html">Singup</a></li>
               <li><a href="sign-in.html">Login</a></li>
-              <li><a href="blog.html">Blog</a></li>
+              <li><a href="">Blog</a></li>
             </ul>
           </div>
         </div>
@@ -155,7 +145,7 @@
               <li><a href="about.html">About</a></li>
               <li><a href="contact.html">Contact</a></li>
               <li><a href="team.html">Team</a></li>
-              <li><a href="privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="{{route("frontend.privacy")}}">Privacy Policy</a></li>
             </ul>
           </div>
         </div>

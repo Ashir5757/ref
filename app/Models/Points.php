@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Network extends Model
+class Points extends Model
 {
     use HasFactory;
+    protected $table = 'points';
     protected $fillable = [
-        'referral_code',
         'user_id',
-        'parent_user_id',
-        'sub_user_id'
+        'investment_bonus',
+        'referral_points',
+        'user_id',
 
     ];
-
-public function user(){
-    return $this->hasOne(User::class, 'id','user_id');
-}
-
 }

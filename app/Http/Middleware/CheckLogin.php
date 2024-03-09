@@ -12,7 +12,10 @@ class CheckLogin
     {
         if (Auth::user()) {
 
-            return redirect('/');
+
+                return redirect('/');
+            
+
         }
 
         return $next($request);

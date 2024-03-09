@@ -80,6 +80,7 @@
                                             <th>Email</th>
                                             <th>Varified</th>
                                             <th>Refferals</th>
+                                            <th>UP_Liner</th>
                                             <th>Start date&time</th>
                                             <th>Salary</th>
                                         </tr>
@@ -89,7 +90,7 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Varified</th>
-                                            <th>Refferals</th>
+                                            <th colspan="2">Refferals</th>
                                             <th>Start date&time</th>
                                             <th>Salary</th>
                                         </tr>
@@ -106,9 +107,11 @@
                                              {{-- Retrieve the referral count for the current user --}}
         <?php
         $networkcount = \App\Models\Network::where('parent_user_id', $user->id)->count();
+        $up_liner = \App\Models\Network::where('up_liner', $user->id)->count();
     ?>
 
     <td>{{ $networkcount }}</td>
+    <td>{{ $up_liner }}</td>
     <td>{{$user->created_at }}</td>
                                             <td>$320,800</td>
                                         </tr>

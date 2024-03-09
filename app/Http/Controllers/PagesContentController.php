@@ -30,7 +30,13 @@ class PagesContentController extends Controller
 
 
 // frontend pages content code
+public function privacy(){
+    return view("frontend.privacy-policy");
+}
 
+public function blog(){
+    return view("frontend.blog");
+}
 
 
 public function frontendmain() {

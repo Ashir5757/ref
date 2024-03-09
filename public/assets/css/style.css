@@ -25,15 +25,7 @@
     font-size: 1.5rem;
 }
 
-.btn-primary {
-    background-color: #28a745;
-    border-color: #28a745;
-}
 
-.btn-outline-light {
-    color: #0295f7;
-    border-color: #fc0404;
-}
 .shop-banner-image {
     border-radius: 20px;
     box-shadow: 0 0 10px 3px rgb(0, 85, 196);

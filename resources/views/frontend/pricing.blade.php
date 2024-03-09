@@ -1,6 +1,9 @@
 @extends('frontend.index')
 @section('title','Pricing')
 @section("content")
+
+
+
 <link rel="stylesheet" href="{{asset("assets/css/pricing.css")}}">
 <section id="pricing" class="pricing-content section-padding vh-100 m-3">
 	<div class="container">

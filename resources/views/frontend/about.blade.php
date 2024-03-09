@@ -16,7 +16,8 @@
 				<!-- Page Title -->
 				<h1>{{  isset($about->h1) ? $about->h1 :  "About Share&Care" }}  </h1>
 				<!-- Page Description -->
-				<p>{{  isset($about->h2) ? $about->h2 :  "Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Cras ultricies ligula sed magna dictum porta." }}Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Cras ultricies ligula sed magna dictum porta.</p>
+				<p>{{  isset($about->h2) ? $about->h2 :  "
+                    The mission of 'share and care' typically involves fostering a culture of empathy, generosity, and community support. It aims to encourage individuals to actively engage in acts of kindness, share resources with those in need, and provide support to vulnerable members of society. Ultimately, the mission is to create a more compassionate and equitable world where everyone feels valued and supported." }}</p>
 			</div>
 		</div>
 	</div>
@@ -36,8 +37,27 @@
 					<!-- Headline -->
 					<h2>{{  isset($about->h3) ? $about->h3 :  "This Is Our Story." }}</h2>
 					<!-- Story -->
-					<p>{{  isset($about->h4) ? $about->h4 :  "We’re here for those who refuse to settle. Who never stop moving forwards. Who continue to search for new ideas and better experiences in everything they do.
-                        Because today’s hyper-connected world deserves a financial partner just as progressive.One that adapts to your needs, gives you control and constantly pushes you into new exciting spaces." }}</p>
+@if (isset($about->h4) )
+
+<p>{{  isset($about->h4) ?? $about->h4 }}</p>
+@else
+<div style="text-align: justify;">
+    <p>
+        Our story at Share and Care began with a vision to create a digital network and marketplace that truly empowers individuals. Fueled by a passion for innovation and collaboration, our journey started with a simple idea: to build a platform where people can come together to buy, sell, and share knowledge in a supportive and transparent environment.
+    </p>
+    <p>
+        From humble beginnings, we have grown into a thriving community, driven by the collective efforts of our team and the support of our valued members. Along the way, we have faced challenges and obstacles, but each hurdle has only strengthened our resolve to create something truly special.
+    </p>
+    <p>
+        As we continue to evolve and expand, our commitment to empowerment, collaboration, and transparency remains unwavering. We are proud of how far we have come, but we are even more excited about the journey ahead. Together, we are shaping the future of digital commerce and building a community where everyone has the opportunity to thrive and succeed.
+    </p>
+    <p>
+        Our story is still being written, and we invite you to be a part of it. Join us as we continue to grow, innovate, and make a positive impact in the world. Together, we can achieve great things.
+    </p>
+</div>
+
+@endif
+
 				</div>
 			</div>
 			<div class="col-lg-6 mt-4 mt-lg-0">

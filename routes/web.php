@@ -72,7 +72,10 @@ Route::get('Pricing', function () {
 
 
         Route::get('frontend.contact',[PagesContentController::class,'frontendContact'])->name('frontend.contact');
-        Route::get('about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
+         Route::get('about',[PagesContentController::class,'frontendabout'])->name('frontend.about');
+         Route::get('privacy',[PagesContentController::class,'privacy'])->name('frontend.privacy');
+
+         Route::get('blog',[PagesContentController::class,'blog'])->name('frontend.blog');
 
         Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
         Route::get('payment/{id}',[Payment::class,'payment'] )->name('payment');
@@ -80,6 +83,7 @@ Route::get('Pricing', function () {
         // });
 
 
+        Route::get('withdrawl',[Payment::class,'withdrawl'] )->name('withdrawl');
 
                     Route::group(['middleware' => 'Check_Login'], function () {
 
@@ -97,41 +101,45 @@ Route::get('Pricing', function () {
             });
             // });
 
+
+
             Route::post('receive.payment',[Payment::class,'receivepayment'])->name('receive.payment');
 
 
             Route::group(['middleware' => 'Check_Logout'], function () {
 
+
+
                 Route::get('backend.payment',[Payment::class,'loadepayment'])->name('backend.payment');
                 Route::put('update.paymentstatus/{id}',[Payment::class,'paymentstatus'])->name('update.paymentstatus');
                 Route::get('backend.editpayment/{id}',[Payment::class,'editpayment'])->name('backend.editpayment');
                 // Product Routes are all hear
-            Route::get('backend.product',[BackendDashboardController::class,'loadeproduct'])->name('backend.product');
+                Route::get('backend.product',[BackendDashboardController::class,'loadeproduct'])->name('backend.product');
 
 
-            Route::get('backend.permission/{id}',[AdminController::class,'loadepermission'])->name('backend.permission');
+                Route::get('backend.permission/{id}',[AdminController::class,'loadepermission'])->name('backend.permission');
 
 
-            // Admin routes are all hear
-        Route::get('backend.admins',[AdminController::class,'loadeadmin'])->name('backend.admins');
-        Route::get('backend.editadmins/{id}',[AdminController::class,'editadmins'])->name('backend.editadmins');
-        Route::put('update.usertype/{id}', [AdminController::class, 'updateUsertype'])->name('update.usertype');
-        // Route::put('user/{id}/update-role', [UserController::class, 'updateUserRole'])->name('updateUserRole');
+                // Admin routes are all hear
+                Route::get('backend.admins',[AdminController::class,'loadeadmin'])->name('backend.admins');
+                Route::get('backend.editadmins/{id}',[AdminController::class,'editadmins'])->name('backend.editadmins');
+                Route::put('update.usertype/{id}', [AdminController::class, 'updateUsertype'])->name('update.usertype');
+                // Route::put('user/{id}/update-role', [UserController::class, 'updateUserRole'])->name('updateUserRole');
 
 
-        Route::get('backend', [BackendDashboardController::class,'backendDashboard'])->name('backend');
+                    Route::get('backend', [BackendDashboardController::class,'backendDashbord'])->name('backend');
 
-                Route::get('backend.contact',[PagesContentController::class,'loadecontactpage'])->name('backend.contactpage');
-                Route::get('backend/homepage',[PagesContentController::class,'loadehomepage'])->name("backend.homepage");
-                Route::get('backend/aboutpage',[PagesContentController::class,'loadeaboutpage'])->name("backend.aboutpage");
+                    Route::get('backend.contact',[PagesContentController::class,'loadecontactpage'])->name('backend.contactpage');
+        Route::get('backend/homepage',[PagesContentController::class,'loadehomepage'])->name("backend.homepage");
+        Route::get('backend/aboutpage',[PagesContentController::class,'loadeaboutpage'])->name("backend.aboutpage");
 
-                Route::get('backend.edit.home',[PagesContentController::class,'loadedithomepage'])->name("loade.edit.homepage");
-                Route::get('backend.edit.contact',[PagesContentController::class,'loadeditcontactpage'])->name("loade.edit.contactpage");
-                Route::get('backend.edit.about',[PagesContentController::class,'loadeditaboutpage'])->name("loade.edit.aboutpage");
+        Route::get('backend.edit.home',[PagesContentController::class,'loadedithomepage'])->name("loade.edit.homepage");
+        Route::get('backend.edit.contact',[PagesContentController::class,'loadeditcontactpage'])->name("loade.edit.contactpage");
+        Route::get('backend.edit.about',[PagesContentController::class,'loadeditaboutpage'])->name("loade.edit.aboutpage");
 
-                Route::patch('/update.home/{id}',[PagesContentController::class,'updatehomepage'])->name("update.homepage");
-                Route::patch('/update.about/{id}',[PagesContentController::class,'updateaboutpage'])->name("update.aboutpage");
-                Route::patch('/update.contact/{id}',[PagesContentController::class,'updatecontactpage'])->name("update.contactpage");
+        Route::patch('/update.home/{id}',[PagesContentController::class,'updatehomepage'])->name("update.homepage");
+        Route::patch('/update.about/{id}',[PagesContentController::class,'updateaboutpage'])->name("update.aboutpage");
+        Route::patch('/update.contact/{id}',[PagesContentController::class,'updatecontactpage'])->name("update.contactpage");
 
                 Route::get('/addhome',[PagesContentController::class,'loadeaddhomepage'])->name("loade.add.homepage");
                 Route::get('/addabout',[PagesContentController::class,'loadeaddaboutpage'])->name("loade.add.aboutpage");
@@ -140,6 +148,7 @@ Route::get('Pricing', function () {
                 Route::patch('/addhomepage',[PagesContentController::class,'addhomepage'])->name("add.homepage");
                 Route::patch('/addaboutpage',[PagesContentController::class,'addaboutpage'])->name("add.aboutpage");
                 Route::patch('/addcontactpage',[PagesContentController::class,'addcontactpage'])->name("add.contactpage");
+        
                 // pages Routes are all hear
 
                 // Route::middleware(['auth:web'])->group(function () {
@@ -147,14 +156,14 @@ Route::get('Pricing', function () {
 
 
 
-                Route::get('profile', [ProfileController::class, 'viewProfile'])->name('profile');
-                Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_profile');
-                Route::get('/faq', [UserController::class, 'loadfaq'])->name('faq');
-                Route::get('/contact', [UserController::class, 'loadcontact'])->name('contact');
-                Route::get('/', [UserController::class, 'loadDashbord'])->name('/');
+                    Route::get('profile', [ProfileController::class, 'viewProfile'])->name('profile');
+                    Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_profile');
+                    Route::get('/faq', [UserController::class, 'loadfaq'])->name('faq');
+                    Route::get('/contact', [UserController::class, 'loadcontact'])->name('contact');
+                    Route::get('/', [UserController::class, 'loadDashbord'])->name('/');
 
 
-                Route::get('/logout', [UserController::class, 'userLogout'])->name('logout');
+                    Route::get('/logout', [UserController::class, 'userLogout'])->name('logout');
 
                // Shop routes are hear
                 Route::get('/shop', [ShopController::class, 'loadshop'])->name('shop');
