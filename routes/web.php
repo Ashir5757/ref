@@ -83,7 +83,12 @@ Route::get('Pricing', function () {
         // });
 
 
-        Route::get('withdrawl',[Payment::class,'withdrawl'] )->name('withdrawl');
+        Route::get('withdrawal',[Payment::class,'withdrawal'] )->name('withdrawal');
+        Route::get('withdrawalrequest',[Payment::class,'withdrawalrequest'] )->name('withdrawalrequest');
+        Route::post('withdrawal.store',[Payment::class,'withdrawalstore'] )->name('withdrawal.store');
+        Route::get('editwithdrawal/{user_id}/{id}',[Payment::class,'editwithdrawal'] )->name('editwithdrawal');
+        Route::put('update.withdrawalstatus/{user_id}/{id}',[Payment::class,'withdrawalstatus'] )->name('update.withdrawalstatus');
+
 
                     Route::group(['middleware' => 'Check_Login'], function () {
 
@@ -129,7 +134,7 @@ Route::get('Pricing', function () {
 
                     Route::get('backend', [BackendDashboardController::class,'backendDashbord'])->name('backend');
 
-                    Route::get('backend.contact',[PagesContentController::class,'loadecontactpage'])->name('backend.contactpage');
+            Route::get('backend.contact',[PagesContentController::class,'loadecontactpage'])->name('backend.contactpage');
         Route::get('backend/homepage',[PagesContentController::class,'loadehomepage'])->name("backend.homepage");
         Route::get('backend/aboutpage',[PagesContentController::class,'loadeaboutpage'])->name("backend.aboutpage");
 
@@ -148,7 +153,7 @@ Route::get('Pricing', function () {
                 Route::patch('/addhomepage',[PagesContentController::class,'addhomepage'])->name("add.homepage");
                 Route::patch('/addaboutpage',[PagesContentController::class,'addaboutpage'])->name("add.aboutpage");
                 Route::patch('/addcontactpage',[PagesContentController::class,'addcontactpage'])->name("add.contactpage");
-        
+
                 // pages Routes are all hear
 
                 // Route::middleware(['auth:web'])->group(function () {

@@ -518,7 +518,7 @@
             @endif
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route("withdrawl")}}">
+                <a class="nav-link collapsed" href="{{route("withdrawal")}}">
                     <i class="bi bi-cash-stack"></i> <span>Withdrawal</span>
                 </a>
             </li>

@@ -13,45 +13,19 @@ return new class extends Migration
     {
         Schema::create('about_page_content', function (Blueprint $table) {
             $table->id();
-            $table->string('h1');
-            $table->string('h2');
+            for ($i = 1; $i <= 31; $i++) {
+                if (in_array($i, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31])) {
+                    $table->string("h$i");
+                }
+            }
             $table->string('image1')->nullable();
-            $table->string('h3');
-            $table->string('h4');
-            $table->string('h5');
-            $table->string('h6');
-            $table->string('h7');
-            $table->string('h8');
-            $table->string('h9');
-            $table->string('h10');
-            $table->string('h11');
-            $table->string('h12');
             $table->string('image2')->nullable();
-            $table->string('h13');
-            $table->string('h14');
-            $table->string('h15');
-            $table->string('h16');
-            $table->string('h17');
-            $table->string('h18');
-            $table->string('h19');
-            $table->string('h20');
-            $table->string('h21');
-            $table->string('h22');
             $table->string('image3')->nullable();
-            $table->string('h23');
             $table->string('video');
-            $table->string('h24');
-            $table->string('h25');
-            $table->string('h26');
-            $table->string('h27');
-            $table->string('h28');
-            $table->string('h29');
-            $table->string('h30');
-            $table->string('h31');
             $table->timestamps();
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

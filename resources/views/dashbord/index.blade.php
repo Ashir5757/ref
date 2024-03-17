@@ -24,7 +24,7 @@
                     <div class="row">
 
                         <!-- Sales Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-6 col-md-6">
                             <div class="card info-card sales-card">
 
                                 {{-- <div class="filter">
@@ -52,7 +52,9 @@
                                         <div class="ps-3">
 
                                             <h6>{{$points->investment_bonus}} IP </h6>
-                                            <h6>1  6_MIB</h6>
+                                            <span class="text-success small pt-1 fw-bold">8%</span> <span
+                                            class="text-muted small pt-2 ps-1">increase</span>
+                                            {{-- <h6>1  6_MIB</h6> --}}
                                          </div>
                                     </div>
                                 </div>
@@ -61,7 +63,7 @@
                         </div><!-- End Sales Card -->
 
                         <!-- Revenue Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-6 col-md-6">
                             <div class="card info-card revenue-card">
 
                                 {{-- <div class="filter">
@@ -100,7 +102,7 @@
 
                         <!-- Customers Card -->
                         {{-- <div class="row"> --}}
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-6 col-md-6">
 
                             <div class="card info-card customers-card">
 
@@ -115,7 +117,7 @@
                                             <i class="bi bi-diagram-2-fill"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>3 </h6>
+                                            <h6>3 Points</h6>
                                             <span class="text-danger small pt-1 fw-bold">12%</span> <span
                                                 class="text-muted small pt-2 ps-1">decrease</span>
 
@@ -126,7 +128,7 @@
                             </div>
 
                         </div><!-- End Customers Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-6 col-md-6">
 
                             <div class="card info-card customers-card">
 
@@ -141,7 +143,7 @@
                                             <i class="bi bi-bar-chart"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>1244</h6>
+                                            <h6>{{$points->total_points}} Points</h6>
                                             <span class="text-danger small pt-1 fw-bold">12%</span> <span
                                                 class="text-muted small pt-2 ps-1">decrease</span>
 

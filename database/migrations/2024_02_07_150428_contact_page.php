@@ -14,13 +14,11 @@ return new class extends Migration
         {
             Schema::create('contact_page', function (Blueprint $table) {
                 $table->id();
-                $table->string('h1');
-                $table->string('h2');
-                $table->string('h3');
-                $table->string('h4');
-                $table->string('image1')->nullable();
-                // Add any additional fields you need for your contact page
-
+                $table->string('title');
+                $table->text('description')->nullable();
+                $table->string('contact_email')->unique();
+                $table->string('contact_phone')->unique();
+                $table->string('image')->nullable();
                 $table->timestamps();
             });
         }

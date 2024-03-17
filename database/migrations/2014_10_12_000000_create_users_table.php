@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('usertype')->default(0);
+            $table->tinyInteger('usertype')->default(0); // Changed from integer to tinyInteger for optimization
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('is_verified')->length(10)->default(0);
+            $table->tinyInteger('is_verified')->default(0); // Changed from integer with length to tinyInteger for optimization
             $table->string('password');
             $table->string('current_team_id')->nullable();
-            $table->string('referral_code')->nullable();
+            $table->string('referral_code', 50)->nullable(); // Added length specification for referral_code
             $table->rememberToken();
             $table->timestamps();
         });

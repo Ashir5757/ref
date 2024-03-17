@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('points', function (Blueprint $table) {
             $table->id();
-            $table->integer("user_id");
+            $table->unsignedBigInteger("user_id");
             $table->integer("investment_points")->default(0);
             $table->integer("investment_bonus")->default(0);
             $table->integer("referral_points")->default(0);
             $table->integer("total_points")->default(0);
-             $table->timestamps();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -26,6 +28,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
+
     {
         //
     }

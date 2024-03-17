@@ -43,13 +43,10 @@
     </thead>
 
     <tbody id="table-body">
-        @php
-                $count = 1 ;
-            @endphp
         @foreach ($admins as $admin)
         <tr>
 
-            <th scope="row">{{$count++}}</th>
+            <th scope="row">{{$loop->iteration}}</th>
             <td>{{ $admin->name }}</td>
             <td>{{ $admin->email }}</td>
             <td>{{ $admin->usertype == 1 ? "Admin" : "Not" }}</td>
@@ -60,7 +57,13 @@
     </tbody>
 </table>
 
-{{ $admins->links() }} <!-- Pagination Links -->
+@if($admins->count() > 0)
+<nav class="custom-pagination d-flex justify-content-center">
+    <ul class="pagination">
+        {{ $admins->links('vendor.pagination.custom') }}
+    </ul>
+</nav>
+@endif
 
 
 <div class="card-body mt-5">
@@ -113,27 +116,6 @@ $networkcount = \App\Models\Network::where('parent_user_id', $user->id)->count()
     </table>
 </div>
 
-
-
-<script>
-    // Filtering functionality using JavaScript
-    document.getElementById('filter').addEventListener('input', function () {
-        var keyword = this.value.toLowerCase();
-        var rows = document.querySelectorAll('#table-body tr');
-
-        rows.forEach(function (row) {
-            var name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            var email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            var admin = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
-
-            if (name.includes(keyword) || email.includes(keyword) || admin.includes(keyword)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-</script>
 
 
 </div>

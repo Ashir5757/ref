@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('networks', function (Blueprint $table) {
-            $table->id()->autoIncrement();
-            $table->string('referral_code')->length(50);
-            $table->unsignedBigInteger('user_id')->length(11);
+            $table->id();
+            $table->string('referral_code', 50);
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('up_liner')->nullable()->length(11);
+            $table->unsignedBigInteger('up_liner')->nullable();
             $table->foreign('up_liner')->references('id')->on('users');
-            $table->unsignedBigInteger('parent_user_id')->nullable()->length(11);
+            $table->unsignedBigInteger('parent_user_id')->nullable();
             $table->foreign('parent_user_id')->references('id')->on('users');
             $table->timestamps();
         });

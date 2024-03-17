@@ -20,24 +20,23 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-    //  public function __construct()
-    //  {
-    //      $this->middleware('guest')->except('logout');
-    //      $this->middleware('guest:admin')->except('logout');
-    //      $this->middleware('guest:user')->except('logout');
-    //  }
 
 
      public function loadDashbord()
     {
         $user = Auth::user()->id;
+        try {
+            $points = Points::where('user_id', $user)->first();
+            $totalpoints = $points->investment_bonus + $points->referral_points;
 
-        $points = Points::where('user_id',$user)->first();
-       
+            $points->total_points = $totalpoints;
+            $points->save();
+        } catch (\Exception $e) {
+            Auth::logout();
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+
+
         $networkData =  Network::with('user')->where('parent_user_id',$user)->get();
      $profile = Profile::where('id',$user)->first();
         return view('dashbord.index',compact(['networkData', 'profile','points']));
@@ -53,7 +52,6 @@ class UserController extends Controller
     {
         $dataLabels = [];
         $dataData = [];
-
 
         for ($i = 30; $i >= 0; $i--) {
 
@@ -92,95 +90,95 @@ public function userLogout(Request $request){
             'confirm' => 'required|same:password',
             'terms' => 'required'
         ]);
-        $referralCode =Str::random(10);
-       $token = Str::random(50);
-if(isset($request->referral_code)){
+        $referralCode = Str::random(10);
+        $token = Str::random(50);
 
-    $userData = User::where('referral_code', $request->referral_code)->get();
+        if (isset($request->referral_code)) {
+            $userData = User::where('referral_code', $request->referral_code)->get();
 
-if(count($userData)  > 0){
+            if (count($userData) > 0) {
+                $user_id = User::insertGetId([
+                    'name' => $validatedData['name'],
+                    'email' => $validatedData['email'],
+                    'password' => Hash::make($validatedData['password']),
+                    'referral_code' => $referralCode,
+                    'remember_token' => $token,
+                    'created_at' => now(),
+                ]);
 
-
-   $user_id = User::insertGetId([
-        'name' => $validatedData['name'],
-        'email' => $validatedData['email'],
-        'password' => Hash::make($validatedData['password']),
-        'referral_code' => $referralCode,
-        'remember_token'=> $token,
-        'created_at' => now(),
-    ]);
-
-    $upliner = User::where('referral_code', $request->referral_code)->first();
-   $parent = Network::where('user_id', $upliner->id)->first();
-//    dd($parent->parent_user_id);
-
-    Network::insert([
-'referral_code' => $request->referral_code,
-'user_id' => $user_id,
-'up_liner' => $parent->parent_user_id,
-'parent_user_id' => $userData[0]['id'],
-'created_at' => now()
-    ]);
-
-}else{
-
-  return back()->with('error' , 'Please Enter a valid Referral Code');
+try{
+      $upliner = User::where('referral_code', $request->referral_code)->first();
+    $parent = Network::where('user_id', $upliner->id)->first();
+    $parent_user_id = $parent->parent_user_id;
+} catch (\Exception){
+    $parent_user_id = null;
 }
 
-}else{
 
-    if($user= PaymentModel::where('email',$request->email)->first()){
+                Network::insert([
+                    'referral_code' => $request->referral_code,
+                    'user_id' => $user_id,
+                    'up_liner' => $parent_user_id,
+                    'parent_user_id' => $userData[0]['id'],
+                    'created_at' => now()
+                ]);
+            } else {
+                return back()->with('error', 'Please Enter a valid Referral Code');
+            }
+        } else {
+            try {
+                $user = PaymentModel::where('email', $request->email)->first();
+            } catch (\Exception $e) {
+                $user = null;
+            }
 
-        User::insert([
-            'id' => $user->user_id,
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'referral_code' => $referralCode,
-            'remember_token'=> $token,
-            'created_at' => now()
-        ]);
+            if ($user) {
+                User::insert([
+                    'id' => $user->user_id,
+                    'name' => $validatedData['name'],
+                    'email' => $validatedData['email'],
+                    'password' => Hash::make($validatedData['password']),
+                    'referral_code' => $referralCode,
+                    'remember_token' => $token,
+                    'created_at' => now()
+                ]);
+            } else {
+                User::insert([
+                    'name' => $validatedData['name'],
+                    'email' => $validatedData['email'],
+                    'password' => Hash::make($validatedData['password']),
+                    'referral_code' => $referralCode,
+                    'remember_token' => $token,
+                    'created_at' => now()
+                ]);
+            }
+        }
 
-    }else{
-           User::insert([
-        'name' => $validatedData['name'],
-        'email' => $validatedData['email'],
-        'password' => Hash::make($validatedData['password']),
-        'referral_code' => $referralCode,
-        'remember_token'=> $token,
-        'created_at' => now()
-    ]);
-    }
+        $domain = URL::to('/');
+        $url = $domain . '/referral_register?ref=' . $referralCode;
+        $data['url'] = $url;
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['password'] = $request->password;
+        $data['title'] = 'Registered';
 
-}
-$domain = URL::to('/');
-$url = $domain.'/referral_register?ref='.$referralCode;
-$data['url'] = $url;
-$data['name'] = $request->name;
-$data['email'] = $request->email;
-$data['password'] = $request->password;
-$data['title'] = 'Registerd';
+        Mail::send('emails.mail', ['data' => $data], function ($message) use ($data) {
+            $message->to($data['email'])->subject($data['title']);
+        });
 
-Mail::send('emails.mail', ['data' => $data],function($message) use($data){
-$message->to($data['email'] )->subject($data['title']);
-});
+        // varification mail send
 
+        $url = $domain . '/email_varification/' . $token;
+        $data['url'] = $url;
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['title'] = 'Referral Verification Mail';
 
-// varification mail send
+        Mail::send('emails.varifyMail', ['data' => $data], function ($message) use ($data) {
+            $message->to($data['email'])->subject($data['title']);
+        });
 
-
-$url = $domain.'/email_varification/'.$token;
-$data['url'] = $url;
-$data['name'] = $request->name;
-$data['email'] = $request->email;
-
-$data['title'] = 'Refferal varification Mail';
-
-Mail::send('emails.varifyMail', ['data' => $data],function($message) use($data){
-$message->to($data['email'] )->subject($data['title']);
-});
-return redirect()->intended(url('login'))->with('success', 'User created successfully Now please varify your mail..!');
-
+        return redirect()->intended(url('login'))->with('success', 'User created successfully. Now please verify your email.');
     }
     /**
      * Display the specified resource.
@@ -267,11 +265,13 @@ if(count($userData)  > 0 ){
 
         if(Auth::attempt($userCredential)){
             if(isset($userCredential['email']) && isset($userCredential['password'])) {
+                try {
+                    $payment = PaymentModel::where('email', $userCredential['email'])->first();
+                } catch (\Exception $e) {
+                    $payment = null;
+                }
 
-                // Check if the user's email exists in the PaymentModel and status is 1
-                $payment = PaymentModel::where('email', $userCredential['email'])->first();
-
-                if ($payment) { // If payment exists
+                if ($payment != null) {
                     if ($payment->status == 1 && $userData->usertype == 1) {
                         return redirect('backend');
                     } else {

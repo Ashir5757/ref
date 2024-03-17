@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->string('image')->nullable(); // Assuming image can be nul                                                                                                                                                                                                                                                                               lable
-            $table->text('about')->nullable(); // Using text for longer descriptions
-            $table->string('cnic')->unique(); // Assuming CNIC is unique
+            $table->string('image')->nullable(); // Image can be nullable
+            $table->text('about')->nullable(); // For longer descriptions
+            $table->string('cnic')->unique(); // CNIC must be unique
             $table->string('country');
-            $table->string('address'); // Corrected the typo in 'Address'
+            $table->string('address');
             $table->string('phone');
-            $table->string('twitter')->nullable(); // Assuming profiles can be nullable
+            $table->string('twitter')->nullable(); // Social profiles can be nullable
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
-            $table->string('linkedin')->nullable(); // Corrected the typo in 'LinkedIn'
+            $table->string('linkedin')->nullable();
             $table->timestamps();
         });
     }

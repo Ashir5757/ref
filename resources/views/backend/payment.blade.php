@@ -84,6 +84,15 @@
             @endforeach
         </tbody>
     </table>
+    @if($payments->hasPages())
+    @if ($payment->status == 2)
+    <nav class="custom-pagination d-flex justify-content-center">
+        <ul class="pagination">
+            {{ $payments->links('vendor.pagination.custom') }}
+        </ul>
+    </nav>
+@endif
+@endif
 <hr>
 <h1>Approved Payments</h1>
     <table class="table table-hover mt-4">
@@ -124,6 +133,15 @@
             @endforeach
         </tbody>
     </table>
+    @if($payments->hasPages())
+    @if ($payment->status == 1)
+    <nav class="custom-pagination d-flex justify-content-center">
+        <ul class="pagination">
+            {{ $payments->links('vendor.pagination.custom') }}
+        </ul>
+    </nav>
+@endif
+@endif
 @else
     <div class="alert alert-info">No payments found.</div>
 @endif

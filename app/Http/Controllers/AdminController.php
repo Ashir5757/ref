@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function loadeadmin(){
         $users = User::all();
-        $admins = User::where("usertype", 1)->paginate(10);
+        $admins = User::where("usertype", 1)->paginate(2);
         return view("backend.admins", compact('admins','users'));
     }
 
