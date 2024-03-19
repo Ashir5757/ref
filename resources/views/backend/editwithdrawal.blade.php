@@ -81,8 +81,8 @@
                                 <i class="fas fa-circle"></i> {{ $withdrawals->status == 1 ? "Approved" : "Pending" }}
                             </span>
                         </td>
-                        <td>{{ $points->total_points }} Points</td>
-                        <td>{{ $points->total_points - $withdrawals->amount}} Points</td>
+                        <td>{{ $withdrawals->total_amount }} Points</td>
+                        <td>{{ $withdrawals->remaining_amount	}} Points</td>
                     </tr>
                 </tbody>
             </table>

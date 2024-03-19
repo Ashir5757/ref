@@ -16,7 +16,7 @@
         </nav>
     </div>
 
-    <button class="btn btn-outline-primary m-3 "><i class="fas fa-eye"></i> View Withdrawals</button>
+    <a class="btn btn-outline-primary m-3 " href="{{ route('viewwithdrawal') }}"><i class="fas fa-eye"></i> Withdrawals History</a>
     <div class="card">
         <div class="card-header">
             <h4><i class="fas fa-money-bill-wave"></i> Withdrawal Form</h4>
@@ -38,7 +38,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{route('withdrawal.store')}}">
+            <form method="POST" action="{{route('withdrawal.store',['id'=>Auth::user()->id])}}">
                 @csrf
 
                 <script>

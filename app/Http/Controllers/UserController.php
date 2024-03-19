@@ -27,10 +27,6 @@ class UserController extends Controller
         $user = Auth::user()->id;
         try {
             $points = Points::where('user_id', $user)->first();
-            $totalpoints = $points->investment_bonus + $points->referral_points;
-
-            $points->total_points = $totalpoints;
-            $points->save();
         } catch (\Exception $e) {
             Auth::logout();
             return redirect()->back()->with('error', 'Something went wrong');

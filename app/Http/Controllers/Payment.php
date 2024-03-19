@@ -27,29 +27,27 @@ class Payment extends Controller
 
         return view("backend.payment", compact('payments'));
     } else {
-        // If there are no payments, simply return the view without compacting any data
         return view("backend.payment");
     }
 }
-public function withdrawalstore(Request $request){
+public function withdrawalstore($id,Request $request){
 
     $request->validate([
         'withdrawal_amount' => 'required|integer|min:4',
         'withdrawal_details' => 'nullable'
     ]);
 
+    $userPoints = Points::where('user_id',$id)->first();
+
     $withdrawal = new withdrawal();
-    $withdrawal->user_id = auth()->user()->id;
+    $withdrawal->user_id = $id;
     $withdrawal->amount = $request->withdrawal_amount;
     $withdrawal->details = $request->withdrawal_details;
+    $withdrawal->total_amount = $userPoints->total_points;
 
-    $userPoints = auth()->user()->points->total_points;
-    dd($userPoints);
-    $remainingAmount = $userPoints - $request->withdrawal_amount;
+    $remainingAmount = $userPoints->total_points - $request->withdrawal_amount;
 
     $withdrawal->remaining_amount = $remainingAmount;
-
-    $withdrawal->total_points = $userPoints;
 
     $withdrawal->save();
     return redirect()->back()->with('status', 'Withdrawal request submitted successfully!');
@@ -292,7 +290,7 @@ public function paymentstatus(Request $request ,$id){
 
                 Points::updateOrCreate(
                     ['user_id' => $payment->user_id],
-                    ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount]
+                    ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount, 'total_points' => $investment_bonus + $networkCount]
                 );
 
                 $payment->status = $paymentstatus;
@@ -327,26 +325,31 @@ public function withdrawal(){
 
 
 public function editwithdrawal( $user_id,$id)  {
+
     $withdrawals = withdrawal::where('user_id', $user_id)->where('id', $id)->first();
     $user = User::where('id',$user_id)->first() ;
-$points = Points::where('user_id',$user_id)->first();
 
-    return view('backend.editwithdrawal', compact('withdrawals','user','points'));
+    return view('backend.editwithdrawal', compact('withdrawals','user'));
 }
+
+
 public function withdrawalstatus(Request $request, $user_id, $id) {
+
     $withdrawal = withdrawal::where('user_id', $user_id)->where('id', $id)->first();
     if ($request->status == 1) {
-        $withdrawal->status = $request->status;
-        $withdrawal->save();
-
-        // Deduct the amount from the total amount
         $points = Points::where('user_id', $user_id)->first();
         $points->total_points -= $withdrawal->amount;
         $points->save();
-
+        $withdrawal->status = $request->status;
+        $withdrawal->save();
         return redirect()->back()->with('success', 'Payment has been updated successfully');
     } else {
         return redirect()->back()->with('success', 'Payment status remains the same');
     }
+}
+
+public function viewwithdrawal(){
+        $withdrawals = withdrawal::latest()->paginate(5);
+        return view('dashbord.viewwithdrawals', compact('withdrawals'));
 }
 }

@@ -20,7 +20,8 @@
 
     <section class="section">
         <div class="container mt-3 mb-3 bg-white rounded shadow">
-            @if (Session::has('success'))
+            <div class="m-3">
+                  @if (Session::has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ Session::get('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -33,12 +34,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+            </div>
+
 
 
 
         {{-- Category Management --}}
 
-        <div class="container mt-4   p-5">
+        <div class="container mt-2   p-5">
             <h3>Category Management</h3>
 
             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
@@ -143,53 +146,53 @@
                 url: "{{ route('add.category') }}",
                 data: formData,
                 headers: {
-            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-        },
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
                 dataType: 'json',
                 success: function(data) {
-    // Clear previous errors
-    $('.invalid-feedback').empty();
-    $('.alert').addClass('d-none').empty();
+                    // Clear previous errors
+                    $('.invalid-feedback').empty();
+                    $('.alert').addClass('d-none').empty();
 
-    // Display success message
-    $('.alert-success').removeClass('d-none').text(data.message);
+                    // Display success message
+                    $('.alert-success').removeClass('d-none').text(data.message);
 
-    // Append new row to the table with the received data
-    var newRow = "<tr>" +
-        "<td>" + data.category.id + "</td>" +
-        "<td>" + data.category.name + "</td>" +
-        "<td>" + data.category.description + "</td>" +
-        "<td><a class='btn btn-outline-primary' href='/view/category/" + data.category.id + "'>View</a></td>" +
-        "<td><a class='btn btn-outline-danger' href='/delete/category/" + data.category.id + "'>Delete</a></td>" +
-        "</tr>";
+                    // Append new row to the table with the received data
+                    var newRow = "<tr>" +
+                        "<td>" + data.category.id + "</td>" +
+                        "<td>" + data.category.name + "</td>" +
+                        "<td>" + data.category.description + "</td>" +
+                        "<td><a class='btn btn-outline-primary' href='/view/category/" + data.category.id + "'>View</a></td>" +
+                        "<td><a class='btn btn-outline-danger' href='/delete/category/" + data.category.id + "'>Delete</a></td>" +
+                        "</tr>";
 
-    $('table.table tbody').append(newRow);
+                    $('table.table tbody').append(newRow);
 
-    // Optionally, you can reset the form
-    $('#addCategoryForm')[0].reset();
-},
+                    // Optionally, you can reset the form
+                    $('#addCategoryForm')[0].reset();
+                },
 
-error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
-    if(errors) {
-        // Clear previous errors
-        $('#errorAlert').empty().removeClass('d-none');
+                error: function(xhr) {
+                    var errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        // Clear previous errors
+                        $('.invalid-feedback').empty();
+                        $('#errorAlert').addClass('d-none').empty();
 
-        // Display each validation error
-        $.each(errors, function(key, value) {
-            $('#errorAlert').append('<p>' + value[0] + '</p>');
-        });
-    } else {
-        // Show a generic error message if no specific validation errors are received
-        $('#errorAlert').removeClass('d-none').text('An error occurred. Please try again.');
-    }
-}
+                        // Display each validation error in the form
+                        $.each(errors, function(key, value) {
+                            var inputField = $('[name="' + key + '"]');
+                            inputField.addClass('is-invalid');
+                            inputField.next('.invalid-feedback').text(value[0]);
+                        });
+                    } else {
+                        // Show a generic error message in the alert if no specific validation errors are received
+                        $('#errorAlert').removeClass('d-none').text('An error occurred. Please try again.');
+                    }
+                }
 
             });
         });
     });
-</script>
-
-
-
+  </script>
   @endsection

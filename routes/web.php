@@ -82,10 +82,11 @@ Route::get('Pricing', function () {
 
         // });
 
+        Route::get('viewwithdrawal',[Payment::class,'viewwithdrawal'] )->name('viewwithdrawal');
 
         Route::get('withdrawal',[Payment::class,'withdrawal'] )->name('withdrawal');
         Route::get('withdrawalrequest',[Payment::class,'withdrawalrequest'] )->name('withdrawalrequest');
-        Route::post('withdrawal.store',[Payment::class,'withdrawalstore'] )->name('withdrawal.store');
+        Route::post('withdrawal.store/{id}',[Payment::class,'withdrawalstore'] )->name('withdrawal.store');
         Route::get('editwithdrawal/{user_id}/{id}',[Payment::class,'editwithdrawal'] )->name('editwithdrawal');
         Route::put('update.withdrawalstatus/{user_id}/{id}',[Payment::class,'withdrawalstatus'] )->name('update.withdrawalstatus');
 
