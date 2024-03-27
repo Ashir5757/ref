@@ -83,6 +83,7 @@ Route::get('Pricing', function () {
         // });
 
         Route::get('viewwithdrawal',[Payment::class,'viewwithdrawal'] )->name('viewwithdrawal');
+        Route::get('approvedslip/{id}',[Payment::class,'approvedslip'] )->name('approvedslip');
 
         Route::get('withdrawal',[Payment::class,'withdrawal'] )->name('withdrawal');
         Route::get('withdrawalrequest',[Payment::class,'withdrawalrequest'] )->name('withdrawalrequest');
@@ -176,6 +177,7 @@ Route::get('Pricing', function () {
                 Route::post('/store', [ShopController::class, 'shop'])->name('store.create');
                 Route::get('/category', [ShopController::class, 'loadcategory'])->name('category');
 
+                Route::get('/loadaddcategory', [ShopController::class, 'loadaddcategory'])->name('loadaddcategory');
                 Route::post('/add.category', [ShopController::class, 'addcategory'])->name('add.category');
                 Route::get('/delete.category/{id}', [ShopController::class, 'deletecategory'])->name('delete.category');
                 Route::get('/view.category/{id}', [ShopController::class, 'viewcategory'])->name('view.category');

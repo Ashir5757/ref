@@ -523,8 +523,6 @@
                 </a>
             </li>
 
-
-
             <!-- End product Page Nav -->
 
         </ul>

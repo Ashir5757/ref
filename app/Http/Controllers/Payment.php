@@ -235,7 +235,7 @@ public function paymentstatus(Request $request ,$id){
                     if ($payment->plan == 1) {
                         $parent_user_point->referral_points += 1;
                     } elseif ($payment->plan == 2) {
-                        $parent_user_point->referral_points += 3;
+                        $parent_user_point->referral_points += 4;
                     } elseif ($payment->plan == 3) {
                         $parent_user_point->referral_points += 10;
                     }
@@ -351,5 +351,9 @@ public function withdrawalstatus(Request $request, $user_id, $id) {
 public function viewwithdrawal(){
         $withdrawals = withdrawal::latest()->paginate(5);
         return view('dashbord.viewwithdrawals', compact('withdrawals'));
+}
+public function approvedslip($id){
+    $payment = withdrawal::where('id',$id)->first();
+    return view('dashbord.approvedslip', compact('payment'));
 }
 }

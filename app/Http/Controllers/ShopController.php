@@ -218,6 +218,49 @@ public function addproduct(Request $request)
    return redirect()->back()->with('success', 'Product Added Successfully');
 }
 
+public function loadaddcategory()
+{
+  
+    return view('dashbord.addcategory');
+}
+
+public function storecategory(Request $request)
+{
+    $request->validate([
+        'name' => 'required|unique:categories',
+        'description' => 'required',
+        'slug' => 'required|unique:categories',
+        'active' => 'required|boolean',
+        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        // Ensure subcategory ID is valid
+    ]);
+
+    try {
+        $category = new Category();
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->slug = $request->slug;
+        $category->active = $request->active;
+
+        if ($request->sub_category) {
+            $category->sub_category_id = $request->sub_category;
+        }
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('category'), $imageName);
+            $category->image = $imageName;
+        }
+
+        $category->save();
+
+        return redirect()->route('categories.index')->with('success', 'Category added successfully!');
+    } catch (Exception $e) {
+        log::error('Error adding category: ' . $e->getMessage());
+        return back()->with('error','An error occurred while adding the category.');
+    }
+}
 
 
 public function deleteproduct($id){
@@ -227,4 +270,5 @@ $deleteproduct->delete();
 return redirect()->back()->with("Success","Product Deleted Secessfully");
 
 }
+
 }

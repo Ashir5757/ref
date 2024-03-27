@@ -44,7 +44,7 @@
         <div class="container mt-2   p-5">
             <h3>Category Management</h3>
 
-            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add Category</button>
+            <a href="{{route('loadaddcategory')}}" type="button" class="btn btn-primary mb-3">Add Category</a>
 
             <table class="table table-hover mb-3 borderd p-5">
                 <thead>
@@ -75,7 +75,7 @@
             </table>
 
           </div>
-          <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+          {{-- <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -105,7 +105,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> --}}
 
 
 
@@ -134,7 +134,7 @@
     </section>
 
   </main><!-- End #main -->
-  <script>
+  {{-- <script>
     $(document).ready(function() {
         $('#addCategoryForm').submit(function(e) {
             e.preventDefault();
@@ -194,5 +194,5 @@
             });
         });
     });
-  </script>
+  </script> --}}
   @endsection

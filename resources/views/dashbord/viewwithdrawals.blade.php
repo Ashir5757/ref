@@ -33,7 +33,7 @@
                       <td>{{$loop->iteration}}</td>
                       <td><i class="bi bi-coin"></i></td>
                       <td>{{ $withdrawal->amount }} Points - Approved</td>
-                      <td><button class="btn btn-outline-success"><i class="bi bi-check-circle">Check</i> Approve</button></td>
+                      <td><a href="{{route("approvedslip", ['id' => $withdrawal->id])}}" class="btn btn-outline-success"><i class="bi bi-check-circle">Check</i> Approve</a></td>
                     </tr>
                   @endif
                 @endforeach
