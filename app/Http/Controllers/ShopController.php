@@ -262,6 +262,30 @@ public function storecategory(Request $request)
     }
 }
 
+public function loadsubcategory()
+{
+    return view('dashbord.addsubcategory');
+}
+
+public function addsubcategory(Request $request)
+{
+    $request->validate([
+        'name' => 'required|unique:subcategories',
+        'category_id' => 'required|exists:categories,id',
+    ]);
+
+    try {
+        $subcategory = new Subcategory();
+        $subcategory->name = $request->name;
+        $subcategory->category_id = $request->category_id;
+        $subcategory->save();
+
+        return redirect()->route('categories.index')->with('success', 'Subcategory added successfully!');
+    } catch (Exception $e) {
+        log::error('Error adding subcategory: ' . $e->getMessage());
+        return back()->with('error','An error occurred while adding the subcategory.');
+    }
+}
 
 public function deleteproduct($id){
 

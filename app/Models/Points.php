@@ -13,6 +13,7 @@ class Points extends Model
         'user_id',
         'investment_bonus',
         'referral_points',
+        'total_points',
         'user_id',
 
     ];

@@ -189,7 +189,7 @@ public function paymentstatus(Request $request ,$id){
                     } catch (\Exception $e) {
                         $parent_user_id = 0;
                     }
-                    // dd($parent_user_id); No User referrals
+                  
                     $up_liner = 0;
                     try {
                         foreach (Network::where('up_liner', $user->id)->get() as $record) {
@@ -213,10 +213,11 @@ public function paymentstatus(Request $request ,$id){
             } else {
                 $investment_bonus = $totalApprovedPayments * $payment->plan;
             }
+$total_points = $investment_bonus + $networkCount;
 
             Points::updateOrCreate(
                 ['user_id' => $payment->user_id],
-                ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount]
+                ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount, 'total_points' => $total_points]
             );
 
             $payment->status = $paymentstatus;
@@ -287,10 +288,11 @@ public function paymentstatus(Request $request ,$id){
                 } else {
                     $investment_bonus = $totalApprovedPayments * $payment->plan;
                 }
-
+                
+                
                 Points::updateOrCreate(
                     ['user_id' => $payment->user_id],
-                    ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount, 'total_points' => $investment_bonus + $networkCount]
+                    ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount, 'total_points' => $networkCount + $investment_bonus]
                 );
 
                 $payment->status = $paymentstatus;

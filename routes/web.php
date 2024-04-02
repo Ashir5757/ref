@@ -179,6 +179,8 @@ Route::get('Pricing', function () {
 
                 Route::get('/loadaddcategory', [ShopController::class, 'loadaddcategory'])->name('loadaddcategory');
                 Route::post('/add.category', [ShopController::class, 'addcategory'])->name('add.category');
+                Route::get('/subcategory', [ShopController::class, 'loadsubcategory'])->name('subcategory');
+               Route::post('/add.subcategory', [ShopController::class, 'addsubcategory'])->name('add.subcategory');
                 Route::get('/delete.category/{id}', [ShopController::class, 'deletecategory'])->name('delete.category');
                 Route::get('/view.category/{id}', [ShopController::class, 'viewcategory'])->name('view.category');
 

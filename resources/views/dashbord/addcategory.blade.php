@@ -10,7 +10,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('/') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('viewwithdrawal') }}">Back</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('category') }}">Go Back</a></li>
                 <li class="breadcrumb-item active">Add Category</li>
             </ol>
         </nav>
@@ -57,16 +57,9 @@
                   @enderror
                 </div>
 
-                <div class="mb-3">
-                  <label for="image" class="form-label">Image</label>
-                  <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-                  @error('image')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                </div>
+                
 
+               
                 <div class="mb-3">
                   <label for="status" class="form-label">Status</label>
                   <select class="form-control @error('status') is-invalid @enderror" id="status" name="status">
@@ -79,6 +72,17 @@
                     </span>
                   @enderror
                 </div>
+ <div class="mb-3">
+                  <label for="image" class="form-label">Image</label>
+                  <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" onchange="previewImage(event)">
+                  @error('image')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+
+                <img id="image-preview" src=""  style="max-width: 200px; max-height: 200px;">
 
                 <button type="submit" class="btn btn-primary">
                   <i class="bi bi-check-circle-fill"></i> Submit
@@ -90,5 +94,16 @@
       </div>
     </div>
 </main>
+                <script>
+                  function previewImage(event) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                      var output = document.getElementById('image-preview');
+                      output.src = reader.result;
+                    }
+                    reader.readAsDataURL(event.target.files[0]);
+                  }
+                </script>
+                
 
 @endsection
