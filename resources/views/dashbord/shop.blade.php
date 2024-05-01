@@ -36,7 +36,7 @@
             <div class="card">
               <div class="card-body p-5">
                 <h1>Let's Get Your Store Up and Running!</h1>
-                <form method="POST" action="{{route("store.create")}}" enctype="multipart/form-data">
+                <form method="POST" action="{{route('store.create')}}" enctype="multipart/form-data">
                     @csrf
                     @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -80,13 +80,45 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address:</label>
-                        <input type="text" name="address" id="address" class="form-control" value="{{ old('address') }}">
-                        @error('address')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                   
+                
+                    <div class="row mb-3">
+    <div class="col-sm-4">
+        <label for="country" class="form-label">Country:</label>
+        <select name="country" id="country" class="form-select">
+            <option value="">Select Country</option>
+        @foreach($countries as $country)
+            <option value="{{ $country->country_name }}">{{ $country->country_name }}</option>
+            @endforeach
+        </select>
+        @error('country')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-sm-4">
+        <label for="state" class="form-label">State:</label>
+        <select name="state" id="state" class="form-select">
+            <option value="">Select State</option>
+            <!-- Populate options dynamically with states -->
+        </select>
+        @error('state')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-sm-4">
+        <label for="city" class="form-label">City:</label>
+        <select name="city" id="city" class="form-select">
+            <option value="">Select City</option>
+            <!-- Populate options dynamically with cities -->
+        </select>
+        @error('city')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+
 
                     <div class="mb-3">
                         <label for="logo" class="form-label">Logo:</label>
@@ -114,7 +146,7 @@
                         @enderror
                     </div>
 
-
+<input type="hidden" id="token" name="token" value=" {{ $auth_token }} ">
                     <button type="submit" class="btn btn-primary">Create Shop</button>
                 </form>
               </div>
@@ -154,4 +186,56 @@
         });
     </script>
   </main><!-- End #main -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('#country').change(function(){
+        var country = $(this).val();
+
+        // Check if country value is empty or whitespace, then set it to null
+        if(country.trim() === "") {
+            country = null;
+        }
+
+        // Prepare data object for AJAX request
+        var data = {
+            token: $('#token').val(),
+            country: country
+        };
+        // Send AJAX request to retrieve states based on selected country
+        $.ajax({
+                url: '{{ route('states') }}',
+                type: 'GET',
+                data: data, // Send data object with token and selected country
+                success: function(response) {
+                    console.log(response);
+                    var states = JSON.parse(response); // Parse JSON response into JavaScript object
+                    var html = "<option value=''>Select State</option>";
+
+                    // Generate HTML options for states dropdown
+                    if (states.length > 0) {
+                        for (var i = 0; i < states.length; i++) {
+                            html += "<option value='" + states[i]['state_name']+ "'>" + states[i]['state_name'] + "</option>";
+                        }
+                    } else {
+                        html = "<option value=''>No states found</option>";
+                    }
+
+                    // Update the states dropdown with the generated HTML options
+                    $('#state').html(html);
+                },
+            error: function(xhr, status, error) {
+                console.error('Error fetching states:', error);
+                // Optionally handle error scenario, e.g., display error message to user
+                var html = "<option value=''>Error loading states</option>";
+                $('#state').html(html);
+            }
+        });
+    });
+});
+</script>
+
+
+
   @endsection

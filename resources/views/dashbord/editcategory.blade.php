@@ -1,6 +1,6 @@
 @extends('dashbord\navsidebar')
 
-@section('title', 'Add Category')
+@section('title', 'Edit Category')
 
 @section('content')
 
@@ -11,11 +11,10 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('/') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('category') }}">Go Back</a></li>
-                <li class="breadcrumb-item active">Add Category</li>
+                <li class="breadcrumb-item active">Edit Category</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
-
     <a href="{{ url()->previous() }}" class="btn btn-outline-dark float-right">
       Go Back
     </a>
@@ -24,7 +23,7 @@
         <div class="col-md-8">
           <div class="card border-primary shadow-sm">
             <h1 class="card-header bg-primary text-white text-center">
-              <i class="bi bi-plus-circle h3"></i> Add New Category
+              <i class="bi bi-plus-circle h3"></i> Edit New Category
             </h1>
             <div class="card-body p-4">
               @if(session('success'))
@@ -42,12 +41,12 @@
                   </ul>
                 </div>
               @endif
-              <form action="{{route('add.category')}}" method="POST"  >
+              <form action="{{route('edit.category',['id'=> $category->id ])}}" method="POST">
                 @csrf
 
                 <div class="mb-3">
                   <label for="name" class="form-label">Category Name</label>
-                  <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
+                  <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{$category->name }}">
                  <p></p>
                   @error('name')
                   <span class="invalid-feedback" role="alert">
@@ -57,7 +56,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="slug" class="form-label">Slug</label>
-                  <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}">
+                  <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{$category->slug }}">
                   <p></p>
                   @error('slug')
                   <span class="invalid-feedback" role="alert">
@@ -69,10 +68,10 @@
                 <div class="mb-3">
                   <label for="status" class="form-label">Status</label>
                   <select class="form-control @error('status') is-invalid @enderror" id="status" name="status">
-                    <option value=" "></option>
-                    <option value="1">Active</option>
-                    <option value="0">Block</option>
-                  </select>
+               <option value="1" {{ $category->status == 1 ? 'selected' : '' }}>Active</option>
+               <option value="0" {{ $category->status == 0 ? 'selected' : '' }}>Block</option>
+                        </select>
+
                   <p></p>
                   @error('status')
                   <span class="invalid-feedback" role="alert">
@@ -81,7 +80,7 @@
                   @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary m-2">Create</button>
+                <button type="submit" class="btn btn-primary m-2">Update</button>
                 <button type="reset" class="btn btn-outline-dark">
                   Cancel
                 </button>

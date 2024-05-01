@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Bazaar;
 use App\Http\Controllers\Payment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
@@ -40,11 +40,6 @@ Route::get('backend.tables', function () {
     return view('backend.tables');
 })->name('backend.tables');
 
-
-Route::get('bazaar', function () {
-    return view('frontend.bazaar');
-})->name('bazaar');
-
 Route::get('Pricing', function () {
     return view('frontend.pricing');
 })->name('pricing');
@@ -76,15 +71,21 @@ Route::get('Pricing', function () {
          Route::get('privacy',[PagesContentController::class,'privacy'])->name('frontend.privacy');
 
          Route::get('blog',[PagesContentController::class,'blog'])->name('frontend.blog');
+         Route::get('frontend.bazaar',[Bazaar::class,'loadbazzar'])->name('frontend.bazaar');
+         Route::get('frontend.review/{id}/{user_id}',[Bazaar::class,'loadreview'])->name('frontend.review');
+
 
         Route::get('frontend.main',[PagesContentController::class,'frontendmain'] )->name('frontend.main');
         Route::get('payment/{id}',[Payment::class,'payment'] )->name('payment');
 
         // });
 
-        Route::get('viewwithdrawal',[Payment::class,'viewwithdrawal'] )->name('viewwithdrawal');
+        Route::group(['middleware' => 'check.subscription'], function () {
+            
+              Route::get('viewwithdrawal',[Payment::class,'viewwithdrawal'] )->name('viewwithdrawal');
         Route::get('approvedslip/{id}',[Payment::class,'approvedslip'] )->name('approvedslip');
 
+        Route::get('investpoints',[Payment::class,'loadinvestpoints'] )->name('investpoints');
         Route::get('withdrawal',[Payment::class,'withdrawal'] )->name('withdrawal');
         Route::get('withdrawalrequest',[Payment::class,'withdrawalrequest'] )->name('withdrawalrequest');
         Route::post('withdrawal.store/{id}',[Payment::class,'withdrawalstore'] )->name('withdrawal.store');
@@ -92,9 +93,9 @@ Route::get('Pricing', function () {
         Route::put('update.withdrawalstatus/{user_id}/{id}',[Payment::class,'withdrawalstatus'] )->name('update.withdrawalstatus');
 
 
+    });
+
                     Route::group(['middleware' => 'Check_Login'], function () {
-
-
 
                 Route::get('/login', [UserController::class, 'loadLogin'])->name('login');
                 Route::get('register', [UserController::class, 'loadRegister'])->name('register');
@@ -105,7 +106,11 @@ Route::get('Pricing', function () {
                 Route::get('/referral-track',[UserController::class, 'referralTrack'])->name('referralTrack');
                 Route::get('/deleteAccount', [UserController::class, 'deleteAccount'])->name('deleteAccount');
 
-            });
+
+        });
+        
+
+      
             // });
 
 
@@ -160,8 +165,7 @@ Route::get('Pricing', function () {
 
                 // Route::middleware(['auth:web'])->group(function () {
 
-
-
+                    Route::group(['middleware' => 'check.subscription'], function () {
 
                     Route::get('profile', [ProfileController::class, 'viewProfile'])->name('profile');
                     Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_profile');
@@ -169,16 +173,25 @@ Route::get('Pricing', function () {
                     Route::get('/contact', [UserController::class, 'loadcontact'])->name('contact');
                     Route::get('/', [UserController::class, 'loadDashbord'])->name('/');
 
+                    });
 
+                    
                     Route::get('/logout', [UserController::class, 'userLogout'])->name('logout');
 
                // Shop routes are hear
+
+               Route::get('/states', [ShopController::class, 'states'])->name('states');
+
+
                 Route::get('/shop', [ShopController::class, 'loadshop'])->name('shop');
                 Route::post('/store', [ShopController::class, 'shop'])->name('store.create');
                 Route::get('/category', [ShopController::class, 'loadcategory'])->name('category');
 
                 Route::get('/loadaddcategory', [ShopController::class, 'loadaddcategory'])->name('loadaddcategory');
                 Route::post('/add.category', [ShopController::class, 'addcategory'])->name('add.category');
+                Route::get('/loadeditcategory/{id}', [ShopController::class, 'loadaeditcategory'])->name('loadeditcategory');
+                Route::post('/edit.category/{id}', [ShopController::class, 'editcategory'])->name('edit.category');
+                
                 Route::get('/subcategory', [ShopController::class, 'loadsubcategory'])->name('subcategory');
                Route::post('/add.subcategory', [ShopController::class, 'addsubcategory'])->name('add.subcategory');
                 Route::get('/delete.category/{id}', [ShopController::class, 'deletecategory'])->name('delete.category');
@@ -194,5 +207,4 @@ Route::get('Pricing', function () {
                 Route::get('/delete.product/{id}', [ShopController::class, 'deleteproduct'])->name('delete.product');
 
             });
-
 

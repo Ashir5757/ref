@@ -22,6 +22,14 @@ class UserController extends Controller
 {
 
 
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->call(function () {
+            User::where('subscription_expires_at', '<', now())->update(['subscription_expires_at' => null]);
+        })->daily();
+    }
+
+
      public function loadDashbord()
     {
         $user = Auth::user()->id;

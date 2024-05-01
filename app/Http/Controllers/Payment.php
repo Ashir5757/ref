@@ -11,9 +11,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class Payment extends Controller
 {
+
+    public function  loadinvestpoints(){
+      $points = Points::where('user_id',Auth::user()->id)->first();
+            return view("dashbord.investpoints",compact('points'));
+        
+    }
    public function payment($id){
     $investment_plan = $id;
     return view("frontend.payment",compact('investment_plan'));
@@ -114,7 +121,13 @@ public function paymentstatus(Request $request ,$id){
     if ($paymentstatus == 1) {
         $user = User::find($payment->user_id);
 
+
+
         if ($user) {
+
+            $user->subscription_expires_at = Carbon::now()->addMonths(6);
+            $user->save();
+
             try {
                 $points = Points::where("user_id", $user->id)->first();
             } catch (\Exception $e) {

@@ -12,6 +12,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+
 
 class ShopController extends Controller
 {
@@ -21,6 +23,22 @@ class ShopController extends Controller
         $profile = Profile::where('id', $user_id)->first();
 
         $shop = Shop::where('id', $user_id)->first();
+
+    $response = Http::withHeaders([
+                "api-token" => "ZfCsJKZ3uMkieC99-mS4W-ga_LwMNCVR1qCTYQ8gF0K3rWxryJ3SesIN7VH2SX6GX2Q",
+                  "user-email" => "ashirabbasi5757@gmail.com",
+                     ])->get('https://www.universal-tutorial.com/api/getaccesstoken');
+
+               $data = (array)json_decode($response->body());
+               $auth_token = $data['auth_token'];
+
+
+              $countryresponse = Http::withHeaders([
+                    "Authorization" => "Bearer ".$auth_token,
+                    "Accept" => "application/json"
+                   ])->get('https://www.universal-tutorial.com/api/countries');
+
+                 $countries = (array)json_decode($countryresponse->body());
 
         if ($shop) {
 
@@ -38,9 +56,23 @@ class ShopController extends Controller
             }
         } else {
 
-            return view('dashbord.shop', compact(['profile']));
+            return view('dashbord.shop', compact(['profile','countries','auth_token']));
         }
     }
+
+
+public function states(  Request $request){
+
+    $Stateresponse = Http::withHeaders([
+"Authorization" => "Bearer ".$request->token,
+    ])->get('https://www.universal-tutorial.com/api/states/'.$request->country);
+
+    $states = $Stateresponse->body();
+return $states;
+}
+
+
+
 
     public function shop(Request $request)
     {
@@ -95,25 +127,61 @@ return view("dashbord.category",compact('categories'));
     }
 
 
-
 public function addcategory(Request $request)
 {
     $user_id = Auth::user()->id;
-    $request->validate([
+    $validator = $request->validate([
         'name' => 'required|string|max:255',
-        'description' => 'required|string',
+        'slug' => 'required|string|max:255',
+        'status' => 'required|boolean',
     ]);
 
-    $category = new Category();
-    $category->user_id = $user_id;
-    $category->name = $request->name;
-    $category->description = $request->description;
-    $category->save();
+   
+    
+    
 
-    return response()->json(['message' => 'Category added successfully'], 200);
+        $category = new Category();
+        $category->user_id = $user_id;
+        $category->name = $request->name;
+        $category->slug = $request->slug;
+        $category->status = $request->status;
+  
+        
+        $category->save();
+        return redirect()->back()->with('success', 'Category added successfully.');
+
+    
 }
 
 
+public function loadaeditcategory($id)
+{
+   
+    $category = Category::find($id);
+
+    if (!$category) {
+        return back()->withErrors(['error' => 'Category with ID ' . $id . ' not found.']);
+    }
+
+    return view('dashbord.editcategory', compact('category'));
+
+}
+
+public function editcategory(Request $request, $id){
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'slug' => 'required|string|max:255',
+        'status' => 'required|boolean',
+    ]);
+
+    $category = Category::find($id);
+    $category->name = $request->name;
+    $category->slug = $request->slug;
+    $category->status = $request->status;
+    $category->update();
+    return redirect()->back()->with('success', 'Category updated successfully.');
+
+}
 
 
     public function loadproduct()
@@ -264,27 +332,33 @@ public function storecategory(Request $request)
 
 public function loadsubcategory()
 {
-    return view('dashbord.addsubcategory');
+    $categories = Category::all();
+    return view('dashbord.addsubcategory' ,compact('categories'));
 }
+
+
 
 public function addsubcategory(Request $request)
 {
     $request->validate([
         'name' => 'required|unique:subcategories',
         'category_id' => 'required|exists:categories,id',
+        'category' => 'required',
+        'slug' => 'required|unique:subcategories',
+        'status' => 'required',
     ]);
 
-    try {
+    
         $subcategory = new Subcategory();
         $subcategory->name = $request->name;
         $subcategory->category_id = $request->category_id;
+        $subcategory->category = $request->category;
+        $subcategory->slug = $request->slug;
+        $subcategory->status = $request->status;
         $subcategory->save();
 
-        return redirect()->route('categories.index')->with('success', 'Subcategory added successfully!');
-    } catch (Exception $e) {
-        log::error('Error adding subcategory: ' . $e->getMessage());
-        return back()->with('error','An error occurred while adding the subcategory.');
-    }
+        return redirect()->back()->with('success', 'Subcategory added successfully!');
+  
 }
 
 public function deleteproduct($id){

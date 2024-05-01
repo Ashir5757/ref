@@ -17,6 +17,7 @@
     </div>
 
     <a class="btn btn-outline-primary m-3 " href="{{ route('viewwithdrawal') }}"><i class="fas fa-eye"></i> Withdrawals History</a>
+    <a class="btn btn-outline-success m-3 " href="{{ route('investpoints') }}"><i class="fas fa-point"></i> Invest Points</a>
     <div class="card">
         <div class="card-header">
             <h4><i class="fas fa-money-bill-wave"></i> Withdrawal Form</h4>

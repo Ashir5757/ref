@@ -20,8 +20,8 @@
 
     <section class="section">
         <div class="container mt-3 mb-3 bg-white rounded shadow">
+            @if (Session::has('success'))
             <div class="mt-3 mb-1">
-                  @if (Session::has('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ Session::get('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -52,7 +52,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Description</th>
+                        <th>status</th>
                         <th colspan="2">Actions</th>
                     </tr>
                 </thead>
@@ -65,8 +65,15 @@
                             <tr>
                                 <td>{{$count++}}</td>
                                 <td>{{ $category->name }}</td>
-                                <td>{{ $category->description}}</td>
-                                <td><a class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#editCategoryModal" href="">Edit</a></td>
+                                <td>
+                                    @if ($category->status == 1)
+                                        <span class="badge bg-success">Active</span>
+                                    @else
+                                        <span class="badge bg-danger">Inactive</span>
+                                    @endif
+                                </td>
+                                </td>
+                                <td><a class="btn btn-outline-success" href="{{route('loadeditcategory',['id' => $category->id])}}">Edit</a></td>
                                 <td><a class="btn btn-outline-primary" href="{{route('view.category',['id' => $category->id])}}">View</a></td>
                                 <td><a class="btn btn-outline-danger" href="{{route('delete.category',['id' => $category->id])}}">Delete</a></td>
                             </tr>

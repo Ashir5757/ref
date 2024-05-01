@@ -10,7 +10,7 @@ class CheckLogin
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()) {
+        if (Auth::user() && Auth::user()->subscription_expires_at && Auth::user()->subscription_expires_at < now()) {
 
 
                 return redirect('/');
