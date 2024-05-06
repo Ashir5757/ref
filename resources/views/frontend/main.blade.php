@@ -32,11 +32,11 @@
 			<div class="col-md-6 order-2 order-md-1 text-center text-md-left">
 				<h1 class="text-white font-weight-bold mb-4">{{  isset($home->h1) ? $home->h1 :  "Synergy Sparks Growth- Together We Work, Together We Grow" }}</h1>
 				<p class="text-white mb-5">{{ isset($home->h2) ? $home->h2 : "Default text for h2 if not set" }}</p>
-				<a href="{{route("register")}}" class="btn btn-primary p-3 m-2">Sign up</a>
-				<a href="{{route("login")}}" class="btn btn-info p-3 m-2">Sign in</a>
+				<a href="{{route('register')}}" class="btn btn-primary p-3 m-2">Sign up</a>
+				<a href="{{route('login')}}" class="btn btn-info p-3 m-2">Sign in</a>
 			</div>
 			<div class="col-md-6 text-center order-1 order-md-2">
-				{{-- <img class="img-fluid" src="{{asset("assets/images/mobile.png")}}" alt="screenshot"> --}}
+				{{-- <img class="img-fluid" src="{{asset('assets/images/mobile.png')}}" alt="screenshot"> --}}
 			<!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container container" >
     <div class="tradingview-widget-container__widget"></div>
@@ -223,7 +223,7 @@
 			<div class="col-lg-6 ml-auto justify-content-center">
 				<!-- Feature Mockup -->
 				<div class="image-content" data-aos="fade-right">
-					{{-- <img class="img-fluid" src="{{asset("assets/images/feature/feature-new-01.jpg")}}" alt="iphone"> --}}
+					{{-- <img class="img-fluid" src="{{asset('assets/images/feature/feature-new-01.jpg')}}" alt="iphone"> --}}
 <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container container" >
     <div class="tradingview-widget-container__widget"></div>
@@ -443,7 +443,7 @@
 			<div class="col-lg-6 align-self-center">
 				<!-- Feature Image -->
 				<div class="service-thumb left" data-aos="fade-right">
-					<img class="img-fluid rounded shadow" src="{{asset("assets/images/feature/Teamwork.png")}}" alt="iphone-ipad">
+					<img class="img-fluid rounded shadow" src="{{asset('assets/images/feature/Teamwork.png')}}" alt="iphone-ipad">
 				</div>
 			</div>
 			<div class="col-lg-5 mr-auto align-self-center">
@@ -547,7 +547,7 @@
 							</p>
 							<!-- Person Thumb -->
 							<div class="image">
-								<img src="{{asset("assets/images/testimonial/feature-testimonial-thumb.jpg")}}" alt="image">
+								<img src="{{asset('assets/images/testimonial/feature-testimonial-thumb.jpg')}}" alt="image">
 							</div>
 							<!-- Name and Company -->
 							<cite>{{ isset($home->h25) ? $home->h25 : "Default name and company if h25 is not set" }}</cite>
@@ -562,7 +562,7 @@
 							</p>
 							<!-- Person Thumb -->
 							<div class="image">
-								<img src="{{asset("assets/images/testimonial/feature-testimonial-thumb.jpg")}}" alt="image">
+								<img src="{{asset('assets/images/testimonial/feature-testimonial-thumb.jpg')}}" alt="image">
 							</div>
 							<!-- Name and Company -->
 							<cite>{{ isset($home->h27) ? $home->h27 : "Default name and company if h27 is not set" }}</cite>
@@ -577,7 +577,7 @@
 							</p>
 							<!-- Person Thumb -->
 							<div class="image">
-								<img src="{{asset("assets/images/testimonial/feature-testimonial-thumb.jpg")}}" alt="image">
+								<img src="{{asset('assets/images/testimonial/feature-testimonial-thumb.jpg')}}" alt="image">
 							</div>
 							<!-- Name and Company -->
 							<cite>{{ isset($home->h29) ? $home->h29 : "Default name and company if h29 is not set" }}</cite>

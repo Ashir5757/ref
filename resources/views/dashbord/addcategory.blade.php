@@ -16,7 +16,7 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <a href="{{ url()->previous() }}" class="btn btn-outline-dark float-right">
+    <a href="javascript:history.back()" class="btn btn-outline-dark float-right">
       Go Back
     </a>
     <div class="container mt-3">

@@ -11,6 +11,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'price',
+        'quantity',
         'description',
         'category_id',
         'image', // Store only the URL or filename

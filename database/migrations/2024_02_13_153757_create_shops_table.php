@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('name')->unique();
             $table->text('description')->nullable();
             $table->string('contact_email')->unique();
             $table->string('contact_phone')->unique();
-            $table->string('address')->unique();
             $table->string('logo')->nullable();
             $table->string('banner_image')->nullable();
             $table->timestamps();

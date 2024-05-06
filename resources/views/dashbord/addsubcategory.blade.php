@@ -17,6 +17,10 @@
                 </nav>
         </div><!-- End Page Title -->
 
+        <a href="javascript:history.back()" class="btn btn-outline-dark float-right">
+      Go Back
+    </a>
+
         <div class="container mt-3">
             <div class="row justify-content-center">
                 <div class="col-md-8">

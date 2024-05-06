@@ -35,7 +35,7 @@
 
 <nav class="navbar main-nav navbar-expand-lg px-2 px-sm-0 py-2 py-lg-0 rounded">
 <div class="container">
-  <a class="navbar-brand" href="{{route('frontend.main')}}"><img src="{{asset('assets/img/logo for Share.png')}}" width="70px" alt="logo" > <span  class="m-2" style="font-weight: 550 ; font-size: 35px ;font-family: Grape Nuts"><b>Share&Care</b></span> </a>
+  <a class="navbar-brand" href="{{route('frontend.bazaar')}}"><img src="{{asset('assets/img/logo for Share.png')}}" width="70px" alt="logo" > <span  class="m-2" style="font-weight: 550 ; font-size: 35px ;font-family: Grape Nuts"><b>Share&Care</b></span> </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="ti-menu"></span>
@@ -43,9 +43,10 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown ">
-        <a class="nav-link navhover" href="{{route('frontend.main')}}">Home
+      <a class="nav-link navhover" href="{{route('frontend.bazaar')}}">Market Place</a>
+        
         </a>
-
+        <!-- class="nav-link navhover"  -->
 
       </li>
 
@@ -58,7 +59,7 @@
         </a>
         <!-- Dropdown list -->
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item @@team " href="{{route('frontend.bazaar')}}">Market Place</a></li>
+          <li><a class="dropdown-item @@team " href="{{route('frontend.main')}}">About Digi_Interchange</li>
           <li><a class="dropdown-item @@blog" href="{{route('frontend.blog')}}">Blog</a></li>
      </ul>
       </li>

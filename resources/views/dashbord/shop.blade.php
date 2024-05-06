@@ -233,9 +233,49 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('#state').change(function(){
+        var state = $(this).val();
+        // Check if state value is empty or whitespace, then set it to null
+        if(state.trim() === "") {
+            state = null;
+        }
+        // Prepare data object for AJAX request
+        var data = {
+            token: $('#token').val(),
+            state: state
+        };
+        // Send AJAX request to retrieve cities based on selected state
+        $.ajax({
+            url: '{{ route('cities') }}',
+            type: 'GET',
+            data: data, // Send data object with token and selected state
+            success: function(response) {
+                console.log(response);
+                var cities = JSON.parse(response); // Parse JSON response into JavaScript object
+                var html = "<option value=''>Select City</option>";
+                // Generate HTML options for cities dropdown
+                if (cities.length > 0) {
+                    for (var i = 0; i < cities.length; i++) {
+                        html += "<option value='" + cities[i]['city_name']+ "'>" + cities[i]['city_name'] + "</option>";
+                    }
+                } else {
+                    html = "<option value=''>No cities found</option>";
+                }
+                // Update the cities dropdown with the generated HTML options
+                $('#city').html(html);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching cities:', error);
+                // Optionally handle error scenario, e.g., display error message to user
+                var html = "<option value=''>Error loading cities</option>";
+                $('#city').html(html);
+            }
+        });
+    });
+
+
 });
 </script>
-
-
 
   @endsection

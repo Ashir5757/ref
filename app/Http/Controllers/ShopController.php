@@ -7,12 +7,14 @@ use App\Models\Shop;
 use App\Models\Product;
 use App\Models\Profile;
 use App\Models\Category;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+
 
 
 class ShopController extends Controller
@@ -61,7 +63,7 @@ class ShopController extends Controller
     }
 
 
-public function states(  Request $request){
+public function states( Request $request){
 
     $Stateresponse = Http::withHeaders([
 "Authorization" => "Bearer ".$request->token,
@@ -73,7 +75,18 @@ return $states;
 
 
 
+public function cities(Request $request){
 
+    $citiesresponse = Http::withHeaders([
+        "Authorization" => "Bearer ".$request->token,
+            ])->get('https://www.universal-tutorial.com/api/cities/'.$request->state);
+        
+            $cities = $citiesresponse->body();
+        return $cities;
+        }
+
+
+        
     public function shop(Request $request)
     {
         $user_id = Auth::user()->id;
@@ -87,18 +100,27 @@ if ($shop) {
             'description' => 'nullable|string',
             'contact_email' => 'required|email',
             'contact_phone' => 'required|string',
-            'address' => 'required|string',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'city' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $shop = new Shop();
         $shop->id = $user_id;
+        $shop->user_id = $user_id;
         $shop->name = $request->name;
         $shop->description = $request->description;
         $shop->contact_email = $request->contact_email;
         $shop->contact_phone = $request->contact_phone;
-        $shop->address = $request->address;
+        $location = new Location();
+        $location->user_id = $user_id;
+        $location->shop_id = $shop->id;
+        $location->country = $request->country;
+        $location->state = $request->state;
+        $location->city = $request->city;
+        
 
         if ($request->hasFile('logo')) {
             $logoPath = $request->file('logo')->store('public/shop_logos');
@@ -112,7 +134,7 @@ if ($shop) {
 
 
         $shop->save();
-
+        $location->save();
         return redirect()->route('category')->with('success', 'shop created successfully!');
 
 }
@@ -263,6 +285,7 @@ public function addproduct(Request $request)
        'description' => 'required|string',
        'category' => 'required|exists:categories,id',
        'price' => 'required|numeric',
+       'quantity' => 'required|numeric',
        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
    ]);
 
@@ -279,6 +302,7 @@ public function addproduct(Request $request)
    $product->name = $request->name;
    $product->description = $request->description;
    $product->price = $request->price;
+    $product->quantity = $request->quantity;
    $product->image = $imageName ?? null; // If no image uploaded, set to null
 
    $product->save();

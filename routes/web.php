@@ -6,6 +6,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesContentController;
 use App\Http\Controllers\BackendDashboardController;
@@ -181,6 +182,7 @@ Route::get('Pricing', function () {
                // Shop routes are hear
 
                Route::get('/states', [ShopController::class, 'states'])->name('states');
+               Route::get('/cities', [ShopController::class, 'cities'])->name('cities');
 
 
                 Route::get('/shop', [ShopController::class, 'loadshop'])->name('shop');
@@ -205,6 +207,7 @@ Route::get('Pricing', function () {
 
 
                 Route::get('/delete.product/{id}', [ShopController::class, 'deleteproduct'])->name('delete.product');
-
+    
             });
+            Route::get('/searchproduct', [SearchController::class, 'SearchProducts'])->name('search.product');
 

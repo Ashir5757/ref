@@ -10,10 +10,10 @@ class Shop extends Model
     use HasFactory;
     protected $fillable = [
         'name',
+        'user_id',
         'description',
         'contact_email',
         'contact_phone',
-        'address',
         'logo',
         'banner_image',
     ];

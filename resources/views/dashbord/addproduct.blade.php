@@ -83,6 +83,15 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="form-group mb-3">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity" placeholder="Enter product quantity" value="{{ old('quantity') }}">
+                    @error('quantity')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <div class="form-group mb-3">
                     <label for="images">Upload image:</label>
                     <input type="file" id="imageInput" name="image" class="form-control @error('price') is-invalid @enderror">
