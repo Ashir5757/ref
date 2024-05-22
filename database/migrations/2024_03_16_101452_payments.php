@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('status')->default(0);
             $table->integer('plan');
+            $table->integer('renewal')->default(0)->nullable();
             // $table->string('payment_method')->nullable(); // Optional for future use
             // $table->decimal('amount', 10, 2); // Store exact amount with decimals
             // $table->string('transaction_id')->nullable(); // Optional for transaction reference

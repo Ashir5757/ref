@@ -80,8 +80,8 @@
                         @enderror
                     </div>
 
-                   
-                
+
+
                     <div class="row mb-3">
     <div class="col-sm-4">
         <label for="country" class="form-label">Country:</label>
@@ -109,8 +109,8 @@
 
     <div class="col-sm-4">
         <label for="city" class="form-label">City:</label>
-        <select name="city" id="city" class="form-select">
-            <option value="">Select City</option>
+        <select name="state" id="state" class="form-select">
+            <option value="">Select State</option>
             <!-- Populate options dynamically with cities -->
         </select>
         @error('city')

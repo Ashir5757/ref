@@ -11,6 +11,7 @@ class Points extends Model
     protected $table = 'points';
     protected $fillable = [
         'user_id',
+        'renewal_points',
         'investment_bonus',
         'referral_points',
         'total_points',

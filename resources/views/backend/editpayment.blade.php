@@ -43,6 +43,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Renewal</th>
                     <th scope="col">Status</th>
                     <th scope="col">image</th>
                     {{-- @dd($payments) --}}
@@ -54,6 +55,17 @@
                         <th scope="row">{{ $payment->id }}</th>
                         <td>{{ $payment->name }}</td>
                         <td>{{ $payment->email }}</td>
+                        @if($payment->renewal != null && $payment->renewal > 0)
+                        <td>
+                            <span class="badge bg-success">
+                                {{ $payment->renewal }}</td>
+
+                            </span>
+                        @else
+                        <td>
+                            <span class="badge bg-secondary">NULL</span>
+                        </td>
+                        @endif
                         <td>
                             <span class="badge {{ $payment->status == 1 ? 'bg-success' : 'bg-warning' }}">
                                 {{ $payment->status == 1 ? "Approved" : "Pending" }}

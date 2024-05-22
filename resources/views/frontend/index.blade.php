@@ -17,6 +17,10 @@
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.png')}}" />
 
+ <!-- Bootstrap cdn -->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
+
 <!-- PLUGINS CSS STYLE -->
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/plugins/themify-icons/themify-icons.css')}}">

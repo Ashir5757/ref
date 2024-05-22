@@ -51,6 +51,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Renewal</th>
                 <th>Image</th>
                 <th>Status</th>
                 <th>Plan</th>
@@ -64,7 +65,13 @@
                 <td>{{ $payment->id }}</td>
                 <td>{{ $payment->name }}</td>
                 <td>{{ $payment->email }}</td>
+                @if($payment->renewal != null && $payment->renewal > 0)
+                <td>{{ $payment->renewal }}</td>
+                @else
+                <td>NULL</td>
+                @endif
                 <td>
+
                     @if ($payment->image)
                         <img src="{{ asset('storage/payment/'.$payment->image) }}" alt="{{ $payment->name }} Image" width="50" height="50">
                     @else
@@ -101,6 +108,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Renewal</th>
                 <th>Image</th>
                 <th>Status</th>
                 <th>Plan</th>
@@ -114,6 +122,13 @@
                 <td>{{ $payment->id }}</td>
                 <td>{{ $payment->name }}</td>
                 <td>{{ $payment->email }}</td>
+
+                @if($payment->renewal != null && $payment->renewal > 0)
+                <td>{{ $payment->renewal}}</td>
+                @else
+                <td>NULL</td>
+                @endif
+
                 <td>
                     @if ($payment->image)
                         <img src="{{ asset('storage/payment/'.$payment->image) }}" alt="{{ $payment->name }} Image" width="50" height="50">

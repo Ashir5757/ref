@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Points;
 use App\Models\Network;
@@ -11,7 +12,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
 
 class Payment extends Controller
 {
@@ -19,7 +19,7 @@ class Payment extends Controller
     public function  loadinvestpoints(){
       $points = Points::where('user_id',Auth::user()->id)->first();
             return view("dashbord.investpoints",compact('points'));
-        
+
     }
    public function payment($id){
     $investment_plan = $id;
@@ -62,49 +62,68 @@ public function withdrawalstore($id,Request $request){
 
 public function receivepayment(Request $request)
 {
-
     $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
-        'image' => 'required',
+        'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+        'investment_plan' => 'required|string|max:255'
     ]);
 
+    try {
+        // Check if a payment record already exists for the given email
+        $payment = PaymentModel::where('email', $request->email)->first();
 
+        if ($payment) {
+            // If it's a renewal
+            if ($payment->renewal !== null && $payment->renewal > 0) {
+                $renewalCount = $payment->renewal + 1;
+            } else {
+                // If it's the first-time payment
+                $renewalCount = 1;
+            }
+        } else {
+            // If no payment record exists, it's a first-time payment
+            $renewalCount = null;
+        }
 
-    if ($request->hasFile('image')) {
-        $imageName = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-        $request->file('image')->storeAs('public/payment', $imageName);
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imageName = uniqid() . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->storeAs('public/payment', $imageName);
+        }
+
+        // Find the user
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            // Save payment details
+            $payment = new PaymentModel();
+            $payment->user_id = $user->id;
+            $payment->name = $request->name;
+            $payment->email = $request->email;
+            $payment->image = $imageName;
+            $payment->plan = $request->investment_plan;
+            $payment->renewal = $renewalCount;
+
+            $payment->save();
+
+            $message = 'Thank you for submitting your application! We will review it within 3-4 business days and notify you via email about the decision. We appreciate your interest in the Share&Care System!';
+            $request->session()->flash('success', $message);
+        }
+
+        return redirect()->back();
+
+    } catch (\Exception $e) {
+        // Log the exception message for debugging
+        \Log::error('Payment processing error: ' . $e->getMessage());
+
+        // Flash an error message to the session
+        $request->session()->flash('error', 'There was an error processing your payment. Please try again later.');
+
+        return redirect()->back()->withInput();
     }
-
-    $user = User::where("email", $request->email)->first();
-
-    if($user){
-
-    $payment = new PaymentModel;
-    $payment->user_id = $user->id;
-    $payment->name = $request->name;
-    $payment->email = $request->email;
-    $payment->image =  $imageName;
-    $payment->plan =  $request->investment_plan;
-
-    $payment->save();
-    }
-
-        $payment = new PaymentModel;
-        // $payment->user_id = $user->id;
-        $payment->name = $request->name;
-        $payment->email = $request->email;
-        $payment->image =  $imageName;
-        $payment->plan =  $request->investment_plan;
-
-
-
-  $message = 'Thank you for submitting your application! We will review it within 3-4 business days and notify you via email about the decision. We appreciate your interest in the Share&Care System!';
-    $request->session()->flash('success', $message);
-
-    return redirect()->back();
-
 }
+
 
 public function editpayment($id){
 
@@ -202,7 +221,7 @@ public function paymentstatus(Request $request ,$id){
                     } catch (\Exception $e) {
                         $parent_user_id = 0;
                     }
-                  
+
                     $up_liner = 0;
                     try {
                         foreach (Network::where('up_liner', $user->id)->get() as $record) {
@@ -217,21 +236,51 @@ public function paymentstatus(Request $request ,$id){
             ->where('user_id', $payment->user_id)
             ->count();
 
-            if ($payment->plan == 1) {
-                $investment_bonus = $totalApprovedPayments * $payment->plan + 1.5;
-            } elseif ($payment->plan == 2) {
-                $investment_bonus = $totalApprovedPayments * $payment->plan + 4.5;
-            } elseif ($payment->plan == 3) {
-                $investment_bonus = $totalApprovedPayments * $payment->plan + 15;
-            } else {
-                $investment_bonus = $totalApprovedPayments * $payment->plan;
-            }
-$total_points = $investment_bonus + $networkCount;
+            if($payment->renewal != null && $payment->renewal > 0){
 
-            Points::updateOrCreate(
-                ['user_id' => $payment->user_id],
-                ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount, 'total_points' => $total_points]
-            );
+                if ($payment->plan == 1) {
+                    $renewal_points = $totalApprovedPayments * $payment->plan + 1.5;
+                } elseif ($payment->plan == 2) {
+                    $renewal_points = $totalApprovedPayments * $payment->plan + 4.5;
+                } elseif ($payment->plan == 3) {
+                    $renewal_points = $totalApprovedPayments * $payment->plan + 15;
+                } else {
+                    $renewal_points = $totalApprovedPayments * $payment->plan;
+                }
+
+
+    $total_points = $renewal_points + $networkCount + $user_points->investment_bonus;
+   
+
+
+    Points::updateOrCreate(
+        ['user_id' => $payment->user_id],
+        [ 'referral_points' => $networkCount, 'total_points' => $total_points ,'renewal_points' => $renewal_points]
+    );
+
+            }else{
+
+                            if ($payment->plan == 1) {
+                                $investment_bonus = $totalApprovedPayments * $payment->plan + 1.5;
+                            } elseif ($payment->plan == 2) {
+                                $investment_bonus = $totalApprovedPayments * $payment->plan + 4.5;
+                            } elseif ($payment->plan == 3) {
+                                $investment_bonus = $totalApprovedPayments * $payment->plan + 15;
+                            } else {
+                                $investment_bonus = $totalApprovedPayments * $payment->plan;
+                            }
+                $total_points = $investment_bonus + $networkCount;
+
+                Points::updateOrCreate(
+                    ['user_id' => $payment->user_id],
+                    ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount, 'total_points' => $total_points ]
+                );
+            }
+
+
+
+
+
 
             $payment->status = $paymentstatus;
                 $payment->save();
@@ -301,8 +350,8 @@ $total_points = $investment_bonus + $networkCount;
                 } else {
                     $investment_bonus = $totalApprovedPayments * $payment->plan;
                 }
-                
-                
+
+
                 Points::updateOrCreate(
                     ['user_id' => $payment->user_id],
                     ['investment_bonus' => $investment_bonus, 'referral_points' => $networkCount, 'total_points' => $networkCount + $investment_bonus]

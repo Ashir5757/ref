@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('points', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->integer("investment_points")->default(0);
+            $table->integer("renewal_points")->default(0);
             $table->integer("investment_bonus")->default(0);
             $table->integer("referral_points")->default(0);
             $table->integer("total_points")->default(0);

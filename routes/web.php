@@ -82,7 +82,7 @@ Route::get('Pricing', function () {
         // });
 
         Route::group(['middleware' => 'check.subscription'], function () {
-            
+
               Route::get('viewwithdrawal',[Payment::class,'viewwithdrawal'] )->name('viewwithdrawal');
         Route::get('approvedslip/{id}',[Payment::class,'approvedslip'] )->name('approvedslip');
 
@@ -109,9 +109,9 @@ Route::get('Pricing', function () {
 
 
         });
-        
 
-      
+
+
             // });
 
 
@@ -123,6 +123,7 @@ Route::get('Pricing', function () {
 
 
 
+                Route::get('backend.renewalpayment',[Payment::class,'loaderenewalpayment'])->name('renewalpayment');
                 Route::get('backend.payment',[Payment::class,'loadepayment'])->name('backend.payment');
                 Route::put('update.paymentstatus/{id}',[Payment::class,'paymentstatus'])->name('update.paymentstatus');
                 Route::get('backend.editpayment/{id}',[Payment::class,'editpayment'])->name('backend.editpayment');
@@ -166,7 +167,7 @@ Route::get('Pricing', function () {
 
                 // Route::middleware(['auth:web'])->group(function () {
 
-                    Route::group(['middleware' => 'check.subscription'], function () {
+                    Route::middleware('check.subscription')->group(function () {
 
                     Route::get('profile', [ProfileController::class, 'viewProfile'])->name('profile');
                     Route::post('/addProfile', [ProfileController::class, 'addProfile'])->name('add_profile');
@@ -176,7 +177,7 @@ Route::get('Pricing', function () {
 
                     });
 
-                    
+
                     Route::get('/logout', [UserController::class, 'userLogout'])->name('logout');
 
                // Shop routes are hear
@@ -193,7 +194,7 @@ Route::get('Pricing', function () {
                 Route::post('/add.category', [ShopController::class, 'addcategory'])->name('add.category');
                 Route::get('/loadeditcategory/{id}', [ShopController::class, 'loadaeditcategory'])->name('loadeditcategory');
                 Route::post('/edit.category/{id}', [ShopController::class, 'editcategory'])->name('edit.category');
-                
+
                 Route::get('/subcategory', [ShopController::class, 'loadsubcategory'])->name('subcategory');
                Route::post('/add.subcategory', [ShopController::class, 'addsubcategory'])->name('add.subcategory');
                 Route::get('/delete.category/{id}', [ShopController::class, 'deletecategory'])->name('delete.category');
@@ -207,7 +208,8 @@ Route::get('Pricing', function () {
 
 
                 Route::get('/delete.product/{id}', [ShopController::class, 'deleteproduct'])->name('delete.product');
-    
+
             });
             Route::get('/searchproduct', [SearchController::class, 'SearchProducts'])->name('search.product');
+            Route::get('/search.liveproduct', [SearchController::class, 'SearchLiveProduct'])->name('search.liveproduct');
 
